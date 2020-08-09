@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/registration.css">
+</head>
+<body>
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-sm-6" id="registration-box">
+                    <form action="" method="POST">
+                        <h2 class="text-center">Registration </h2>
+                        <div class="form-group">
+                            <small>Enter Username</small>
+                            <input type="text" class="form-control" id="usernameInput" placeholder="Enter username">
+                            <small class="text-danger">Username Already Taken</small>
+                          </div>
+                  
+                          <div class="form-group ">
+                            <small>Password</small>
+                            <input type="password" class="form-control" id="passwordInput" value="" placeholder="Password">
+                          </div>
+
+                          <div class="form-group">
+                            <small>Retype-Password</small>
+                            <input type="password" class="form-control" id="retypePasswordInput" placeholder="Retype Password">
+                            
+                            <small class="text-danger">Password Mismatch</small>
+                          </div>
+
+                          <div class="form-group">
+                            <small>Firstname</small>
+                            <input type="text" class="form-control" id="firstnameInput" placeholder="Enter Firstname"> 
+                            <small class="text-danger">Invalid Name Format</small>
+                          </div>
+
+                          <div class="form-group">
+                            <small >Lastname</small>
+                            <input type="text" class="form-control" id="lastnameInput" placeholder="Enter Lastname">
+                            
+                            <small class="text-danger">Invalid Name Format</small>
+                          </div>
+
+                          <div class="form-group">
+                            <small>Email</small>
+                            <input type="email" class="form-control" id="emailInput" placeholder="Enter Email Address">
+                            <small class="text-danger">Invalid Email Format</small>
+                          </div>
+                          
+
+                          <div class="form-group">
+                            <small>Phonenumber</small>
+                            <input type="number" class="form-control" id="phonenumberInput" placeholder="Enter Phonenumber">
+                            <small class="text-danger">Invalid Phonenumber Format</small>
+                          </div>
+
+                          <div class="form-group">
+                            <small >Date Of Birth</small>
+                            <input type="date" class="form-control" id="phonenumberInput">
+                            <small class="text-danger">Invalid Date Format</small>
+                          </div>
+
+
+                          <div class="form-group">
+                            <input type="submit" value="Register" name="register" class="btn btn-secondary btn-lg btn-block" id="registerBtn">
+                          </div>
+              
+                         <div class="text-center">
+                              <a href="/login" class="text-danger">
+                                Already have an account ? <br>
+                                Click Here to Login
+                              </a>
+                          </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

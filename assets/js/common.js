@@ -7,8 +7,7 @@ $(document).ready(function(){
 
     $('#back').click(function(){
 
-      window.location.href = "library.html";
+      window.location.href = "/publisher/library";
     });
-
 
   });

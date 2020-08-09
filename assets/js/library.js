@@ -4,13 +4,13 @@ $(document).ready( ()=>{
     $('.patch-btn').click(function(){
 
        // window.location.href = "library/patch/"+this.id;
-
-        window.location.href = "patch.html";
+         console.log("patch button clicked !");
+        window.location.href = "library/patch";
     });
 
     $('.offer-btn').click(function(){
         //window.location.href = "library/offer/"+this.id;
-        window.location.href = "offer.html";
+        window.location.href = "library/offer";
      });
      
 
