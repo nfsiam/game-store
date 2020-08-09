@@ -1,5 +1,5 @@
 var express 	= require('express');
-var userModel 	= require.main.require('./models/alluser.js');
+var allUserModel 	= require.main.require('./models/alluser.js');
 var router 		= express.Router();
 
 router.get('/', function(req, res){
@@ -7,32 +7,45 @@ router.get('/', function(req, res){
 });
 
 
-router.post('/', function(req, res){
-/* 
-	var user = {
-		username: req.body.username,
-		password: req.body.password
+router.post('/', function(req, res)
+{
+	var user= {
+		username:req.body.username,
+		password:req.body.password,
+		role:null,
 	};
 
-	userModel.get(user, function(status){
-		if(status){
-			req.session.username = user.username;
-			res.redirect('/enduser/home');
-		}else{
-			res.send('invalid username/password');
-		}
-	}); */
-	if(req.body.username=="ksq")
-	{
-		res.redirect('/home');
-	}
-	else
-	{
-		console.log(req.body.username);
-		res.redirect('/publisher/home');
-	}
-	
+	allUserModel.validate(user,(status)=>{
+		if(status)
+		{
+			req.session.username=user.username;
+			req.session.role=user.role;
+			console.log("Session created! username"+req.session.username);
+			console.log("Role "+req.session.role);
+			//res.redirect()
+			if(req.session.role=="enduser")
+			{
+				res.redirect("/home");
+			}
+			else if(req.session.role=="publisher")
+			{
+				res.redirect("/publisher/home");
+			}
+			else if(req.session.role=="admin" || "superadmin")
+			{
 
+			}
+			else if(req.session.role=="modartor")
+			{
+
+			}
+			else
+			{
+				res.send("<h1>Invalid Request</h1>");
+			}
+
+		}
+	});
 });
 
 module.exports = router;

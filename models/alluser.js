@@ -3,16 +3,19 @@ var db = require('./db');
 module.exports =
 {
 
-	get: function(user, callback){
-		var sql = "select * from alluser where username="+user.username+" and password="+user.password;
-		db.getResults(sql, function(result){
-			if(result.length > 0){
+	validate: (user, callback)=>{
+		var sql = "select * from alluser where username='"+user.username+"' and password='"+user.password+"'";
+		console.log(sql);
+		db.getResults(sql, (result)=>{
+			//console.log(result[0]);
+			if(result.length > 0)
+			{
+				user.role=result[0].role;
 				callback(true);
-			}else{
+			}
+			else{
 				callback(false);
 			}
 		});
 	},
-
-	
 }

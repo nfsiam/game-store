@@ -15,6 +15,7 @@ function getConnection(callback){
 	    return;
 	  }
 	  console.log('connected as id ' + connection.threadId);
+	 
 	});
 
 	callback(connection);
@@ -24,13 +25,17 @@ function getConnection(callback){
 module.exports = {
 	getResults: function (sql, callback){
 		getConnection(function(connection){
-			connection.query(sql, function(error, results){
-				if(error){
+			connection.query(sql, (error, results)=>{
+
+				if(error)
+				{
 					console.log(error.stack);
 					callback([]);
-				}else{
+				}
+				else{
 					callback(results);
 				}
+
 			});
 
 			connection.end(function(err){
