@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/assets/css/registration.css">
 </head>
 <body>
+  
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
             <div class="col-sm-6" id="registration-box">
@@ -15,52 +16,52 @@
                         <h2 class="text-center">Registration </h2>
                         <div class="form-group">
                             <small>Enter Username</small>
-                            <input type="text" class="form-control" id="usernameInput" placeholder="Enter username">
-                            <small class="text-danger">Username Already Taken</small>
+                            <input type="text" class="form-control" name="username" id="usernameInput" placeholder="Enter username">
+                            <small class="text-danger"><%= username %></small>
                           </div>
                   
                           <div class="form-group ">
                             <small>Password</small>
-                            <input type="password" class="form-control" id="passwordInput" value="" placeholder="Password">
+                            <input type="password" class="form-control" name="password" id="passwordInput" value="" placeholder="Password">
+                            <small class="text-danger"><%= password %></small>
                           </div>
 
                           <div class="form-group">
                             <small>Retype-Password</small>
-                            <input type="password" class="form-control" id="retypePasswordInput" placeholder="Retype Password">
-                            
-                            <small class="text-danger">Password Mismatch</small>
+                            <input type="password" class="form-control" name="retypePassword" id="retypePasswordInput" placeholder="Retype Password">
+                            <small class="text-danger"><%= password %></small>
                           </div>
 
                           <div class="form-group">
                             <small>Firstname</small>
-                            <input type="text" class="form-control" id="firstnameInput" placeholder="Enter Firstname"> 
-                            <small class="text-danger">Invalid Name Format</small>
+                            <input type="text" class="form-control" name="firstname" id="firstnameInput" placeholder="Enter Firstname"> 
+                            <small class="text-danger"><%= firstname %></small>
                           </div>
 
                           <div class="form-group">
                             <small >Lastname</small>
-                            <input type="text" class="form-control" id="lastnameInput" placeholder="Enter Lastname">
+                            <input type="text" class="form-control" name= "lastname" id="lastnameInput" placeholder="Enter Lastname">
                             
-                            <small class="text-danger">Invalid Name Format</small>
+                            <small class="text-danger"><%= lastname %></small>
                           </div>
 
                           <div class="form-group">
                             <small>Email</small>
-                            <input type="email" class="form-control" id="emailInput" placeholder="Enter Email Address">
-                            <small class="text-danger">Invalid Email Format</small>
+                            <input type="email" class="form-control" name="email" id="emailInput" placeholder="Enter Email Address">
+                            <small class="text-danger"><%= email %></small>
                           </div>
                           
 
                           <div class="form-group">
                             <small>Phonenumber</small>
-                            <input type="number" class="form-control" id="phonenumberInput" placeholder="Enter Phonenumber">
-                            <small class="text-danger">Invalid Phonenumber Format</small>
+                            <input type="number" class="form-control" name="phonenumber" id="phonenumberInput" placeholder="Enter Phonenumber">
+                            <small class="text-danger"><%= phonenumber %></small>
                           </div>
 
                           <div class="form-group">
                             <small >Date Of Birth</small>
-                            <input type="date" class="form-control" id="phonenumberInput">
-                            <small class="text-danger">Invalid Date Format</small>
+                            <input type="date" class="form-control" name="dateofbirth" id="phonenumberInput">
+                            <small class="text-danger"><%= dateofbirth %></small>
                           </div>
 
 
@@ -73,6 +74,9 @@
                                 Already have an account ? <br>
                                 Click Here to Login
                               </a>
+                              <% if (allokflag==true) { %> 
+                                <script>alert("Account Added Successfully");</script>
+                             <% } %>
                           </div>
                     </form>
             </div>
