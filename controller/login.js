@@ -2,13 +2,22 @@ var express 	= require('express');
 var allUserModel 	= require.main.require('./models/alluser.js');
 var router 		= express.Router();
 
+console.log("In Controller / login ");
+
+var err = {  
+	errormessage:''
+};
+
 router.get('/', function(req, res){
-	res.render('index');
+	err.errormessage="";
+	res.render('index',err);
+	console.log("GET Request");
 });
 
 
 router.post('/', function(req, res)
 {
+	console.log("POST Request");
 	var user= {
 		username:req.body.username,
 		password:req.body.password,
@@ -20,9 +29,7 @@ router.post('/', function(req, res)
 		{
 			req.session.username=user.username;
 			req.session.role=user.role;
-			console.log("Session created! username"+req.session.username);
-			console.log("Role "+req.session.role);
-			//res.redirect()
+			
 			if(req.session.role=="enduser")
 			{
 				res.redirect("/home");
@@ -31,19 +38,11 @@ router.post('/', function(req, res)
 			{
 				res.redirect("/publisher/home");
 			}
-			else if(req.session.role=="admin" || "superadmin")
-			{
-
-			}
-			else if(req.session.role=="modartor")
-			{
-
-			}
-			else
-			{
-				res.send("<h1>Invalid Request</h1>");
-			}
-
+		}
+		else
+		{
+			err.errormessage='invalid username or password';
+			res.render('index',err);
 		}
 	});
 });

@@ -28,6 +28,15 @@
                   <div class="form-group">
                     <input type="submit" value="Sign In" name="signin" class="btn btn-secondary btn-lg btn-block" id="signinBtn"><br>
                   </div>
+
+                  <div class="login-err ">
+                    <h5 class="text-danger text-center">
+                     <!--  <% if (errormessage!='') { %> -->
+                      <%= errormessage %>
+                    <!--   <% } %> -->
+                      
+                    </h5>
+                  </div>
       
                  <div class="text-center">
                       <a href="/registration" class="text-info"> 
