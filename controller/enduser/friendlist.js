@@ -4,7 +4,16 @@ var router 		= express.Router();
 
 router.get('/', function(req, res){
 
-	res.render('enduser/friendlist');
+	
+	if(req.session.username!=null)
+	{
+		res.render('enduser/friendlist');
+	}
+	else
+	{
+		res.redirect('/login');
+	}
+	
 
 });
 

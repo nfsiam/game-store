@@ -4,7 +4,15 @@ var router 		= express.Router();
 
 router.get('/', function(req, res){
 
-	res.render('enduser/yourphotos');
+	if(req.session.username!=null)
+	{
+		res.render('enduser/yourphotos');
+	}
+	else
+	{
+		res.redirect('/login');
+	}
+	
 
 });
 

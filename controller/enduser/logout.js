@@ -4,7 +4,9 @@ var router 		= express.Router();
 
 router.get('/', function(req, res){
 
-	res.render('enduser/logout');
+	req.session.destroy();
+	res.redirect('login');
+	
 
 });
 

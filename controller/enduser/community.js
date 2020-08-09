@@ -4,7 +4,15 @@ var router 		= express.Router();
 
 router.get('/', function(req, res){
 
-	res.render('enduser/community');
+	
+	if(req.session.username!=null)
+	{
+		res.render('enduser/community');
+	}
+	else
+	{
+		res.redirect('/login');
+	}
 
 });
 

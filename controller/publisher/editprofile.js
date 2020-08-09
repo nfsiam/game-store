@@ -4,8 +4,14 @@ var router 		= express.Router();
 
 router.get('/', function(req, res){
 
-	res.render('publisher/editprofile');
-
+	if(req.session.username!=null)
+	{
+		res.render('publisher/editprofile');
+	}
+	else
+	{
+		res.redirect('/login');
+	}
 });
 
 module.exports = router;

@@ -35,11 +35,13 @@ module.exports = {
 				else{
 					callback(results);
 				}
-
 			});
-
 			connection.end(function(err){
-			//	console.log('connection end...');
+				if(err)
+				{
+					console.log("Database Error "+err);
+				}
+				
 			});
 		});
 	},
@@ -56,7 +58,10 @@ module.exports = {
 			});
 
 			connection.end(function(err){
-			//	console.log('connection end...');
+				if(err)
+				{
+					console.log("Database Error "+err);
+				}
 			});
 		});
 	}

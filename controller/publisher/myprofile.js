@@ -4,7 +4,14 @@ var router 		= express.Router();
 
 router.get('/', function(req, res){
 
-	res.render('publisher/myprofile');
+	if(req.session.username!=null)
+	{
+		res.render('publisher/myprofile');
+	}
+	else
+	{
+		res.redirect('/login');
+	}
 
 });
 
