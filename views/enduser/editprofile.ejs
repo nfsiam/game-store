@@ -44,7 +44,7 @@
                         <div class="my-profile-wrap d-flex flex-wrap">
                             <div class="profile-wrapper">
                               <div class="propic-wrapper d-flex flex-wrap mt-4 ml-3">
-                                <img src="/res/ironman.jpg" alt="" class="img-circle">
+                                <img src="/<%= result[0].propic %>" alt="" class="img-circle">
                                 <div>
                                   <h3 class="mt-4 ml-4">Iron Man</h3>
                                   <h5 class="mt-4 ml-4 font-weight-light">Live and let live</h5>
@@ -89,29 +89,29 @@
                                     <table class="table">
                                         <tr>
                                             <th>Username</th>
-                                            <td><input type="text" class="form-control" disabled value="ksq1234"></td>
+                                            <td><input type="text" class="form-control" name="username" disabled value="<%= result[0].username %>"></td>
                                         </tr>
                                         <tr>
                                             <th>Firstname</th>
-                                            <td><input type="text" class="form-control" name="" id="" value="Mushfiqur"></td>
+                                            <td><input type="text" class="form-control" name="firstname" id="" value="<%= result[0].firstname %>"></td>
                                         </tr>
                                         <tr>
                                             <th>Lastname</th>
-                                            <td><input type="text" class="form-control" name="" id="" value="Rahman"></td>
+                                            <td><input type="text" class="form-control" name="lastname" id="" value="<%= result[0].lastname %>"></td>
                                         </tr>
                                         <tr>
                                             <th>Email</th>
-                                            <td><input type="email" class="form-control"  name="" id="" value="ksq1234@gmail.com"></td>
+                                            <td><input type="email" class="form-control"  name="email" id="" value="<%= result[0].email %>"></td>
                                         </tr>
                                         <tr>
                                             <th>Phone Number</th>
-                                            <td><input type="number" class="form-control"  name="" id="" value="12312312"></td>
+                                            <td><input type="number" class="form-control"  name="phonenumber" id="" value="<%= result[0].phonenumber %>"></td>
                                         </tr>
                                         <tr>
                                             <th>Profile Picture</th>
                                             <td>
                                               <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="inputGroupFile02" accept="image/*" enctype="multipart/form-data">
+                                                <input type="file" class="custom-file-input" name="propic" id="inputGroupFile02" accept="image/*" enctype="multipart/form-data">
                                                 <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
                                               </div>
                                             </td>
@@ -119,14 +119,14 @@
                                         <tr>
                                           <th>Date Of Birth</th>
                                           <td>
-                                            <input type="date" name="" id="" class="form-control">
+                                            <input type="date" name="dateofbirth" id="" value="<%= result[0].dateofbirth %>" class="form-control">
                                           </td>
                                         </tr>
                                         
                                         <tr>
                                           <th>Bio</th>
                                           <td>
-                                            <input type="text" class="form-control"  name="" id="" value="live and let live">
+                                            <input type="text" class="form-control"  name="bio" id="" value="<%= result[0].bio %>">
                                           </td>
                                         </tr>
                                         <tr>

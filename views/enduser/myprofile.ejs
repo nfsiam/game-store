@@ -45,10 +45,10 @@
                         <div class="my-profile-wrap d-flex flex-wrap">
                             <div class="profile-wrapper">
                               <div class="propic-wrapper d-flex flex-wrap mt-4 ml-3">
-                                <img src="/res/ironman.jpg" alt="" class="img-circle">
+                                <img src="/<%= results[0].propic %>" alt="" class="img-circle">
                                 <div>
-                                  <h3 class="mt-4 ml-4">Iron Man</h3>
-                                  <h5 class="mt-4 ml-4 font-weight-light">Live and let live</h5>
+                                  <h3 class="mt-4 ml-4"><%= results[0].username %></h3>
+                                  <h5 class="mt-4 ml-4 font-weight-light"><%= results[0].username %></h5>
                                 </div>
                             </div>
                             
@@ -90,15 +90,15 @@
                                 
                                 <tr>
                                   <th>Username</th>
-                                  <td>Ksq1234</td>
+                                  <td><%= results[0].username %></td>
                                 </tr>
                                 <tr>
                                   <th>Firstname</th>
-                                  <td>Mushfiqur</td>
+                                  <td><%= results[0].firstname %></td>
                                 </tr>
                                 <tr>
                                   <th>Lastname</th>
-                                  <td>Rahman</td>
+                                  <td><%= results[0].lastname %></td>
                                 </tr>
                                 <tr>
                                   <th>Current Badge</th>

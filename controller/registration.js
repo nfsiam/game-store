@@ -1,5 +1,5 @@
 var express 	= require('express');
-const enduser = require('../models/enduser');
+//const enduser = require('../models/enduser');
 var enduserModel 	= require.main.require('./models/enduser.js');
 var router 		= express.Router();
 
