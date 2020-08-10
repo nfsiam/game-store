@@ -3,6 +3,7 @@ const enduser = require('../models/enduser');
 var enduserModel 	= require.main.require('./models/enduser.js');
 var router 		= express.Router();
 
+
 var err = {
 	username:'',
 	password:'',
@@ -18,10 +19,10 @@ var err = {
 function getCurrentDate()
 {
 	var today = new Date();
-	var dd = String(today.getDate()).padStart(2, '0');
+	/* var dd = String(today.getDate()).padStart(2, '0');
 	var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 	var yyyy = today.getFullYear();
-	today = yyyy + '-' + mm + '-' + dd;
+	today = yyyy + '-' + mm + '-' + dd; */
 	return today;
 }
 
@@ -99,7 +100,8 @@ router.post('/', function(req, res){
 			validateData=false;
 			err.phonenumber='invalid phonenumber format';
 		}
-		if(user.dateofbirth=="00-00-0000" && user.dateofbirth>getCurrentDate())
+		var inputDate = new Date(user.dateofbirth);
+		if(user.dateofbirth=="" || inputDate>getCurrentDate())
 		{
 			err.dateofbirth='invalid date format';
 		}

@@ -32,43 +32,48 @@
                             <table class="table">
                                 <tr>
                                     <th>Game Title</th>
-                                    <td><input type="text" class="form-control"  value="Contra"></td>
+                                    <td><input type="text" class="form-control" name="gametitle"  value=""></td>
+                                    <td><small class="text-danger"><%= gametitle %></small></td>
                                 </tr>
                                 <tr>
                                     <th>Price $</th>
-                                    <td><input type="number" class="form-control" name="" id="" value="30"></td>
+                                    <td><input type="number" class="form-control" name="price" id="" value=""></td>
+                                    <td><small class="text-danger"><%= price %></small></td>
                                 </tr>
                                 
                                 <tr>
                                     <th>Release Date</th>
-                                    <td><input type="date" name="" id="" class="form-control"></td>
+                                    <td><input type="date" name="publishdate" id="" class="form-control"></td>
+                                    <td><small class="text-danger"><%= publishdate %></small></td>
                                 </tr>
                                
                                 <tr>
                                     <th>Game Picture</th>
                                     <td>
                                       <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="inputGroupFile02" accept="image/*" enctype="multipart/form-data">
+                                        <input type="file" class="custom-file-input" name="gamepicture" id="inputGroupFile02" accept="image/*" enctype="multipart/form-data">
                                         <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
                                       </div>
                                     </td>
+                                    <td><small class="text-danger"><%= gamepicture %></small></td>
                                 </tr>
                                 
                                 <tr>
                                     <th>Game File</th>
                                     <td>
                                       <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="inputGroupFile02" accept="/*" enctype="multipart/form-data">
+                                        <input type="file" class="custom-file-input" name="gamelocation" id="inputGroupFile02" accept="/*" enctype="multipart/form-data">
                                         <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
                                       </div>
                                     </td>
+                                    <td><small class="text-danger"><%= gamelocation %></small></td>
                                 </tr>
 
                                 <tr>
                                   <th>Attach Parent Game (optional)</th>
                                   <td>
 
-                                    <select name="" id="" class="form-control">
+                                    <select name="parentgameid" id="" class="form-control">
                                       <option disabled selected>
                                           Choose a game
                                       </option>
@@ -85,7 +90,9 @@
 
                                   </td>
                                 </tr>
-
+                                <% if (success==true) { %> 
+                                  <script>alert("Account Added Successfully");</script>
+                               <% } %>
                                 <tr>
                                   <th>
                                     <input type="submit" class="btn btn-info" value="Upload" name="upload">

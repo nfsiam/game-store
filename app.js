@@ -34,6 +34,10 @@ var puboffer = require('./controller/publisher/offer');
 var pubpatch = require('./controller/publisher/patch');
 
 var app = express();
+//const fileUpload = require('express-fileupload');
+
+
+//app.use(fileUpload());
 
 app.set('view engine', 'ejs');
 app.use('/assets/css/',express.static('assets/css'));
