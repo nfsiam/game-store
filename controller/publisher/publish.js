@@ -151,6 +151,7 @@ router.post('/',function(req,res){
 		user.gamepicture=picpath;
 
 		gamelistModule.publish(user,(status)=>{
+ 
 
 			if(status)
 			{

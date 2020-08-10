@@ -5,12 +5,14 @@ $(document).ready( ()=>{
 
        // window.location.href = "library/patch/"+this.id;
          console.log("patch button clicked !");
-        window.location.href = "library/patch";
+         console.log(this.id);
+        window.location.href = "library/patch/"+this.id;
     });
 
     $('.offer-btn').click(function(){
         //window.location.href = "library/offer/"+this.id;
-        window.location.href = "library/offer";
+        console.log(this.id);
+        window.location.href = "library/offer/"+this.id;
      });
      
 

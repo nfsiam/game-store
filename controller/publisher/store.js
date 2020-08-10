@@ -1,13 +1,16 @@
 var express 	= require('express');
+const gamelist = require('../../models/gamelist');
 var router 		= express.Router();
-
+var gamelistModel = require.main.require('./models/gamelist.js');
 
 router.get('/', function(req, res){
 
-	
 	if(req.session.username!=null)
 	{
-		res.render('publisher/store');
+		gamelistModel.geAllGames(req.session.username,(results)=>{
+			
+			res.render('publisher/store',{results});
+		});
 	}
 	else
 	{
