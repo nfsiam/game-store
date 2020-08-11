@@ -3,7 +3,7 @@ var exSession 	= require('express-session');
 var bodyParser 	= require('body-parser');
 var login 		= require('./controller/login');
 var registration  = require('./controller/registration');
-
+var cart = require('./controller/enduser/cart');
 var endhome = require('./controller/enduser/home');
 var endstore = require('./controller/enduser/store');
 var endlibrary=require('./controller/enduser/library');
@@ -59,6 +59,8 @@ app.use('/connect',endconnect);
 app.use('/myprofile',endmyprofile);
 app.use('/plans',endplans);
 app.use('/logout',endlogout);
+app.use('/cart',cart);
+
 
 app.use('/myprofile/editprofile',endeditprofile);
 app.use('/myprofile/yourphotos',endyourphotos);

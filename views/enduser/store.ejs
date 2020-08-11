@@ -33,9 +33,22 @@
 
       <div class="container-fluid">
         <button id="notification-btn" class="btn btn-primary mr-3 mt-3" style="float: right;"> <i class="fa fa-bell"></i> </button>
+        <button id="cart-btn" class="btn btn-primary mr-3 mt-3" style="float: right;"> <i class="fa fa-shopping-basket"></i> </button>
         <div class="notification-menu">
             
         </div>
+      
+          <div class="cart-menu-wrapper">
+            <div class="cart-menu">
+              
+            </div>
+            <div class="cart-menu-footer">
+              <button style="float: right; margin-right: 10px; margin-bottom:10px;" class="btn btn-primary btn-sm">Checkout</button>
+            </div>
+          </div>
+          
+        
+       
         <h1 class="mt-4 font-weight-light">Search</h1>
         <form action="" method="GET">
           <input style="padding: 10px; width: 300px; border: 1px solid;" class="form-input" type="search" placeholder="Type to search">
@@ -50,132 +63,38 @@
         <div class="row">
             <div class="col-lg-12 col-sm-5">
               <div class="game-list d-flex  flex-wrap pt-3">
-              <div class="box-wrapper">
-                <div class="game-wrapper d-flex">
 
-                    <div class="box mb-3">
-                      <img src="/res/contra.JPG" alt="" srcset=""> 
+
+                <% for(var i=0;i<result.length ;i++ )  { %>
+                  <div class="box-wrapper">
+                    <div class="game-wrapper d-flex">
+    
+                        <div class="box mb-3">
+                          <img src="/<%= result[i].gamepicture %>" alt="" srcset=""> 
+                        </div>
+    
+                        <div class="box-text mr-3 mb-3 text-center">
+                          <h5><%= result[i].gametitle %></h5>
+                        
+                          <h5>Publisher : <%= result[i].publisher %></h5>
+                          <h5>Release Date : <%= result[i].publishdate %></h5>
+
+                          <h6>Current Price : $<%= result[i].price %></h6>
+                          
+                        </div>
+    
                     </div>
-
-                    <div class="box-text mr-3 mb-3 text-center">
-                      <h5>Contra</h5>
-                      <h5>Size : 300kb</h5>
-                      <h5>Platform : Nes</h5>
-                      <h6 style="text-decoration: line-through;">Prev Price : $60</h6>
-                      <h6>Current Price : $30</h6>
-                      <h6>Valid till : 02/10/2</h6>
+    
+                    <div class="box-button pb-3">
+                      <input type="button" id="<%= result[i].gameid %>"  class="cart-btn btn btn-danger btn-sm" value="Add to cart">
+                      <input type="button" id="<%= result[i].gameid %>" class="buynow-btn btn btn-success btn-sm" value="Buy Now">
+                      <input type="button" id="<%= result[i].gameid %>" class="wishlist-btn btn btn-warning btn-sm" value="Add to wish list">
                     </div>
+    
+                  </div>
+                <%}%>
+              
 
-                </div>
-
-                <div class="box-button pb-3">
-                  <input type="button"  class="btn btn-danger btn-sm" value="Add to cart">
-                  <input type="button" class="btn btn-success btn-sm" value="Buy Now">
-                  <input type="button" class="btn btn-warning btn-sm" value="Add to wish list">
-                </div>
-
-              </div>
-
-
-
-              <div class="box-wrapper">
-                
-                <div class="game-wrapper d-flex">
-                    <div class="box mb-3">
-                      <img src="/res/contra.JPG" alt="" srcset=""> 
-                    </div>
-                    <div class="box-text mr-3 mb-3 text-center">
-                      <h5>Contra</h5>
-                      <h5>Size : 300kb</h5>
-                      <h5>Platform : Nes</h5>
-                      <h6 style="text-decoration: line-through;">Prev Price : $60</h6>
-                      <h6>Current Price : $30</h6>
-                      <h6>Valid till : 02/10/2</h6>
-                    </div>
-                </div>
-
-                <div class="box-button pb-3">
-                  <input type="button"  class="btn btn-danger btn-sm" value="Add to cart">
-                  <input type="button" class="btn btn-success btn-sm" value="Buy Now">
-                  <input type="button" class="btn btn-warning btn-sm" value="Add to wish list">
-                </div>
-
-            </div>
-
-
-
-              <div class="box-wrapper">
-                
-                <div class="game-wrapper d-flex">
-
-                    <div class="box mb-3">
-                      <img src="/res/contra.JPG" alt="" srcset=""> 
-                    </div>
-
-                    <div class="box-text mr-3 mb-3 text-center">
-                      <h5>Contra</h5>
-                      <h5>Size : 300kb</h5>
-                      <h5>Platform : Nes</h5>
-                      <h6 style="text-decoration: line-through;">Prev Price : $60</h6>
-                      <h6>Current Price : $30</h6>
-                      <h6>Valid till : 02/10/2</h6>
-                    </div>
-              </div>
-
-
-                <div class="box-button pb-3">
-                  <input type="button"  class="btn btn-danger btn-sm" value="Add to cart">
-                  <input type="button" class="btn btn-success btn-sm" value="Buy Now">
-                  <input type="button" class="btn btn-warning btn-sm" value="Add to wish list">
-                </div>
-              </div>
-
-
-              <div class="box-wrapper">
-                <div class="game-wrapper d-flex">
-                    <div class="box mb-3">
-                      <img src="/res/contra.JPG" alt="" srcset=""> 
-                    </div>
-                    <div class="box-text mr-3 mb-3 text-center">
-                      <h5>Contra</h5>
-                      <h5>Size : 300kb</h5>
-                      <h5>Platform : Nes</h5>
-                      <h6 style="text-decoration: line-through;">Prev Price : $60</h6>
-                      <h6>Current Price : $30</h6>
-                      <h6>Valid till : 02/10/2</h6>
-                    </div>
-              </div>
-
-                <div class="box-button pb-3">
-                  <input type="button"  class="btn btn-danger btn-sm" value="Add to cart">
-                  <input type="button" class="btn btn-success btn-sm" value="Buy Now">
-                  <input type="button" class="btn btn-warning btn-sm" value="Add to wish list">
-                </div>
-              </div>
-
-
-              <div class="box-wrapper">
-                <div class="game-wrapper d-flex">
-                    <div class="box mb-3">
-                      <img src="/res/contra.JPG" alt="" srcset=""> 
-                    </div>
-                    <div class="box-text mr-3 mb-3 text-center">
-                      <h5>Contra</h5>
-                      <h5>Size : 300kb</h5>
-                      <h5>Platform : Nes</h5>
-                      <h6 style="text-decoration: line-through;">Prev Price : $60</h6>
-                      <h6>Current Price : $30</h6>
-                      <h6>Valid till : 02/10/2</h6>
-                    </div>
-              </div>
-
-                <div class="box-button pb-3">
-                  <input type="button"  class="btn btn-danger btn-sm" value="Add to cart">
-                  <input type="button" class="btn btn-success btn-sm" value="Buy Now">
-                  <input type="button" class="btn btn-warning btn-sm" value="Add to wish list">
-                </div>
-
-              </div>
             </div>
           </div>
       </div>

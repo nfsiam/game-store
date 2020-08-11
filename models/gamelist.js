@@ -20,7 +20,20 @@ module.exports =
 			}
 		});
 	},
-
+	insertToCart:(id,user,callback)=>{
+		var sql= "insert into cart values ('','"+id+"','"+user+"')";
+		console.log(sql);
+		db.execute(sql,(result)=>{
+			if(result)
+			{
+				callback(true);
+			}
+			else
+			{
+				callback(false);
+			}
+		});
+	},
 	geAllGames:(user,callback)=>{
 		var sql="select * from gamelist";
 		console.log(sql);
@@ -35,6 +48,7 @@ module.exports =
 			}
 		});
 	},
+	
 
 	geAllGamesByUser:(user,callback)=>{
 		var sql="select * from gamelist where publisher='"+user+"' ";

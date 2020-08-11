@@ -47,11 +47,11 @@
                                 <img src="/<%= result[0].propic %>" alt="" class="img-circle">
                                 <div>
                                   <h3 class="mt-4 ml-4">Iron Man</h3>
-                                  <h5 class="mt-4 ml-4 font-weight-light">Live and let live</h5>
+                                  <h5 class="mt-4 ml-4 font-weight-light"><%= result[0].bio %></h5>
                                 </div>
                                
                             </div>
-                            <%- include('partial/profilenav.ejs') %>
+                              <%- include('partial/profilenav.ejs') %>
 
                             <div class="edit-profile mt-3">
                                 <form action="" method="POST" enctype="multipart/form-data">
@@ -85,7 +85,7 @@
                                             <th>Profile Picture</th>
                                             <td>
                                               <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="propic" id="inputGroupFile02" accept="image/*" enctype="multipart/form-data">
+                                                <input type="file" class="custom-file-input" value="<%= result[0].propic %>" name="propic" id="inputGroupFile02" accept="image/*" enctype="multipart/form-data">
                                                 <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
                                               </div>
                                             </td>

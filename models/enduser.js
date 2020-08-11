@@ -50,6 +50,18 @@ module.exports =
 			}
 		});
 	},
+	updateUserinfoWithoutPropic:(user,callback)=>
+	{
+		var sql = "update enduser set firstname = '"+user.firstname+"' , lastname='"+user.lastname+"' , email= '"+user.email+"', phonenumber = '"+user.phonenumber+"',dateofbirth = '"+user.dateofbirth+"',bio='"+user.bio+"' where username='"+user.username+"' ";
+		console.log(sql);
+		db.execute(sql, function(status){
+			if(status){
+				callback(true);
+			}else{
+				callback(false);
+			}
+        });
+	},
 	updateUserinfo:(user,callback)=>
 	{
 		var sql = "update enduser set firstname = '"+user.firstname+"' , lastname='"+user.lastname+"' , email= '"+user.email+"', phonenumber = '"+user.phonenumber+"', propic = '"+user.propic+"',dateofbirth = '"+user.dateofbirth+"',bio='"+user.bio+"' where username='"+user.username+"' ";

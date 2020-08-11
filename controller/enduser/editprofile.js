@@ -5,10 +5,9 @@ const fileUpload = require('express-fileupload');
 const { v4 : uuidv4 } = require('uuid');
 const e = require('express');
 const { reset } = require('nodemon');
+const enduser = require('../../models/enduser');
 
 router.use(fileUpload());
-
-var propicFound =false;
 
 
 var err= {
@@ -23,6 +22,27 @@ var err= {
 	success:false
 };
 
+
+var propicpath="---";
+function bindPropic(propic)
+{
+	console.log("inside bindPropic "+propic);
+	propicpath=propic;
+	console.log("inside bindPropic "+propicpath);
+}
+
+
+function getPropicValue(username)
+{
+	enduserModel.getprofileinfo(username,(result)=>{
+		if(result.length>0)
+		{
+			//console.log("inside bindPropic "+result[0].propic);
+			bindPropic(result[0].propic);
+		}
+	});
+
+}
 
 function formatDate(date) {
     var d = new Date(date),
@@ -110,179 +130,6 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
 
-	/* err.firstname='';
-	err.lastname='';
-	err.email='';
-	err.phonenumber='';
-	err.propic='';
-	err.dateofbirth='';
-	err.bio='';
-	err.success=false;
-
-	var validate =true;
-	
-	var user = {
-		username:req.session.username,
-		firstname:req.body.firstname,
-		lastname:req.body.lastname,
-		email:req.body.email,
-		phonenumber:req.body.phonenumber,
-		propic:req.files,
-		dateofbirth:req.body.dateofbirth,
-		bio:req.body.bio
-	}; */
-
-	
-/* 	console.log("firstname "+user.firstname);
-	console.log("lastname "+user.lastname);
-	console.log("email "+user.email);
-	console.log("Phonenumber "+user.phonenumber)
-	console.log("propic "+user.propic);
-	console.log("date of birth "+user.dateofbirth);
-	console.log("bio "+user.bio);
-
-	 */
-
-	/* if(user.firstname=='')
-	{
-		validate=false;
-		err.firstname="firstname can't be empty";
-		
-	}
-	if(user.lastname=='')
-	{
-		validate=false;
-		err.lastname="lastname can't be empty";
-	}
-	if(user.email=='' || !validateEmail(user.email))
-	{
-		validate=false;
-		err.email="invalid email format";
-	}
-	if(user.phonenumber=='' || phonenumber(user.phonenumber))
-	{
-		validate=false;
-		err.phonenumber="invalid phonenumber format";
-	}
-
-	if(user.propic!=null)
-	{
-		user.propic=req.files.propic;
-		var results= user.propic.name.split(".");
-		console.log("1 user propic is "+user.propic);
-		if((results[1]=="jpg" || results[1]=="png" || results[1]=="giff" || results[1]=="jpeg")==false)
-		{
-			validate=false;
-			err.propic="Unsupported picture format";	
-		}
-		else
-		{	
-			var picname= uuidv4();
-			var picpath='res/enduser/propic/'+picname+'.jpg';
-		}
-	
-		
-	}
-	else
-	{
-		enduserModel.getprofileinfo(req.session.username,(result)=>{
-			/* console.log("Result for getProfileInfo"+result.length);
-			console.log("result length "+result.length);
-			console.log("result propic is "+result[0].propic); */
-			/* if(result.length==1)
-			{
-				console.log("PROPIC IS FOUND "+result[0].propic);
-				user.propic=result[0].propic;
-				console.log("PROPIC IS FOUND "+user.propic);
-				propicFound=false;
-			}
-			else
-			{
-				console.log("I am here");
-				res.send("<h1>Something was wrong !!!</h1>");
-			}
-		});
-	}
-	var inputDate = new Date(user.dateofbirth);
-	if(user.dateofbirth=="" || inputDate>getCurrentDate())
-	{
-		validate=false;
-		err.dateofbirth='invalid date format';
-	}
-	
-	if(validate)
-	{
-		
-		if(propicFound)
-		{
-			user.propic.mv(picpath, function(err) {
-				if(err)
-				{
-					console.log("server crashed for picpath");
-					res.send("<h1>Server Crashed</h1>");
-				}
-			});
-			user.propic=picpath;
-		}
-		console.log("PROPICCCCCC PATHHH IS "+user.picpath);
-		enduserModel.updateUserinfo(user,(status)=>{
-			if(status)
-			{
-				err.success=true;
-			}
-			enduserModel.getprofileinfo(user.username,(result)=>{
-				if(result.length>0)
-				{
-					result[0].propic=user.propic;
-					res.render("enduser/editprofile",{result,err});
-				}	
-				else
-				{
-					res.send("<h1>Server Creashed </h1>");
-				}
-			});
-		});
-	} */
-	/* if(user.propic!=null)
-	{
-		var picname= uuidv4();
-		var picpath='res/enduser/propic/'+picname+'.jpg';
-		user.propic.mv(picpath, function(err) {
-			if(err)
-			{
-				console.log("server crashed for picpath");
-				res.send("<h1>Server Crashed</h1>");
-			}
-		});
-		user.propic=picpath;
-
-		err.success=true;
-		enduserModel.updateUserinfo(user,(status)=>{
-			if(status)
-			{
-				err.success=true;
-			}
-			
-		});
-	} */
-
-	/* enduserModel.getprofileinfo(req.session.username,(result)=>{
-		console.log("Result for getProfileInfo"+result.length);
-		if(result.length==1)
-		{
-			console.log("In easdasdasdas");
-			result[0].dateofbirth=formatDate(result[0].dateofbirth);
-			console.log("edit profile date value "+result[0].dateofbirth);
-			res.render('enduser/editprofile',{result,err});
-		}
-		else
-		{
-			res.send("<h1>Something was wrong !!!</h1>");
-		}
-	}); */ 
-
-	
-
 	err.firstname='';
 	err.lastname='';
 	err.email='';
@@ -307,6 +154,10 @@ router.post('/', function(req, res){
 	//bind current propicture
 	
 	console.log("Propic is "+user.propic);
+	/* var p;
+	getProPath((path)=>{
+
+	}); */
 
 	if(user.firstname=='')
 	{
@@ -340,6 +191,8 @@ router.post('/', function(req, res){
 		
 			validate=false;
 			err.propic="Unsupported picture format";	
+			//getPropicValue(user.username);
+			//user.propic=req.files.propic;
 		}
 		else
 		{	
@@ -351,6 +204,9 @@ router.post('/', function(req, res){
 	else
 	{
 		copyPicture=false;
+		//getPropicValue(user.username);
+		//user.propic=req.files.propic;
+		
 	}
 
 	var inputDate = new Date(user.dateofbirth);
@@ -360,38 +216,38 @@ router.post('/', function(req, res){
 		err.dateofbirth='invalid date format';
 	}
 
-	if(validate && copyPicture)
+	if(validate)
 	{
 		err.success=true;
 		//copy pic path
-		user.propic.mv(picpath, function(error) {
-			if(error)
-			{
-				console.log("server crashed for picpath");
-				res.send("<h1>Server Crashed</h1>");
-			}
-		});
-
-		user.propic=picpath;
-		// update to db 
-
-		enduserModel.updateUserinfo(user,(status)=>{
+		if(copyPicture)
+		{
+			user.propic.mv(picpath, function(error) {
+				if(error)
+				{
+					console.log("server crashed for picpath");
+					res.send("<h1>Server Crashed</h1>");
+				}
+			});
+			user.propic=picpath;
+			enduserModel.updateUserinfo(user,(status)=>{
 			
-			if(status)
-			{
-				console.log("Account updated Successfully");
-			}
-			else
-			{
-				res.send("<h1>Database Server Error</h1>");
-			}
-
-		});
-
-	}
+				if(status)
+				{
+					console.log("Account updated Successfully");
+				}
+				else
+				{
+					res.send("<h1>Database Server Error</h1>");
+				}
 	
+			});
+		}
+		
+	}
+	//var result= new Array(user);
 	var result= new Array(user);
-	res.render('enduser/editprofile',{result,err});
+		res.render("enduser/editprofile",{result,err});
 
 });
 
