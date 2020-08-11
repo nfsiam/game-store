@@ -47,23 +47,26 @@
             <div class="col-lg-12 col-sm-5">
 
               <div class="friend-list d-flex flex-wrap">
+
+                 <% for(var i=0; i < results.length; i++){ %>
                 <div class="friend-profile-container mt-3 d-flex flex-wrap">
                     <div class="profile-wrap mr-5 p-3">
                         <div class="propic-wrapper text-center">
-                            <img src="/res/propic1.jpg" class="img-circle" alt="">
-                            <h5 class="mt-2 mb-2">Captain Price</h5>
+                            <img src="/<%=results[i].propic%>" class="img-circle" alt="">
+                            <h5 class="mt-2 mb-2"><%= results[i].firstname+" "+results[i].lastname %></h5>
                         </div>
+                        
                         <div class="profile-buttons">
-                            <button class="btn btn-primary btn-sm mt-2"><i class="fa fa-user-times"></i>   <span class="ml-1">Unfriend</span></button>
+                            <button class="btn btn-primary btn-sm mt-2"><i class="fa fa-user-times"></i>   <span class="ml-1">Add Friend</span></button>
                             <button class="btn btn-primary btn-sm mt-2"><i class="fa fa-comments"></i>   <span class="ml-1">Message</span></button>
                             <button class="btn btn-primary btn-sm mt-2"><i class="fa fa-ban"></i>   <span class="ml-1">Block</span></button>
                         </div>
                     </div>
                 </div>
+                <% } %>
 
 
-
-                <div class="friend-profile-container mt-3 d-flex flex-wrap">
+             <!--    <div class="friend-profile-container mt-3 d-flex flex-wrap">
                     <div class="profile-wrap mr-5 p-3">
                         <div class="propic-wrapper text-center">
                             <img src="/res/propic2.jpg" class="img-circle" alt="">
@@ -76,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-
+ -->
 
 
 

@@ -1,5 +1,4 @@
 var express 	= require('express');
-//const enduser = require('../models/enduser');
 var enduserModel 	= require.main.require('./models/enduser.js');
 var router 		= express.Router();
 
@@ -61,6 +60,17 @@ router.post('/', function(req, res){
 		phonenumber:req.body.phonenumber,
 		dateofbirth:req.body.dateofbirth,
 	};
+	console.log("firstname "+user.firstname);
+	console.log("lastname "+user.lastname);
+	console.log("email "+user.email);
+	console.log("Phonenumber "+user.phonenumber)
+	console.log("propic "+user.propic);
+	console.log("date of birth "+user.dateofbirth);
+	console.log("bio "+user.bio);
+
+
+
+
 
 	enduserModel.validate(user,(status)=>{
 		var validateData =true;

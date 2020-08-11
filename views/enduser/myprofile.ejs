@@ -48,42 +48,11 @@
                                 <img src="/<%= results[0].propic %>" alt="" class="img-circle">
                                 <div>
                                   <h3 class="mt-4 ml-4"><%= results[0].username %></h3>
-                                  <h5 class="mt-4 ml-4 font-weight-light"><%= results[0].username %></h5>
+                                  <h5 class="mt-4 ml-4 font-weight-light"><%= results[0].bio %></h5>
                                 </div>
                             </div>
+                            <%- include('partial/profilenav.ejs') %>
                             
-                            <div class="profile-nav-menu mt-4">
-                              <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; border: 1px solid transparent; border-radius: 10px;">
-                                <ul class="navbar-nav mr-auto">
-
-                                  <li class="nav-item">
-                                    <a href="/myprofile" class="nav-link">  <i class="fa fa-address-book"></i> General </a>
-                                  </li>
-
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/myprofile/yourphotos"> <i class="fa fa-photo"></i> Your Photos </a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/myprofile/achievments"> <i class="fa fa-trophy"></i>Achivements and Rewards</a>
-                                  </li>
-
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/myprofile/editprofile"> <i class="fa fa-user"></i> Edit Profile</a>
-                                  </li>
-                                  
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/myprofile/friendlist"> <i class="fa fa-users"></i> Friendlist</a>
-                                  </li>
-
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/myprofile/wishlist"> <i class="fa fa-gratipay"></i> Wishlist</a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/myprofile/wallet"> <i class="fa fa-money"></i> Wallet </a>
-                                  </li>
-                                </ul>
-                              </nav>
-                            </div>
 
                             <div class="general-info mt-5">
                               <table class="table">

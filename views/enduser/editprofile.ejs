@@ -51,38 +51,7 @@
                                 </div>
                                
                             </div>
-                            <div class="profile-nav-menu mt-4">
-                              <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; border: 1px solid transparent; border-radius: 10px;">
-                                <ul class="navbar-nav mr-auto">
-
-                                  <li class="nav-item">
-                                    <a href="/myprofile" class="nav-link">  <i class="fa fa-address-book"></i> General </a>
-                                  </li>
-
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/myprofile/yourphotos"> <i class="fa fa-photo"></i> Your Photos </a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/myprofile/achievments"> <i class="fa fa-trophy"></i>Achivements and Rewards</a>
-                                  </li>
-
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/myprofile/editprofile"> <i class="fa fa-user"></i> Edit Profile</a>
-                                  </li>
-                                  
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/myprofile/friendlist"> <i class="fa fa-users"></i> Friendlist</a>
-                                  </li>
-
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/myprofile/wishlist"> <i class="fa fa-gratipay"></i> Wishlist</a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="/myprofile/wallet"> <i class="fa fa-money"></i> Wallet </a>
-                                  </li>
-                                </ul>
-                              </nav>
-                            </div>
+                            <%- include('partial/profilenav.ejs') %>
 
                             <div class="edit-profile mt-3">
                                 <form action="" method="POST" enctype="multipart/form-data">
@@ -90,22 +59,27 @@
                                         <tr>
                                             <th>Username</th>
                                             <td><input type="text" class="form-control" name="username" disabled value="<%= result[0].username %>"></td>
+
                                         </tr>
                                         <tr>
                                             <th>Firstname</th>
                                             <td><input type="text" class="form-control" name="firstname" id="" value="<%= result[0].firstname %>"></td>
+                                            <td><small><%= err.firstname %></small></td>
                                         </tr>
                                         <tr>
                                             <th>Lastname</th>
                                             <td><input type="text" class="form-control" name="lastname" id="" value="<%= result[0].lastname %>"></td>
+                                            <td><small><%= err.lastname %></small></td>
                                         </tr>
                                         <tr>
                                             <th>Email</th>
                                             <td><input type="email" class="form-control"  name="email" id="" value="<%= result[0].email %>"></td>
+                                            <td><small><%= err.email %></small></td>
                                         </tr>
                                         <tr>
                                             <th>Phone Number</th>
                                             <td><input type="number" class="form-control"  name="phonenumber" id="" value="<%= result[0].phonenumber %>"></td>
+                                            <td><small><%= err.phonenumber %></small></td>
                                         </tr>
                                         <tr>
                                             <th>Profile Picture</th>
@@ -115,12 +89,15 @@
                                                 <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
                                               </div>
                                             </td>
+                                            <td><small><%= err.propic %></small></td>
                                         </tr>
                                         <tr>
                                           <th>Date Of Birth</th>
                                           <td>
                                             <input type="date" name="dateofbirth" id="" value="<%= result[0].dateofbirth %>" class="form-control">
                                           </td>
+                                          <td><small><%= err.dateofbirth %></small></td>
+                                      
                                         </tr>
                                         
                                         <tr>
@@ -128,12 +105,16 @@
                                           <td>
                                             <input type="text" class="form-control"  name="bio" id="" value="<%= result[0].bio %>">
                                           </td>
+                                          <td><small><%= err.bio %></small></td>
                                         </tr>
                                         <tr>
                                           <th>
                                             <input type="submit" class="btn btn-info" value="Update" name="update">
                                           </th>
                                             <td>
+                                              <% if(err.success) { %>
+                                                <script> alert("Account information updated!");</script>
+                                              <% }%>
                                             </td>
                                         </tr>
                                     </table>

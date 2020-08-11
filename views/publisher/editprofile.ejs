@@ -50,22 +50,27 @@
                                         <tr>
                                             <th>Username</th>
                                             <td><input type="text" class="form-control" disabled value="ksq1234"></td>
+                                           
                                         </tr>
                                         <tr>
                                             <th>Firstname</th>
                                             <td><input type="text" class="form-control" name="" id="" value="Mushfiqur"></td>
+                                            <td><small><%= err.firstname %></small></td>
                                         </tr>
                                         <tr>
                                             <th>Lastname</th>
                                             <td><input type="text" class="form-control" name="" id="" value="Rahman"></td>
+                                            <td><small><%= err.lastname %></small></td>
                                         </tr>
                                         <tr>
                                             <th>Email</th>
                                             <td><input type="email" class="form-control"  name="" id="" value="ksq1234@gmail.com"></td>
+                                            <td><small><%= err.email %></small></td>
                                         </tr>
                                         <tr>
                                             <th>Phone Number</th>
                                             <td><input type="number" class="form-control"  name="" id="" value="12312312"></td>
+                                            <td><small><%= err.number %></small></td>
                                         </tr>
                                         <tr>
                                             <th>Profile Picture</th>
@@ -75,12 +80,14 @@
                                                 <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
                                               </div>
                                             </td>
+                                            <td><small><%= err.propic %></small></td>
                                         </tr>
                                         <tr>
                                           <th>Date Of Birth</th>
                                           <td>
                                             <input type="date" name="" id="" class="form-control">
                                           </td>
+                                           <td><small><%= err.dateofbirth %></small></td>
                                         </tr>
                                         
                                         <tr>
@@ -88,12 +95,16 @@
                                           <td>
                                             <input type="text" class="form-control"  name="" id="" value="live and let live">
                                           </td>
+                                          <td><small><%= err.bio %></small></td>
                                         </tr>
                                         <tr>
                                           <th>
                                             <input type="submit" class="btn btn-info" value="Update" name="update">
                                           </th>
                                             <td>
+                                              <% if(err.success) { %>
+                                                <script> alert("Account information updated!");</script>
+                                              <% }%>
                                             </td>
                                         </tr>
                                     </table>

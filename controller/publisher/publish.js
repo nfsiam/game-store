@@ -131,7 +131,7 @@ router.post('/',function(req,res){
 	else
 	{
 		var filename= uuidv4();
-		var picpath='res/gameimages/'+filename+'.jpg'
+		var picpath='res/gameimages/'+filename+'.jpg';
 		user.gamepicture.mv(picpath, function(err) {
 			if(err)
 			{
@@ -139,7 +139,7 @@ router.post('/',function(req,res){
 				res.send("<h1>Server Crashed</h1>");
 			}
 		});
-		var filepath='res/gamelocation/'+filename+'.game'
+		var filepath='res/gamelocation/'+filename+'.game';
 		user.gamelocation.mv(filepath, function(err) {
 			if(err)
 			{
@@ -152,7 +152,6 @@ router.post('/',function(req,res){
 
 		gamelistModule.publish(user,(status)=>{
  
-
 			if(status)
 			{
 				err.success=true;

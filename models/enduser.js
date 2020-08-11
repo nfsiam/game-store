@@ -19,6 +19,21 @@ module.exports =
 			}
 		});
 	},
+	getAllUser:(user,callback)=>{
+		var sql= "select * from enduser where username!='"+user+"' ";
+		console.log(sql);
+		db.getResults(sql, (result)=>{
+			//console.log(result[0]);
+			if(result.length>0)
+			{
+				//user.role=result[0].role;
+				callback(result);
+			}
+			else{
+				callback([]);
+			}
+		});
+	},
 	getprofileinfo: (user, callback)=>{
 
 		var sql = "select * from enduser where username='"+user+"'";
@@ -34,7 +49,20 @@ module.exports =
 				callback([]);
 			}
 		});
-    },
+	},
+	updateUserinfo:(user,callback)=>
+	{
+		var sql = "update enduser set firstname = '"+user.firstname+"' , lastname='"+user.lastname+"' , email= '"+user.email+"', phonenumber = '"+user.phonenumber+"', propic = '"+user.propic+"',dateofbirth = '"+user.dateofbirth+"',bio='"+user.bio+"' where username='"+user.username+"' ";
+		console.log(sql);
+		db.execute(sql, function(status){
+			if(status){
+				callback(true);
+			}else{
+				callback(false);
+			}
+        });
+	},
+
 	updatePassword: (user,callback)=>
 	{
 		var sql = "update alluser set password '"+user.password+"' where username='"+user.username+"' ";
