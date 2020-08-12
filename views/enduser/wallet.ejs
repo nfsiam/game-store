@@ -44,10 +44,10 @@
                         <div class="my-profile-wrap d-flex flex-wrap">
                             <div class="profile-wrapper">
                               <div class="propic-wrapper d-flex flex-wrap mt-4 ml-3">
-                                <img src="/res/ironman.jpg" alt="" class="img-circle">
+                                <img src="/<%= userinfo.propic %>" alt="" class="img-circle">
                                 <div>
                                   <h3 class="mt-4 ml-4">Iron Man</h3>
-                                  <h5 class="mt-4 ml-4 font-weight-light">Live and let live</h5>
+                                  <h5 class="mt-4 ml-4 font-weight-light"><%= userinfo.bio %></h5>
                                 </div>
                                
                             </div>
@@ -55,7 +55,7 @@
 
                             <form action="" method="POST">
                               <div class="wallet-info mt-5">
-                                  <h1 class="font-weight-light p-3">Your current balance is $500</h1>
+                                  <h1 class="font-weight-light p-3">Your current balance is $<%= userinfo.balance %></h1>
                                   <input type="number" name="amount" class="form-control" value="0">
                                   <button class="btn btn-info btn-sm mt-4">Send Recharge Request</button>
                               </div>
