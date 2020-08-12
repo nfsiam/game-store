@@ -1,4 +1,4 @@
-
+var val=0;
 $(document).ready(function(){
 
     $("#notification-btn").click(function(){
@@ -11,20 +11,24 @@ $(document).ready(function(){
         url:"cart/getitems/",
         method: 'GET',
         success: function(data) {
-        
-          for(var i=0;i<data.length;i++)
+
+         
+           for(var i=0;i<data.length;i++)
           {
             $(".cart-menu").append("Game name "+data[i].gametitle+"<br>");
            
-          }
+          } 
           
-          //console.log(data.aaa);
+          
       },
       });
 
       $(".cart-menu-wrapper").toggle();
+     
       
     });
+
+    
 
     $('#back').click(function(){
 
@@ -37,8 +41,11 @@ $(document).ready(function(){
 
       $.ajax({
         url:"store/cart/"+this.id ,
-        method: 'GET'
-
+        method: 'GET',
+        success:function(data)
+        {
+          $('.cart-menu').html(data);
+        }
       });
      /*  $.ajax({url: "demo_test.txt", success: function(result){
         $("#div1").html(result);

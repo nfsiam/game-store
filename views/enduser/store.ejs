@@ -65,7 +65,8 @@
               <div class="game-list d-flex  flex-wrap pt-3">
 
 
-                <% for(var i=0;i<result.length ;i++ )  { %>
+                <% for(var i=0;i<result.length ;i++ )  {  %>
+                  
                   <div class="box-wrapper">
                     <div class="game-wrapper d-flex">
     
@@ -89,21 +90,34 @@
                       <input type="button" id="<%= result[i].gameid %>"  class="cart-btn btn btn-danger btn-sm" value="Add to cart">
                       <input type="button" id="<%= result[i].gameid %>" class="buynow-btn btn btn-success btn-sm" value="Buy Now">
                       <input type="button" id="<%= result[i].gameid %>" class="wishlist-btn btn btn-warning btn-sm" value="Add to wish list">
+                    
                     </div>
     
                   </div>
                 <%}%>
-              
+               
+                <% if (message.success==false) { %> 
+
+                  <script>alert("Already in cart!");</script>
+               <% }else if(message.success==true){   %>
+                <script>
+                  alert("message value");
+                  console.log("ABCSADDSADASDHASDASGDJASDGJASHGDJHGASJ"+message.success);
+                </script>
+                <% } %>
+               
+                <!--  -->
 
             </div>
           </div>
       </div>
 
+    
 
       </div>
     </div>
 
 
 </body>
-
+ 
 </html>

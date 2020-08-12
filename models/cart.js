@@ -11,5 +11,10 @@ module.exports =
           });
 
       },
-
+      getCartItemById:(username,id,callback)=>{
+          var sql = "select * from cart where username='"+username+"' and gameid='"+id+"' ";
+          db.getResults(sql,(result)=>{
+            callback(result);
+          });
+      },
 }
