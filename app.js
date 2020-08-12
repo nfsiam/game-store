@@ -33,6 +33,8 @@ var publogout = require('./controller/publisher/logout');
 var puboffer = require('./controller/publisher/offer');
 var pubpatch = require('./controller/publisher/patch');
 
+
+var adminHome = require('./controller/admin/home');
 var app = express();
 //const fileUpload = require('express-fileupload');
 
@@ -82,6 +84,7 @@ app.use('/publisher/myprofile/editprofile',pubeditprofile);
 app.use('/publisher/publish',pubpublish);
 app.use('/publisher/logout',publogout);
 
+app.use('/admin/home',adminHome);
 
 app.get('/', function(req, res){
 	res.redirect("/login");

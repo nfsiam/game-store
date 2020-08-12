@@ -38,6 +38,10 @@ router.post('/', function(req, res)
 			{
 				res.redirect("/publisher/home");
 			}
+			else if(req.session.role=="admin")
+			{
+				res.redirect("/admin/home");
+			}
 		}
 		else
 		{

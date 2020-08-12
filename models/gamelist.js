@@ -1,6 +1,8 @@
 var db = require('./db');
-const fileUpload = require('express-fileupload');
-const e = require('express');
+
+
+/* const fileUpload = require('express-fileupload');
+const e = require('express'); */
 
 
 module.exports =
