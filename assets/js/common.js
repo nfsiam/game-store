@@ -12,7 +12,7 @@ $(document).ready(function(){
         method: 'GET',
         success: function(data) {
 
-         
+          
            for(var i=0;i<data.length;i++)
           {
             $(".cart-menu").append("Game name "+data[i].gametitle+"<br>");

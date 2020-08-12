@@ -45,10 +45,10 @@
                         <div class="my-profile-wrap d-flex flex-wrap">
                             <div class="profile-wrapper">
                               <div class="propic-wrapper d-flex flex-wrap mt-4 ml-3">
-                                <img src="/<%= results[0].propic %>" alt="" class="img-circle">
+                                <img src="/<%= dispData.propic %>" alt="" class="img-circle">
                                 <div>
-                                  <h3 class="mt-4 ml-4"><%= results[0].username %></h3>
-                                  <h5 class="mt-4 ml-4 font-weight-light"><%= results[0].bio %></h5>
+                                  <h3 class="mt-4 ml-4"><%= dispData.username %></h3>
+                                  <h5 class="mt-4 ml-4 font-weight-light"><%= dispData.bio %></h5>
                                 </div>
                             </div>
                             <%- include('partial/profilenav.ejs') %>
@@ -59,15 +59,15 @@
                                 
                                 <tr>
                                   <th>Username</th>
-                                  <td><%= results[0].username %></td>
+                                  <td><%= dispData.username %></td>
                                 </tr>
                                 <tr>
                                   <th>Firstname</th>
-                                  <td><%= results[0].firstname %></td>
+                                  <td><%= dispData.firstname %></td>
                                 </tr>
                                 <tr>
                                   <th>Lastname</th>
-                                  <td><%= results[0].lastname %></td>
+                                  <td><%= dispData.lastname %></td>
                                 </tr>
                                 <tr>
                                   <th>Current Badge</th>
@@ -87,7 +87,7 @@
                                 </tr>
                                 <tr>
                                   <th>Balance</th>
-                                  <td>$500</td>
+                                  <td>$<%= dispData.balance %></td>
                               </tr>
 
 
