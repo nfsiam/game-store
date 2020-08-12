@@ -2,6 +2,7 @@ var express 	= require('express');
 var router 		= express.Router();
 var rechargerequestModel = require.main.require("./models/rechargerequest.js");
 var notificationModel = require.main.require("./models/notification.js");
+var walletModel = require.main.require("./models/wallet.js");
 
 router.get('/', function(req, res){
 
@@ -22,22 +23,24 @@ router.get('/', function(req, res){
 });
 router.get('/approve/:id', function(req, res){
 
-	
 	if(req.session.username!=null)
 	{
         rechargerequestModel.updateRequest(req.session.username,req.params.id,'approved',(status)=>{
                 if(status)
                 {
-                    rechargerequestModel.getAllRequest(req.session.username,(result)=>{ 
-                        notificationModel.sendRechareNotification(result[0].username,'approved',result[0].id,(status)=>{
-                            if(status)
-                            {
-                                res.redirect("/admin/home");
-                            }
-                            else
-                            {
-                                res.send("<h1>Something was wrong134 </h1>");
-                            }
+                    rechargerequestModel.getAllRequestById(req.session.username,req.params.id,(result)=>{ 
+                        notificationModel.sendRechareNotification(result[0].username,'approved',req.params.id,(status)=>{
+                            walletModel.updateBalance(result[0].username,result[0].amount,(status)=>{
+                                if(status)
+                                {
+                                    res.redirect("/admin/home");
+                                }
+                                else
+                                {
+                                    res.send("<h1>Something was wrong134 </h1>");
+                                }
+                            });
+                           
                         });
                     });
                 }

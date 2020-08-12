@@ -32,6 +32,21 @@ module.exports =
 			}
 		});
 	},
+	getAllRequestById:(user,id,callback)=>{
+		var sql="select * from rechargerequest where id='"+id+"' ";
+		console.log(sql);
+		db.getResults(sql,(result)=>{
+			console.log("Call back called !"+result.length);
+			if(result.length>0)
+			{
+				callback(result);
+			}
+			else
+			{
+				callback([]);
+			}
+		});
+	},
 
 	updateRequest:(user,id,status,callback)=>{
 		var sql = "update rechargerequest set approvedby='"+user+"',status='"+status+"' where id='"+id+"' ";
