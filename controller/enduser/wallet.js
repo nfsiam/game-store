@@ -55,7 +55,7 @@ router.get('/', function(req, res){
 		{
 			res.redirect('/login');
 		}
-		console.log("result length is "+result.length);
+		//console.log("result length is "+result.length);
 
 	});
 

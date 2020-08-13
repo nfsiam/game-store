@@ -13,10 +13,11 @@ router.get('/', function(req, res){
 		gamelistModule.geAllGames(req.session.username,(result)=>{
 			if(result.length>0)
 			{
+				var name = {username:req.session.username};
 				message.success=null;
-				console.log("I am here 123"+message.success);
+				//console.log("I am here 123"+message.success);
 				
-				res.render('enduser/store',{result,message});
+				res.render('enduser/store',{result,message,name});
 			}
 			else
 			{

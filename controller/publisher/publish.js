@@ -27,6 +27,7 @@ router.use(fileUpload());
 
 router.get('/', function(req, res){
 
+	err.success=false;
 	err.gametitle='';
 	err.publisher='';
 	err.publishdate='';

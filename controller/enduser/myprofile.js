@@ -20,7 +20,7 @@ router.get('/', function(req, res){
 			balance:''
 		}
 		modelEnduser.getprofileinfo(req.session.username,(results)=>{
-			console.log("Result for getProfileInfo"+results.length);
+			//console.log("Result for getProfileInfo"+results.length);
 			if(results.length==1)
 			{
 				dispData.firstname=results[0].firstname;
@@ -31,7 +31,7 @@ router.get('/', function(req, res){
 
 					
 					dispData.balance=result[0].amount;
-					console.log("Balance is "+dispData.balance);
+					//console.log("Balance is "+dispData.balance);
 					res.render('enduser/myprofile',{dispData});
 
 				});

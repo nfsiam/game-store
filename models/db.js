@@ -29,13 +29,13 @@ module.exports = {
 
 				if(error)
 				{
-					console.log("if block executed of getResults !");
+					
 					console.log(error.stack);
 					callback([]);
 				}
 				else{
 					
-					console.log("else block executed of getResults !"+results);
+					
 					callback(results);
 				}
 			});

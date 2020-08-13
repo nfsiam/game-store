@@ -44,6 +44,23 @@ module.exports =
 			}
 		});
 	},
+	updateBalanceAfterPurchase:(user,balance,callback)=>{
+		var sql = "update wallet set amount= '"+balance+"' where username='"+user+"'  ";
+		console.log(sql);
+		db.execute(sql, (result)=>{
+
+			if(result)
+			{
+				callback(true);
+			}
+			else{
+				callback(false);
+			}
+
+		});
+
+
+	},
 
     getCurrentBalance: (user, callback)=>{
 
