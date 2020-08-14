@@ -175,7 +175,7 @@ router.post('/', function(req, res){
 		validate=false;
 		err.email="invalid email format";
 	}
-	if(user.phonenumber=='' || phonenumber(user.phonenumber))
+	if(user.phonenumber=='')
 	{
 		validate=false;
 		err.phonenumber="invalid phonenumber format";
