@@ -8,6 +8,7 @@ const forum = require('./controllers/forum/forum');
 const issues = require('./controllers/forum/issues');
 const reviews = require('./controllers/forum/reviews');
 const walkthroughs = require('./controllers/forum/walkthroughs');
+const create = require('./controllers/forum/create');
 
 //config
 app.set('view engine', 'ejs');
@@ -29,6 +30,7 @@ app.use('/forum', forum);
 app.use('/forum/issues', issues);
 app.use('/forum/reviews', reviews);
 app.use('/forum/walkthroughs', walkthroughs);
+app.use('/forum/create', create);
 
 
 app.listen(3000, () => {

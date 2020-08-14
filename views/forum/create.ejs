@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <title>Create</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- nav start-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+            <a class="navbar-brand" href="#">Game Store</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Store</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="forum.html">Forum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- nav end -->
+
+        <!-- breadcumb start -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/forum">forum</a></li>
+                <li class="breadcrumb-item active" aria-current="page">create</li>
+            </ol>
+        </nav>
+        <!-- breadcumb end -->
+
+        <!-- form start -->
+        <form action="post">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="selectGame">Select Game</label>
+                        <select class="custom-select" id="selectGame">
+                            <option selected></option>
+                            <option value="gameID1">Game 1</option>
+                            <option value="gameID2">Game 2</option>
+                            <option value="gameID3">Game 3</option>
+                            <option value="gameID4">Game 4</option>
+                        </select>
+
+                        <div class="form-group">
+                            <label for="selectType">Select Type</label>
+                            <select class="custom-select" id="selectType">
+                                <option value="issue">Issue</option>
+                                <option value="review">Review</option>
+                                <option value="walkthrough">Walkthrough</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="shortDes">Example textarea</label>
+                            <textarea class="form-control" id="shortDes" rows="3"></textarea>
+                            <small class="form-text text-muted">
+                                A short description or title, not more than 30 characters
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="shortDes" rows="6"></textarea>
+                        </div>
+
+                        <div class="form-group d-flex justify-content-end">
+                            <button type="reset" class="btn btn-secondary mr-2">Clear</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+        </form>
+        <!-- form end -->
+
+    </div>
+
+    <script src="/jquery.min.js"></script>
+    <script src="/popper.min.js"></script>
+    <script src="/bootstrap.min.js"></script>
+
+</body>
+
+</html>
