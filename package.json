@@ -17,12 +17,16 @@
   },
   "homepage": "https://github.com/nfsiam/apwt-proj#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.14.0",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.5.2",
     "cookie-parser": "^1.4.5",
     "ejs": "^3.1.3",
     "express": "^4.17.1",
-    "jquery": "^3.5.1"
+    "jquery": "^3.5.1",
+    "moment": "^2.27.0",
+    "mysql": "^2.18.1",
+    "popper.js": "^1.16.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

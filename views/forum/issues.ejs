@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <title>Issues</title>
+    <style>
+        body {
+            /* background-color: #eee; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- nav start-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+            <a class="navbar-brand" href="#">Game Store</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Store</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="forum.html">Forum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- nav end -->
+
+        <!-- breadcumb start -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/forum">forum</a></li>
+                <li class="breadcrumb-item active" aria-current="page">issues</li>
+            </ol>
+        </nav>
+        <!-- breadcumb end -->
+
+        <!-- create and search start -->
+        <div class="row mb-5">
+            <div class="col-md-2 mb-2 mb-md-0">
+                <!-- <button type="button" class="btn btn-primary">Create</button> -->
+                <a href="create.html" class="btn btn-primary btn-block">Create</a>
+            </div>
+            <div class="col-md-10">
+                <div class="input-group">
+                    <input type="text" class="form-control input-group-prepend" placeholder="search text...">
+
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">Search</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- create and search end -->
+
+        <!-- issue list start -->
+        <div class="row mb-2 px-3">
+            <% for(let i=0; i<issues.length; i++) { %>
+            <!-- issue start -->
+            <div class="col-sm-12 border mb-3">
+                <div class="row">
+                    <div class="col-sm-12 bg-secondary text-white">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <%=issues[i].gamename%>
+                            </div>
+                            <div class="col-md-3 text-md-right">
+                                <%=issues[i].time%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 py-2">
+                        <div class="row">
+                            <div class="col">
+                                <%=issues[i].title%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 bg-light border-top p-0">
+                        <div class="row flex-nowrap justify-content-between no-gutters">
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-light btn-sm btn-block rounded-0 text-success"
+                                    data-postid="<%=issues[i].postid%>"><i class="fas fa-chevron-circle-up"></i>
+                                    <span><%=issues[i].upvote%></span></button>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button"
+                                    class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger"
+                                    data-postid="<%=issues[i].postid%>"><i class="fas fa-chevron-circle-down"></i>
+                                    <span><%=issues[i].downvote%></span></button>
+                            </div>
+                            <div class="col-sm-4">
+                                <a href="/forum/issues/<%=issues[i].postid%>"
+                                    class="btn btn-light btn-sm btn-block rounded-0 text-primary"
+                                    data-postid="<%=issues[i].postid%>">read
+                                    more <i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- issue end -->
+            <% } %>
+        </div>
+        <!-- issue list end -->
+
+        <!-- pagination start -->
+        <nav aria-label="..." class="mb-5">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- pagination end -->
+
+
+    </div>
+
+    <script src="/jquery.min.js"></script>
+    <script src="/popper.min.js"></script>
+    <script src="/bootstrap.min.js"></script>
+
+</body>
+
+</html>

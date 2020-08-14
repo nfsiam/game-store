@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+
+    <title><%=post.postid%></title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- nav start-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+            <a class="navbar-brand" href="#">Game Store</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Store</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="forum.html">Forum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- nav end -->
+
+        <!-- breadcumb start -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/forum">Forum</a></li>
+                <li class="breadcrumb-item"><a href="/forum/issues">Issues</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%=post.postid%></li>
+            </ol>
+        </nav>
+        <!-- breadcumb end -->
+
+        <!-- post start -->
+        <div class="row mb-5">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white border border-secondary border-bottom-0">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <%=post.gamename%>
+                            </div>
+                            <div class="col-md-3 text-md-right">
+                                <%=post.time%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title"><%=post.title%></h6>
+
+                        <p class="card-text"><%=post.body%></p>
+                    </div>
+                    <div class="card-footer p-0">
+                        <div class="row flex-nowrap justify-content-between no-gutters">
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-light btn-lg btn-block rounded-0 text-success"><i
+                                        class="fas fa-chevron-circle-up"></i> <span><%=post.upvote%></span></button>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button"
+                                    class="btn btn-light btn-lg btn-block rounded-0 border-left border-right text-danger"><i
+                                        class="fas fa-chevron-circle-down"></i> <span><%=post.downvote%></span></button>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-light btn-lg btn-block rounded-0 text-primary"
+                                    data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <!-- user -->
+                                    <button class="dropdown-item" type="button">Report</button>
+                                    <button class="dropdown-item" type="button">Mark as Duplicate</button>
+                                    <!-- user -->
+                                    <!-- moderator -->
+                                    <button class="dropdown-item" type="button">Delete</button>
+                                    <button class="dropdown-item" type="button">Turn Off Comment</button>
+                                    <!-- moderator -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- post end -->
+
+        <div class="row">
+            <% for(let i=0; i<comments.length; i++) { %>
+            <!-- comment start -->
+            <div class="col-md-12 mb-2">
+                <div class="card">
+                    <div class="card-header bg-light border border-light border-bottom-0 py-0 px-3">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <%=comments[i].username%>
+                            </div>
+                            <div class="col-md-3 text-md-right">
+                                <%=comments[i].time%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><%=comments[i].comment%></p>
+                    </div>
+                    <div class="card-footer p-0">
+                        <div class="row flex-nowrap justify-content-between no-gutters">
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-light btn-sm btn-block rounded-0 text-success"><i
+                                        class="fas fa-chevron-circle-up"></i>
+                                    <span><%=comments[i].upvote%></span></button>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button"
+                                    class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger"><i
+                                        class="fas fa-chevron-circle-down"></i>
+                                    <span><%=comments[i].downvote%></span></button>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-light btn-sm btn-block rounded-0 text-primary"
+                                    data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <!-- user -->
+                                    <button class="dropdown-item" type="button">Report</button>
+                                    <!-- user -->
+                                    <!-- moderator -->
+                                    <button class="dropdown-item" type="button">Delete</button>
+                                    <button class="dropdown-item" type="button">Accept and Turn off Comment</button>
+                                    <!-- moderator -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- comment end -->
+            <% } %>
+
+            <!-- comment box start -->
+            <div class="col-md-12">
+                <form action="post">
+                    <div class="row mb-5">
+                        <div class="col-sm-12">
+
+                            <div class="form-group">
+                                <label for="comment">Comment</label>
+                                <textarea class="form-control" id="comment" rows="4"
+                                    placeholder="type your comment..."></textarea>
+                            </div>
+
+                            <div class="form-group d-flex justify-content-end">
+                                <button type="reset" class="btn btn-secondary mr-2">Clear</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- comment box end -->
+        </div>
+    </div>
+
+    <script src="/jquery.min.js"></script>
+    <script src="/popper.min.js"></script>
+    <script src="/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>
