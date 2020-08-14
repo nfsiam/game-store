@@ -7,6 +7,7 @@ router.get('*', function (req, res, next) {
     if (req.cookies['user'] == null) {
         res.redirect('/login');
     } else {
+        console.log(req.cookies['user']);
         next();
     }
 });
@@ -22,16 +23,20 @@ router.get('/', function (req, res) {
 
         }
         console.log(issues);
-        res.render('forum/issues', { issues });
+        res.render('forum/issues', {
+            issues,
+            role: req.cookies['user'].role
+        });
     });
 });
 router.get('/:id', function (req, res) {
     const postid = req.params.id;
-    forumposts.getPost(postid, 'issue', (postAndComments) => {
-        if (!postAndComments) {
+    forumposts.getPost(postid, 'issue', (data) => {
+        if (!data) {
             res.send('can not get post');
         } else {
-            res.render('forum/post', postAndComments);
+            data["role"] = req.cookies['user'].role;
+            res.render('forum/post', data);
         }
     });
 });

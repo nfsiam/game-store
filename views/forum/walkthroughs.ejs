@@ -36,7 +36,7 @@
                         <a class="nav-link" href="forum.html">Forum</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Contact</a>
+                        <a class="nav-link" href="/logout">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -55,8 +55,11 @@
         <!-- create and search start -->
         <div class="row mb-5">
             <div class="col-md-2 mb-2 mb-md-0">
-                <!-- <button type="button" class="btn btn-primary">Create</button> -->
+                <% if (role=='moderator') {%>
+                <a href="/forum/moderate" class="btn btn-primary btn-block">Moderate</a>
+                <% } else { %>
                 <a href="/forum/create" class="btn btn-primary btn-block">Create</a>
+                <% }%>
             </div>
             <div class="col-md-10">
                 <div class="input-group">

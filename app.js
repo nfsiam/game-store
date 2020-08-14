@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 const login = require('./controllers/login');
+const logout = require('./controllers/logout');
 const forum = require('./controllers/forum/forum');
 const issues = require('./controllers/forum/issues');
 const reviews = require('./controllers/forum/reviews');
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/login', login);
+app.use('/logout', logout);
 app.use('/forum', forum);
 app.use('/forum/issues', issues);
 app.use('/forum/reviews', reviews);

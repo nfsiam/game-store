@@ -2,6 +2,15 @@ const express = require('express');
 const alluser = require('../models/alluser');
 const router = express.Router();
 
+
+router.get('*', function (req, res, next) {
+    if (req.cookies['user'] == null) {
+        next();
+    } else {
+        res.redirect('/forum');
+    }
+});
+
 router.get('/', (req, res) => {
     res.render('login', { errormessage: '' });
 });
@@ -17,11 +26,11 @@ router.post('/', function (req, res) {
         console.log(type);
         if (!type) {
             res.send('invalid username/password');
-        } else if (type == 'user') {
-            res.cookie('user', user.username);
-            res.redirect('/forum')
-        } else if (type == 'moderator') {
-            res.cookie('user', user.username);
+        } else {
+            res.cookie('user', {
+                username: user.username,
+                role: type
+            });
             res.redirect('/forum')
         }
     });

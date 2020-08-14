@@ -11,6 +11,19 @@ router.get('*', function (req, res, next) {
     }
 });
 
+router.get('*', function (req, res, next) {
+    if (req.cookies['user'] == null) {
+        res.redirect('/login');
+    } else {
+        if (req.cookies['user'].role != 'moderator' && req.cookies['user'].role != 'admin') {
+            next();
+        } else {
+            res.redirect('/forum');
+        }
+        // console.log(req.cookies['user']);
+    }
+});
+
 router.get('/', function (req, res) {
     res.render('forum/create');
 });

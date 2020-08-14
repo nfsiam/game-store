@@ -7,6 +7,7 @@ router.get('*', function (req, res, next) {
     if (req.cookies['user'] == null) {
         res.redirect('/login');
     } else {
+        console.log(req.cookies['user']);
         next();
     }
 });
@@ -21,7 +22,11 @@ router.get('/', function (req, res) {
 
         }
         console.log(walkthroughs);
-        res.render('forum/walkthroughs', { walkthroughs });
+        res.render('forum/walkthroughs', {
+            walkthroughs,
+            role: req.cookies['user'].role
+
+        });
     });
 });
 
