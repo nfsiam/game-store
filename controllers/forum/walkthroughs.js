@@ -7,7 +7,7 @@ router.get('*', function (req, res, next) {
     if (req.cookies['user'] == null) {
         res.redirect('/login');
     } else {
-        console.log(req.cookies['user']);
+        // console.log(req.cookies['user']);
         next();
     }
 });
@@ -21,7 +21,7 @@ router.get('/', function (req, res) {
             walkthroughs[j]['time'] = moment.unix(t).format("MM/DD/YYYY hh:mm:ss a");
 
         }
-        console.log(walkthroughs);
+        // console.log(walkthroughs);
         res.render('forum/walkthroughs', {
             walkthroughs,
             role: req.cookies['user'].role

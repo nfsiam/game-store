@@ -32,7 +32,15 @@
                         <a class="nav-link" href="#">Store</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="forum.html">Forum</a>
+                        <a class="nav-link dropdown-toggle" href="/forum" data-toggle="dropdown">Forum</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <!-- user -->
+                            <a href="/forum/issues" class="dropdown-item">Issues</a>
+                            <a href="/forum/reviews" class="dropdown-item">Reviews</a>
+                            <a href="/forum/walkthroughs" class="dropdown-item">Walkthroughs</a>
+                            <a href="/forum/gossiproom" class="dropdown-item">Gossip Room</a>
+                            <!-- user -->
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
@@ -52,22 +60,25 @@
         <!-- breadcumb end -->
 
         <!-- form start -->
-        <form action="post">
+        <form method="post">
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label for="selectGame">Select Game</label>
-                        <select class="custom-select" id="selectGame">
-                            <option selected></option>
-                            <option value="gameID1">Game 1</option>
+                        <select class="custom-select" id="selectGame" name="gamename">
+                            <% for(let i=0; i<gamelist.length; i++) { %>
+                            <option value="<%=gamelist[i].title%>"><%=gamelist[i].title%></option>
+                            <% }%>
+
+                            <!-- <option value="gameID1">Game 1</option>
                             <option value="gameID2">Game 2</option>
                             <option value="gameID3">Game 3</option>
-                            <option value="gameID4">Game 4</option>
+                            <option value="gameID4">Game 4</option> -->
                         </select>
 
                         <div class="form-group">
                             <label for="selectType">Select Type</label>
-                            <select class="custom-select" id="selectType">
+                            <select class="custom-select" id="selectType" name="posttype">
                                 <option value="issue">Issue</option>
                                 <option value="review">Review</option>
                                 <option value="walkthrough">Walkthrough</option>
@@ -75,8 +86,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="shortDes">Example textarea</label>
-                            <textarea class="form-control" id="shortDes" rows="3"></textarea>
+                            <label for="shortDes">Title</label>
+                            <textarea class="form-control" id="shortDes" rows="3" name="title"></textarea>
                             <small class="form-text text-muted">
                                 A short description or title, not more than 30 characters
                             </small>
@@ -84,7 +95,7 @@
 
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea class="form-control" id="shortDes" rows="6"></textarea>
+                            <textarea class="form-control" id="shortDes" rows="6" name="body"></textarea>
                         </div>
 
                         <div class="form-group d-flex justify-content-end">

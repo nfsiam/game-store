@@ -23,7 +23,7 @@ router.post('/', function (req, res) {
     };
 
     alluser.validate(user, (type) => {
-        console.log(type);
+        // console.log(type);
         if (!type) {
             res.send('invalid username/password');
         } else {

@@ -7,7 +7,7 @@ router.get('*', function (req, res, next) {
     if (req.cookies['user'] == null) {
         res.redirect('/login');
     } else {
-        console.log(req.cookies['user']);
+        // console.log(req.cookies['user']);
         next();
     }
 });

@@ -1,15 +1,8 @@
 const express = require('express');
 const moment = require('moment');
-const forumposts = require.main.require('./models/forum/forumposts');
+const createModel = require.main.require('./models/forum/createModel');
 const router = express.Router();
 
-router.get('*', function (req, res, next) {
-    if (req.cookies['user'] == null) {
-        res.redirect('/login');
-    } else {
-        next();
-    }
-});
 
 router.get('*', function (req, res, next) {
     if (req.cookies['user'] == null) {
@@ -25,18 +18,26 @@ router.get('*', function (req, res, next) {
 });
 
 router.get('/', function (req, res) {
-    res.render('forum/create');
+    createModel.getOwnedGames(req.cookies['user'].username, (gamelist) => {
+        // console.log(gamelist);
+        res.render('forum/create', { gamelist });
+    });
 });
-router.get('/:id', function (req, res) {
-    const postid = req.params.id;
-    forumposts.getPost(postid, 'issue', (postAndComments) => {
-        if (!postAndComments) {
-            res.send('can not get post');
-        } else {
-            res.render('forum/post', postAndComments);
+
+router.post('/', function (req, res) {
+    req.body["username"] = req.cookies['user'].username;
+    // console.log(req.body);
+
+    createModel.createPost(req.body, (status) => {
+        if (status) {
+            res.redirect(`/forum/${req.body.posttype}s`);
+        }
+        else {
+            res.redirect('/forum/create');
         }
     });
 });
+
 
 
 
