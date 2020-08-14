@@ -45,6 +45,7 @@ $(document).ready(function(){
              if(data)
              {
                 $('#checkout-btn').html(data);
+                window.location.href = "/store";
              }
           }
 

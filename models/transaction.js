@@ -24,4 +24,17 @@ module.exports ={
 
         });
     },
+    getAllTransactionByGameId:(id,callback)=>{
+            var sql = "select * from transaction where gameid ='"+id+"' ";
+            db.getResults(sql,(result)=>{
+                if(result.length>0)
+                {
+                    callback(result);
+                }
+                else
+                {
+                    callback([]);
+                }
+            });
+    },
 }
