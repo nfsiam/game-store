@@ -34,8 +34,10 @@
       <div class="container-fluid">
         <button id="notification-btn" class="btn btn-primary mr-3 mt-3" style="float: right;"> <i class="fa fa-bell"></i> </button>
         <button id="cart-btn" class="btn btn-primary mr-3 mt-3" style="float: right;"> <i class="fa fa-shopping-basket"></i> </button>
-        <div class="notification-menu">
+        <div class="notification-menu-wrapper">
+          <div class="notification-menu">
             
+          </div>
         </div>
       
           <div class="cart-menu-wrapper">
@@ -55,8 +57,8 @@
           <input style="padding: 10px; width: 300px; border: 1px solid;" class="form-input" type="search" placeholder="Type to search">
           <button class="btn btn-primary mb-1" style="padding: 10px; padding-right: 15px; padding-left: 15px;"><i class="fa fa-search"></i></button>
           <br>
-          <button class="btn btn-info btn-sm mt-2"><i class="fa fa-filter"></i>   <span class="ml-2">Add Filter</span></button>
-          <button class="btn btn-warning btn-sm mt-2"><i class="fa fa-shopping-cart"></i>   <span class="ml-2">Cart</span></button>
+        <!--   <button class="btn btn-info btn-sm mt-2"><i class="fa fa-filter"></i>   <span class="ml-2">Add Filter</span></button>
+         -->
         </form>
        
         
@@ -89,7 +91,7 @@
     
                     <div class="box-button pb-3">
                       <input type="button" id="<%= result[i].gameid %>"  class="cart-btn btn btn-danger btn-sm" value="Add to cart">
-                      <input type="button" id="<%= result[i].gameid %>" class="buynow-btn btn btn-success btn-sm" value="Buy Now">
+                     
                       <input type="button" id="<%= result[i].gameid %>" class="wishlist-btn btn btn-warning btn-sm" value="Add to wish list">
                     
                     </div>

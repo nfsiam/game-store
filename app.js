@@ -12,14 +12,14 @@ var endconnect = require('./controller/enduser/connect');
 var endplans = require('./controller/enduser/plans');
 var endlogout = require('./controller/enduser/logout');
 var endmyprofile = require('./controller/enduser/myprofile');
-var endyourphotos = require('./controller/enduser/yourphotos');
+var endtransaction =require('./controller/enduser/transanctions');
 var endachivements = require('./controller/enduser/achivements');
 var endeditprofile = require('./controller/enduser/editprofile');
 var endfriendlist = require('./controller/enduser/friendlist');
 var endwishlist = require('./controller/enduser/wishlist');
 var endwallet =   require('./controller/enduser/wallet');
 var endtransanctions = require('./controller/enduser/transanctions');
-
+var endnotification = require('./controller/enduser/notification');
 
 var pubhome = require('./controller/publisher/home');
 var pubstore = require('./controller/publisher/store');
@@ -62,10 +62,10 @@ app.use('/myprofile',endmyprofile);
 app.use('/plans',endplans);
 app.use('/logout',endlogout);
 app.use('/cart',cart);
-
+app.use('/notification',endnotification);
 
 app.use('/myprofile/editprofile',endeditprofile);
-app.use('/myprofile/yourphotos',endyourphotos);
+app.use('/myprofile/transactions',endtransaction);
 app.use('/myprofile/achivements',endachivements);
 app.use('/myprofile/friendlist',endfriendlist);
 app.use('/myprofile/wishlist',endwishlist);

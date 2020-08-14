@@ -2,7 +2,21 @@ var val=0;
 $(document).ready(function(){
 
     $("#notification-btn").click(function(){
-      $(".notification-menu").toggle();
+      
+      $.ajax({
+        url:"/notification",
+        method: 'GET',
+        success: function(data) {
+           for(var i=0;i<data.length;i++)
+          {
+            $(".notification-menu").append("Balance request of "+data[i].amount+" is "+data[i].status+" by  "+data[i].approvedby+" <br>");
+           
+          } 
+      },
+      });
+      $(".notification-menu-wrapper").toggle();
+
+
     });
 
     $("#removeall-btn").click(function()

@@ -10,4 +10,18 @@ module.exports ={
             callback(status);
         })
     },
+    getAllTransaction:(username,callback)=>{
+        var sql="select * from transaction where username='"+username+"'";
+        db.getResults(sql,(result)=>{
+            if(result.length>0)
+            {
+                callback(result);
+            }
+            else
+            {
+                callback([]);
+            }
+
+        });
+    },
 }
