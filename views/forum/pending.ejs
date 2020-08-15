@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sb-admin-2.min.css">
+    <title>Moderation Panel</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!-- nav start-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+            <a class="navbar-brand" href="#">Game Store</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Store</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link dropdown-toggle" href="/forum" data-toggle="dropdown">Forum</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <!-- user -->
+                            <a href="/forum/issues" class="dropdown-item">Issues</a>
+                            <a href="/forum/reviews" class="dropdown-item">Reviews</a>
+                            <a href="/forum/walkthroughs" class="dropdown-item">Walkthroughs</a>
+                            <a href="/forum/gossiproom" class="dropdown-item">Gossip Room</a>
+                            <!-- user -->
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- nav end -->
+
+        <!-- breadcumb start -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/forum">forum</a></li>
+                <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
+                <li class="breadcrumb-item active" aria-current="page">pending</li>
+            </ol>
+        </nav>
+        <!-- breadcumb end -->
+
+        <div class="row mb-5">
+            <div class="col-sm-12 table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">postid</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Game</th>
+                            <th scope="col">Type</th>
+                            <th scope="col" class="w-50">Title</th>
+                            <th scope="col">Approve</th>
+                            <th scope="col">Decline</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i=0; i<pendingPostList.length; i++) { %>
+                        <tr class="post-row" data-postid="<%=pendingPostList[i].postid%>">
+                            <th scope="row"><%=pendingPostList[i].postid%></th>
+                            <td><%=pendingPostList[i].time%></td>
+                            <td><%=pendingPostList[i].username%></td>
+                            <td><%=pendingPostList[i].gamename%></td>
+                            <td><%=pendingPostList[i].posttype%></td>
+                            <td><%=pendingPostList[i].title%></td>
+                            <td>
+                                <!-- <button class="btn btn-block  btn-success">Approve</button> -->
+                                <form method="post" action="/forum/moderate/pending/<%=pendingPostList[i].postid%>">
+                                    <input type="hidden" name="decision" value="approved">
+                                    <button type="submit" class="btn btn-block btn-success">Approve</button>
+                                </form>
+                            </td>
+                            <td>
+                                <!-- <button class="btn btn-block  btn-danger">Decline</button> -->
+                                <form method="post" action="/forum/moderate/pending/<%=pendingPostList[i].postid%>">
+                                    <input type="hidden" name="decision" value="declined">
+                                    <button type="submit" class="btn btn-block btn-danger">Decline</button>
+                                </form>
+                            </td>
+                        </tr>
+
+                        <% } %>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/jquery.min.js"></script>
+    <script src="/popper.min.js"></script>
+    <script src="/bootstrap.min.js"></script>
+    <script>
+        $('.post-row').click(function () {
+            window.location.href = '/forum/moderate/pending/' + $(this).data('postid');
+        });
+    </script>
+
+</body>
+
+</html>

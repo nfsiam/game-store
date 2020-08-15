@@ -24,19 +24,19 @@ module.exports = {
     //     });
     // },
     getAllIssues: (callback) => {
-        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.posttype = 'issue' order by postid desc";
+        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename,  forumpost.status, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.posttype = 'issue' order by postid desc";
         db.getResults(sql, null, function (result) {
             callback(result || []);
         });
     },
     getAllReviews: (callback) => {
-        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.posttype = 'review' order by postid desc";
+        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename,  forumpost.status, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.posttype = 'review' order by postid desc";
         db.getResults(sql, null, function (result) {
             callback(result || []);
         });
     },
     getAllWalkthroughs: (callback) => {
-        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.posttype = 'walkthrough' order by postid desc";
+        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename,  forumpost.status, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.posttype = 'walkthrough' order by postid desc";
         db.getResults(sql, null, function (result) {
             callback(result || []);
         });
@@ -46,7 +46,7 @@ module.exports = {
             post: [],
             comments: []
         };
-        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, postcontent.title, postcontent.body, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.posttype = ?";
+        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.status, postcontent.title, postcontent.body, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.posttype = ?";
         db.getResults(sql, [postid, type], function (result) {
             if (result.length > 0) {
                 postAndComments.post = result[0];
@@ -58,6 +58,30 @@ module.exports = {
                     }
                     callback(postAndComments);
                 });
+            } else {
+                callback(false);
+            }
+
+            // callback(result[0] || false);
+        });
+    },
+    getPendingPosts: (callback) => {
+        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.username, forumpost.gamename, postcontent.title FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where status = 'pending' order by postid desc";
+        db.getResults(sql, null, function (result) {
+            callback(result || []);
+        });
+    },
+
+    getPendingPost: (postid, type, callback) => {
+        const postAndComments = {
+            post: [],
+            comments: []
+        };
+        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.status, postcontent.title, postcontent.body, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.status = ?";
+        db.getResults(sql, [postid, 'pending'], function (result) {
+            if (result.length > 0) {
+                postAndComments.post = result[0];
+                callback(postAndComments);
             } else {
                 callback(false);
             }
@@ -99,6 +123,17 @@ module.exports = {
     //         }
     //     });
     // },
+
+    changeStatus: (postid, decision, callback) => {
+        const sql = "update forumpost set status=? where postid=?";
+        db.execute(sql, [decision, postid], function (status) {
+            if (status) {
+                callback(true);
+            } else {
+                callback(false);
+            }
+        });
+    },
 
     // delete: function (id, callback) {
     //     var sql = "delete from user where id=?";
