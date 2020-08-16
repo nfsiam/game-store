@@ -24,8 +24,8 @@ module.exports = {
     //     });
     // },
     getModerateCounts: (callback) => {
-        const sql = "SELECT  (SELECT COUNT(*) FROM   forumpost where status=?) AS pendingCount FROM dual";
-        db.getResults(sql, ['pending'], function (result) {
+        const sql = "SELECT  (SELECT COUNT(*) FROM   forumpost where status=?) AS pendingCount, (SELECT COUNT(*) FROM  reports where status=? and reportof = ?) AS postReports, (SELECT COUNT(*) FROM  reports where status=? and reportof = ?) AS commentReports FROM dual";
+        db.getResults(sql, ['pending', 'pending', 'post', 'pending', 'comment'], function (result) {
             callback(result || []);
         });
     },

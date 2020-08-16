@@ -24,7 +24,9 @@ router.get('/', function (req, res) {
     moderateModel.getModerateCounts((result) => {
         if (result.length > 0) {
             const pendingCount = result[0].pendingCount;
-            res.render('forum/moderate', { pendingCount });
+            const postReports = result[0].postReports;
+            const commentReports = result[0].commentReports;
+            res.render('forum/moderate', { pendingCount, postReports, commentReports });
         } else {
             res.redirect('/forum');
         }
