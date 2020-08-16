@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Delete</title>
+
+</head>
+<body>
+	
+	<a href="/home">Back</a>
+	
+	<h3>Delete User</h3>
+
+	<form method="post">
+		<table border="1">
+			<tr>
+				<td>Username</td>
+				<td><%= user.username %></td>
+			</tr>
+			<tr>
+				<td>password</td>
+				<td><%= user.password %></td>
+			</tr>
+			<tr>
+				<td>Role</td>
+				<td><%= user.role %></td>
+			</tr>
+		</table>
+		<h3>Are you sure? This can't be undone!</h3>
+		<input type="hidden" name="username" value="<%= user.username %>">
+		<input type="submit" name="submit" value="confirm">
+	</form>
+	
+</body>
+</html>
