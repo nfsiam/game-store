@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/css/all.css">
     <link rel="stylesheet" href="/bootstrap.min.css">
-    <title>Issues</title>
+    <title><%=breadcumb%></title>
     <style>
         body {
             /* background-color: #eee; */
@@ -55,7 +55,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/forum">forum</a></li>
-                <li class="breadcrumb-item active" aria-current="page">reviews</li>
+                <li class="breadcrumb-item active" aria-current="page"><%=breadcumb%></li>
             </ol>
         </nav>
         <!-- breadcumb end -->
@@ -63,7 +63,7 @@
         <!-- create and search start -->
         <div class="row mb-5">
             <div class="col-md-2 mb-2 mb-md-0">
-                <% if (role=='moderator') {%>
+                <% if (user.role=='moderator') {%>
                 <a href="/forum/moderate" class="btn btn-primary btn-block">Moderate</a>
                 <% } else { %>
                 <a href="/forum/create" class="btn btn-primary btn-block">Create</a>
@@ -84,24 +84,24 @@
 
         <!-- issue list start -->
         <div class="row mb-2 px-3">
-            <% for(let i=0; i<reviews.length; i++) { %>
+            <% for(let i=0; i<posts.length; i++) { %>
             <!-- issue start -->
             <div class="col-sm-12 border mb-3">
                 <div class="row">
                     <div class="col-sm-12 bg-secondary text-white">
                         <div class="row">
                             <div class="col-md-9">
-                                <%=reviews[i].gamename%>
+                                <%=posts[i].gamename%>
                             </div>
                             <div class="col-md-3 text-md-right">
-                                <%=reviews[i].time%>
+                                <%=posts[i].time%>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-12 py-2">
                         <div class="row">
                             <div class="col">
-                                <%=reviews[i].title%>
+                                <%=posts[i].title%>
                             </div>
                         </div>
                     </div>
@@ -109,19 +109,19 @@
                         <div class="row flex-nowrap justify-content-between no-gutters">
                             <div class="col-sm-4">
                                 <button type="button" class="btn btn-light btn-sm btn-block rounded-0 text-success"
-                                    data-postid="<%=reviews[i].postid%>"><i class="fas fa-chevron-circle-up"></i>
-                                    <span><%=reviews[i].upvote%></span></button>
+                                    data-postid="<%=posts[i].postid%>"><i class="fas fa-chevron-circle-up"></i>
+                                    <span><%=posts[i].upvote%></span></button>
                             </div>
                             <div class="col-sm-4">
                                 <button type="button"
                                     class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger"
-                                    data-postid="<%=reviews[i].postid%>"><i class="fas fa-chevron-circle-down"></i>
-                                    <span><%=reviews[i].downvote%></span></button>
+                                    data-postid="<%=posts[i].postid%>"><i class="fas fa-chevron-circle-down"></i>
+                                    <span><%=posts[i].downvote%></span></button>
                             </div>
                             <div class="col-sm-4">
-                                <a href="/reviews/<%=reviews[i].postid%>"
+                                <a href="/forum/<%=breadcumb%>/<%=posts[i].postid%>"
                                     class="btn btn-light btn-sm btn-block rounded-0 text-primary"
-                                    data-postid="<%=reviews[i].postid%>">read
+                                    data-postid="<%=posts[i].postid%>">read
                                     more <i class="fas fa-chevron-right"></i></a>
                             </div>
                         </div>

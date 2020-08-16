@@ -101,14 +101,36 @@
                                 <button type="button" class="btn btn-light btn-lg btn-block rounded-0 text-primary"
                                     data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
                                 <div class="dropdown-menu dropdown-menu-right">
+                                    <% if((user.role=='enduser' || user.role == 'publisher') && user.username != post.username ){ %>
                                     <!-- user -->
-                                    <button class="dropdown-item" type="button">Report</button>
-                                    <button class="dropdown-item" type="button">Mark as Duplicate</button>
-                                    <!-- user -->
-                                    <!-- moderator -->
+                                    <button class="dropdown-item" type="button">
+                                        Report as Spam
+                                        <span id="reportSpam"><i class="<%=post.reportSpam%>"></i></span>
+                                    </button>
+                                    <button class="dropdown-item" type="button">
+                                        Report as Duplicate
+                                        <span id="reportSpam"><i class="<%=post.reportDuplicate%>"></i></span>
+                                    </button>
+                                    <button class="dropdown-item" type="button">
+                                        Report as Wrong Category
+                                        <span id="reportSpam"><i class="<%=post.reportWrongCategory%>"></i></span>
+                                    </button>
+                                    <button class="dropdown-item" type="button">
+                                        Report as Other
+                                        <span id="reportSpam"><i class="<%=post.reportOther%>"></i></span>
+                                    </button>
+                                    <!-- user end -->
+                                    <% }  else if(user.role == 'moderator' || user.role == 'admin') { %>
+                                    <!-- moderator / admin -->
                                     <button class="dropdown-item" type="button">Delete</button>
                                     <button class="dropdown-item" type="button">Turn Off Comment</button>
-                                    <!-- moderator -->
+                                    <!-- moderator / admin end -->
+                                    <% } else { %>
+                                    <!-- postmaker -->
+                                    <button class="dropdown-item" type="button">Request to Delete</button>
+                                    <!-- postmaker end -->
+                                    <%}%>
+
                                 </div>
                             </div>
                         </div>
@@ -118,104 +140,115 @@
         </div>
         <!-- post end -->
         <% if(post.status == 'pending') { %>
-        <div class="row mv-5">
-            <div class="col-md-3">
-                <form method="post">
-                    <input type="hidden" name="decision" value="declined">
-                    <button type="submit" class="btn btn-block btn-danger mb-sm-3">Decline</button>
-                </form>
-            </div>
-            <div class="col-md-3">
-                <form method="post">
-                    <input type="hidden" name="decision" value="approved">
-                    <button type="submit" class="btn btn-block btn-success mb-sm-3">Approve</button>
-                </form>
-            </div>
-        </div>
-        <% }  else { %>
+                                    <div class="row mv-5">
+                                        <div class="col-md-3">
+                                            <form method="post">
+                                                <input type="hidden" name="decision" value="declined">
+                                                <button type="submit"
+                                                    class="btn btn-block btn-danger mb-sm-3">Decline</button>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <form method="post">
+                                                <input type="hidden" name="decision" value="approved">
+                                                <button type="submit"
+                                                    class="btn btn-block btn-success mb-sm-3">Approve</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <% }  else { %>
 
 
-        <div class="row">
-            <% for(let i=0; i<comments.length; i++) { %>
-            <!-- comment start -->
-            <div class="col-md-12 mb-2">
-                <div class="card">
-                    <div class="card-header bg-light border border-light border-bottom-0 py-0 px-3">
-                        <div class="row">
-                            <div class="col-md-9">
-                                <%=comments[i].username%>
-                            </div>
-                            <div class="col-md-3 text-md-right">
-                                <%=comments[i].time%>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text"><%=comments[i].comment%></p>
-                    </div>
-                    <div class="card-footer p-0">
-                        <div class="row flex-nowrap justify-content-between no-gutters">
-                            <div class="col-sm-4">
-                                <button type="button" class="btn btn-light btn-sm btn-block rounded-0 text-success"><i
-                                        class="fas fa-chevron-circle-up"></i>
-                                    <span><%=comments[i].upvote%></span></button>
-                            </div>
-                            <div class="col-sm-4">
-                                <button type="button"
-                                    class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger"><i
-                                        class="fas fa-chevron-circle-down"></i>
-                                    <span><%=comments[i].downvote%></span></button>
-                            </div>
-                            <div class="col-sm-4">
-                                <button type="button" class="btn btn-light btn-sm btn-block rounded-0 text-primary"
-                                    data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <!-- user -->
-                                    <button class="dropdown-item" type="button">Report</button>
-                                    <!-- user -->
-                                    <!-- moderator -->
-                                    <button class="dropdown-item" type="button">Delete</button>
-                                    <button class="dropdown-item" type="button">Accept and Turn off Comment</button>
-                                    <!-- moderator -->
+                                    <div class="row">
+                                        <% for(let i=0; i<comments.length; i++) { %>
+                                        <!-- comment start -->
+                                        <div class="col-md-12 mb-2">
+                                            <div class="card">
+                                                <div
+                                                    class="card-header bg-light border border-light border-bottom-0 py-0 px-3">
+                                                    <div class="row">
+                                                        <div class="col-md-9">
+                                                            <%=comments[i].username%>
+                                                        </div>
+                                                        <div class="col-md-3 text-md-right">
+                                                            <%=comments[i].time%>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p class="card-text"><%=comments[i].comment%></p>
+                                                </div>
+                                                <div class="card-footer p-0">
+                                                    <div class="row flex-nowrap justify-content-between no-gutters">
+                                                        <div class="col-sm-4">
+                                                            <button type="button"
+                                                                class="btn btn-light btn-sm btn-block rounded-0 text-success"><i
+                                                                    class="fas fa-chevron-circle-up"></i>
+                                                                <span><%=comments[i].upvote%></span></button>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <button type="button"
+                                                                class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger"><i
+                                                                    class="fas fa-chevron-circle-down"></i>
+                                                                <span><%=comments[i].downvote%></span></button>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <button type="button"
+                                                                class="btn btn-light btn-sm btn-block rounded-0 text-primary"
+                                                                data-toggle="dropdown"><i
+                                                                    class="fas fa-ellipsis-h"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <!-- user -->
+                                                                <button class="dropdown-item"
+                                                                    type="button">Report</button>
+                                                                <!-- user -->
+                                                                <!-- moderator -->
+                                                                <button class="dropdown-item"
+                                                                    type="button">Delete</button>
+                                                                <button class="dropdown-item" type="button">Accept and
+                                                                    Turn off Comment</button>
+                                                                <!-- moderator -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- comment end -->
+                                        <% } %>
+
+                                        <!-- comment box start -->
+                                        <div class="col-md-12">
+                                            <form action="post">
+                                                <div class="row mb-5">
+                                                    <div class="col-sm-12">
+
+                                                        <div class="form-group">
+                                                            <label for="comment">Comment</label>
+                                                            <textarea class="form-control" id="comment" rows="4"
+                                                                placeholder="type your comment..."></textarea>
+                                                        </div>
+
+                                                        <div class="form-group d-flex justify-content-end">
+                                                            <button type="reset"
+                                                                class="btn btn-secondary mr-2">Clear</button>
+                                                            <button type="submit"
+                                                                class="btn btn-primary">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- comment box end -->
+                                    </div>
+
+                                    <% } %>
+
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- comment end -->
-            <% } %>
 
-            <!-- comment box start -->
-            <div class="col-md-12">
-                <form action="post">
-                    <div class="row mb-5">
-                        <div class="col-sm-12">
-
-                            <div class="form-group">
-                                <label for="comment">Comment</label>
-                                <textarea class="form-control" id="comment" rows="4"
-                                    placeholder="type your comment..."></textarea>
-                            </div>
-
-                            <div class="form-group d-flex justify-content-end">
-                                <button type="reset" class="btn btn-secondary mr-2">Clear</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- comment box end -->
-        </div>
-
-        <% } %>
-
-    </div>
-
-    <script src="/jquery.min.js"></script>
-    <script src="/popper.min.js"></script>
-    <script src="/bootstrap.min.js"></script>
+                                <script src="/jquery.min.js"></script>
+                                <script src="/popper.min.js"></script>
+                                <script src="/bootstrap.min.js"></script>
 
 
 </body>

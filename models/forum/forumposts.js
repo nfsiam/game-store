@@ -23,6 +23,12 @@ module.exports = {
     //         }
     //     });
     // },
+    getAllPost: (type, callback) => {
+        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename,  forumpost.status, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.posttype = ? and forumpost.status = 'approved' order by postid desc";
+        db.getResults(sql, [type], function (result) {
+            callback(result || []);
+        });
+    },
     getAllIssues: (callback) => {
         const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename,  forumpost.status, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.posttype = 'issue' order by postid desc";
         db.getResults(sql, null, function (result) {
@@ -41,13 +47,13 @@ module.exports = {
             callback(result || []);
         });
     },
-    getPost: (postid, type, callback) => {
+    getPost: (username, postid, type, callback) => {
         const postAndComments = {
             post: [],
             comments: []
         };
-        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.status, postcontent.title, postcontent.body, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.posttype = ?";
-        db.getResults(sql, [postid, type], function (result) {
+        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.username, forumpost.status, postcontent.title, postcontent.body, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote, (SELECT reporttype from reports where reporter = ? and postid = ?) reporttype  FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.posttype = ? and forumpost.status= 'approved' ";
+        db.getResults(sql, [username, postid, postid, type], function (result) {
             if (result.length > 0) {
                 postAndComments.post = result[0];
 
