@@ -23,7 +23,8 @@ const formatPost = (data, callback) => {
     callback({
         post: pwc.post,
         comments: pwc.comments,
-        user: data.user
+        user: data.user,
+        reported_post: ''
     });
 };
 

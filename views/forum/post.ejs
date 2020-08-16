@@ -59,6 +59,9 @@
                 <% if(post.status == 'pending') { %>
                 <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
                 <li class="breadcrumb-item"><a href="/forum/moderate/pending">pending</a></li>
+                <% }else if(reported_post == 'yes') { %>
+                <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
+                <li class="breadcrumb-item"><a href="/forum/moderate/reported-post">reported-post</a></li>
                 <% } else { %>
                 <li class="breadcrumb-item"><a href="/forum/<%=post.posttype%>s"><%=post.posttype%>s</a></li>
                 <% } %>

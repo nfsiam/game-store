@@ -47,29 +47,46 @@ module.exports = {
             callback(result || []);
         });
     },
-    getPost: (username, postid, type, callback) => {
+    getPost: (username, postid, type = '', callback) => {
         const postAndComments = {
             post: [],
             comments: []
         };
-        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.username, forumpost.status, postcontent.title, postcontent.body, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote, (SELECT reporttype from reports where reporter = ? and postid = ?) reporttype  FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.posttype = ? and forumpost.status= 'approved' ";
-        db.getResults(sql, [username, postid, postid, type], function (result) {
-            if (result.length > 0) {
-                postAndComments.post = result[0];
+        if (type != '') {
+            const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.username, forumpost.status, postcontent.title, postcontent.body, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote, (SELECT reporttype from reports where reporter = ? and postid = ?) reporttype  FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.posttype = ? and forumpost.status= 'approved' ";
+            db.getResults(sql, [username, postid, postid, type], function (result) {
+                if (result.length > 0) {
+                    postAndComments.post = result[0];
 
-                const sql2 = "select postcomments.commentid, postcomments.postid, postcomments.username, postcomments.comment, postcomments.time, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'up') upvote, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'down') downvote from postcomments where postid = ?;";
-                db.getResults(sql2, [postid], function (result) {
-                    if (result.length > 0) {
-                        postAndComments.comments = result;
-                    }
-                    callback(postAndComments);
-                });
-            } else {
-                callback(false);
-            }
+                    const sql2 = "select postcomments.commentid, postcomments.postid, postcomments.username, postcomments.comment, postcomments.time, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'up') upvote, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'down') downvote from postcomments where postid = ?;";
+                    db.getResults(sql2, [postid], function (result) {
+                        if (result.length > 0) {
+                            postAndComments.comments = result;
+                        }
+                        callback(postAndComments);
+                    });
+                } else {
+                    callback(false);
+                }
+            });
+        } else {
+            const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.username, forumpost.status, postcontent.title, postcontent.body, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote, (SELECT reporttype from reports where reporter = ? and postid = ?) reporttype  FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.status= 'approved' ";
+            db.getResults(sql, [username, postid, postid], function (result) {
+                if (result.length > 0) {
+                    postAndComments.post = result[0];
 
-            // callback(result[0] || false);
-        });
+                    const sql2 = "select postcomments.commentid, postcomments.postid, postcomments.username, postcomments.comment, postcomments.time, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'up') upvote, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'down') downvote from postcomments where postid = ?;";
+                    db.getResults(sql2, [postid], function (result) {
+                        if (result.length > 0) {
+                            postAndComments.comments = result;
+                        }
+                        callback(postAndComments);
+                    });
+                } else {
+                    callback(false);
+                }
+            });
+        }
     },
     getPendingPosts: (callback) => {
         const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.username, forumpost.gamename, postcontent.title FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where status = 'pending' order by postid desc";
@@ -78,7 +95,7 @@ module.exports = {
         });
     },
 
-    getPendingPost: (postid, type, callback) => {
+    getPendingPost: (postid, callback) => {
         const postAndComments = {
             post: [],
             comments: []

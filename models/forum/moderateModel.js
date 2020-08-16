@@ -29,6 +29,12 @@ module.exports = {
             callback(result || []);
         });
     },
+    getPostReports: (callback) => {
+        const sql = "SELECT * from reports where status=? and reportof = ?";
+        db.getResults(sql, ['pending', 'post'], function (result) {
+            callback(result || []);
+        });
+    }
 
     // validate: function (user, callback) {
     //     var sql = "select * from user where username=? and password=?";
