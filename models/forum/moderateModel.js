@@ -34,6 +34,12 @@ module.exports = {
         db.getResults(sql, ['pending', 'post'], function (result) {
             callback(result || []);
         });
+    },
+    getCommentReports: (callback) => {
+        const sql = "SELECT * from reports where status=? and reportof = ?";
+        db.getResults(sql, ['pending', 'comment'], function (result) {
+            callback(result || []);
+        });
     }
 
     // validate: function (user, callback) {

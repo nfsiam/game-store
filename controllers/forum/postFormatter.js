@@ -5,6 +5,10 @@ const formatPost = (data, callback) => {
     const rsym = "fas fa-check-circle";
     const pwc = data.postWithComments;
 
+    // console.log("---------------------------------------------------------------------------------------------------------------------------");
+    // console.log(pwc.comments);
+    // console.log("---------------------------------------------------------------------------------------------------------------------------");
+
     pwc.post["reportSpam"] = "";
     pwc.post["reportDuplicate"] = "";
     pwc.post["reportWrongCategory"] = "";
@@ -20,6 +24,28 @@ const formatPost = (data, callback) => {
         pwc.post["reportOther"] = rsym;
     }
 
+    // for (let k = 0; k < pwc.comments.length; k++) {
+    //     pwc.comments[k]["reportSpam"] = "";
+    //     pwc.comments[k]["reportDuplicate"] = "";
+    //     pwc.comments[k]["reportOther"] = "";
+
+    //     if (pwc.comments[k].commentid == pwc.comments[k].cid) {
+
+    //         if (pwc.comments[k].reporttype == 'spam') {
+    //             pwc.comments[k]["reportSpam"] = rsym;
+    //         } else if (pwc.comments[k].reporttype == 'duplicate') {
+    //             pwc.comments[k]["reportDuplicate"] = rsym;
+    //         } else if (pwc.comments[k].reporttype == 'other') {
+    //             pwc.comments[k]["reportOther"] = rsym;
+    //         }
+    //     }
+    // }
+    // console.log({
+    //     post: pwc.post,
+    //     comments: pwc.comments,
+    //     user: data.user,
+    //     reported_post: ''
+    // });
     callback({
         post: pwc.post,
         comments: pwc.comments,
@@ -41,8 +67,9 @@ const formatPosts = (data, callback) => {
 
 module.exports = {
     getPost: (obj, callback) => {
-        forumposts.getPost(obj.user.username, obj.postid, obj.type, (postWithComments) => {
-            console.log(postWithComments);
+        forumposts.getPost(obj.user.username, parseInt(obj.postid), obj.type, (postWithComments) => {
+            console.log("kkkkkkkkkkkkkkkkkkkkkkkkkk");
+            console.log(postWithComments.comments);
 
             if (!postWithComments) {
                 callback(false);

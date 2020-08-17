@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/css/all.css">
     <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sb-admin-2.min.css">
+
     <title>Forum</title>
 </head>
 
@@ -92,12 +94,12 @@
             </div>
             <!-- issue list start -->
             <div class="col-sm-12">
-                <div class="row border border-warning border-top-0 rounded-bottom pt-3 px-2">
+                <div class="row border border-warning border-top-0 rounded-bottom pt-3 px-2 shadow">
                     <% for(let i=0; i<issues.length; i++) { %>
                     <!-- issue start -->
-                    <div class="col-sm-12 border mb-3">
+                    <div class="card border-bottom-warning pt-3 pb-0 col-sm-12  mb-3">
                         <div class="row">
-                            <div class="col-sm-12 bg-secondary text-white">
+                            <div class="col-sm-12 bg-white text-primary">
                                 <div class="row">
                                     <div class="col-md-9">
                                         <%=issues[i].gamename%>
@@ -107,7 +109,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 py-2">
+                            <div class="col-sm-12 py-3">
                                 <div class="row">
                                     <div class="col">
                                         <%=issues[i].title%>
@@ -118,7 +120,8 @@
                                 <div class="row flex-nowrap justify-content-between no-gutters">
                                     <div class="col-sm-4">
                                         <button type="button"
-                                            class="btn btn-light btn-sm btn-block rounded-0 text-success"
+                                            class="btn btn-light btn-sm btn-block rounded-0 text-success action-up-down"
+                                            data-url="/forum/issues/<%=issues[i].postid%>"
                                             data-postid="<%=issues[i].postid%>"><i class="fas fa-chevron-circle-up"></i>
                                             <span><%=issues[i].upvote%></span></button>
                                     </div>
@@ -164,12 +167,12 @@
             </div>
             <!-- review list start -->
             <div class="col-sm-12">
-                <div class="row border border-info border-top-0 rounded-bottom pt-3 px-2">
+                <div class="row border border-info border-top-0 rounded-bottom pt-3 px-2 shadow">
                     <% for(let i=0; i<reviews.length; i++) { %>
                     <!-- review start -->
-                    <div class="col-sm-12 border mb-3">
+                    <div class="card border-bottom-info pt-3 pb-0 col-sm-12  mb-3">
                         <div class="row">
-                            <div class="col-sm-12 bg-secondary text-white">
+                            <div class="col-sm-12  text-primary">
                                 <div class="row">
                                     <div class="col-md-9">
                                         <%=reviews[i].gamename%>
@@ -179,7 +182,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 py-2">
+                            <div class="col-sm-12 py-3">
                                 <div class="row">
                                     <div class="col">
                                         <%=reviews[i].title%>
@@ -190,7 +193,8 @@
                                 <div class="row flex-nowrap justify-content-between no-gutters">
                                     <div class="col-sm-4">
                                         <button type="button"
-                                            class="btn btn-light btn-sm btn-block rounded-0 text-success"
+                                            class="btn btn-light btn-sm btn-block rounded-0 text-success action-up-down"
+                                            data-url="/forum/reviews/<%=reviews[i].postid%>"
                                             data-postid="<%=reviews[i].postid%>"><i
                                                 class="fas fa-chevron-circle-up"></i>
                                             <span><%=reviews[i].upvote%></span></button>
@@ -237,12 +241,12 @@
             </div>
             <!-- walkthrough list start -->
             <div class="col-sm-12">
-                <div class="row border border-success border-top-0 rounded-bottom pt-3 px-2">
+                <div class="row border border-success border-top-0 rounded-bottom pt-3 px-2 shadow">
                     <% for(let i=0; i<walkthroughs.length; i++) { %>
                     <!-- review start -->
-                    <div class="col-sm-12 border mb-3">
+                    <div class="card border-bottom-success pt-3 pb-0 col-sm-12  mb-3">
                         <div class="row">
-                            <div class="col-sm-12 bg-secondary text-white">
+                            <div class="col-sm-12  text-primary">
                                 <div class="row">
                                     <div class="col-md-9">
                                         <%=walkthroughs[i].gamename%>
@@ -252,7 +256,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 py-2">
+                            <div class="col-sm-12 py-3">
                                 <div class="row">
                                     <div class="col">
                                         <%=walkthroughs[i].title%>
@@ -263,7 +267,8 @@
                                 <div class="row flex-nowrap justify-content-between no-gutters">
                                     <div class="col-sm-4">
                                         <button type="button"
-                                            class="btn btn-light btn-sm btn-block rounded-0 text-success"
+                                            class="btn btn-light btn-sm btn-block rounded-0 text-success action-up-down"
+                                            data-url="/forum/walkthroughs/<%=walkthroughs[i].postid%>"
                                             data-postid="<%=walkthroughs[i].postid%>"><i
                                                 class="fas fa-chevron-circle-up"></i>
                                             <span><%=walkthroughs[i].upvote%></span></button>
@@ -294,10 +299,18 @@
         <!-- walkthroughs section end -->
 
 
+
+
     </div>
     <script src="/jquery.min.js"></script>
     <script src="/popper.min.js"></script>
     <script src="/bootstrap.min.js"></script>
+
+    <script>
+        $('.action-up-down').click(function () {
+            window.location.href = $(this).data('url');
+        });
+    </script>
 
 </body>
 

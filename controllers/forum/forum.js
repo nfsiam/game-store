@@ -1,7 +1,9 @@
 const express = require('express');
 const moment = require('moment');
+const forumposts = require.main.require('./models/forum/forumposts');
 const forumModel = require.main.require('./models/forum/forumModel');
 const postFormatter = require('./postFormatter');
+const { registerReport } = require('../../models/forum/forumModel');
 const router = express.Router();
 
 router.get('*', function (req, res, next) {
@@ -24,6 +26,7 @@ router.get('/', function (req, res) {
             }
         }
         res.render('forum/forum', {
+            user: req.cookies['user'],
             role: req.cookies['user'].role,
             issues: landingPosts[0],
             reviews: landingPosts[1],
@@ -65,7 +68,7 @@ router.get('/reviews/:id', function (req, res) {
     const postid = req.params.id;
     const user = req.cookies['user'];
     postFormatter.getPost({ postid, user, type: 'review' }, (data) => {
-        console.log('here');
+        // console.log('here');
         if (!data) {
             res.send('something went wrong');
         } else {
@@ -96,6 +99,77 @@ router.get('/walkthroughs/:id', function (req, res) {
 
 
 
+//report post
+router.post('/report-post', function (req, res) {
+    if (req.body.postid != '') {
+        const report = {
+            postid: parseInt(req.body.postid),
+            reporttype: req.body.reporttype,
+            reporter: req.cookies["user"].username,
+            reportof: "post"
+        }
+        forumModel.reportPost(report, (result) => {
+            // console.log(result);
+            if (result) {
+                res.json({ status: true })
+            } else {
+                res.json({ status: false })
+            }
+        });
+    }
+
+});
+
+//report comment
+router.post('/report-comment', function (req, res) {
+
+    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+    console.log(req.body);
+    if (req.body.commentid != '') {
+        const report = {
+            postid: parseInt(req.body.postid),
+            commentid: parseInt(req.body.commentid),
+            reporttype: req.body.reporttype,
+            reporter: req.cookies["user"].username,
+            reportof: "comment"
+        }
+        console.log('calling db');
+        forumModel.reportComment(report, (result) => {
+            // console.log(result);
+            if (result) {
+                res.json({ status: true })
+            } else {
+                res.json({ status: false })
+            }
+        });
+    }
+
+});
+
+//upvote
+router.post('/upvote-post', function (req, res) {
+    const postid = parseInt(req.body.postid);
+    forumposts.upvotePost(postid, req.cookies['user'].username, (result) => {
+        if (result) {
+            res.json({ status: true })
+        } else {
+            res.json({ status: false })
+        }
+    });
+
+});
+//downvote
+router.post('/downvote-post', function (req, res) {
+    const postid = parseInt(req.body.postid);
+    forumposts.downvotePost(postid, req.cookies['user'].username, (result) => {
+        if (result) {
+            res.json({ status: true })
+        } else {
+            res.json({ status: false })
+        }
+    });
+
+});
 
 
 module.exports = router;
