@@ -297,6 +297,8 @@
                                                                                                     id="commentBox"
                                                                                                     rows="4"
                                                                                                     placeholder="type your comment..."></textarea>
+                                                                                                <small
+                                                                                                    id="errcomment"></small>
                                                                                             </div>
 
                                                                                             <div
@@ -323,6 +325,12 @@
                                                             <script src="/jquery.min.js"></script>
                                                             <script src="/popper.min.js"></script>
                                                             <script src="/bootstrap.min.js"></script>
+
+                                                            <script>
+                                                                $('#commentBox').click(function () {
+                                                                    $(this).removeClass('border-danger');
+                                                                })
+                                                            </script>
 
                                                             <% if((user.role=='enduser' || user.role == 'publisher') && user.username != post.username ){ %>
                                                             <!-- user -->
@@ -506,10 +514,16 @@
                                                                             postid: "<%=post.postid%>",
                                                                         },
                                                                         success: function (data) {
-                                                                            if ('commentid' in data && 'username' in data && 'comment' in data && 'time' in data) {
+                                                                            if ('errors' in data) {
+                                                                                $('#errcomment').text(data.errors.comment);
+                                                                                $('#errcomment').prev().addClass('border-danger');
+                                                                            }
+                                                                            else if ('commentid' in data && 'username' in data && 'comment' in data && 'time' in data) {
                                                                                 let comment = "<div class='col-md-12 mb-2'> <div class='card'> <div class='card-header bg-light border border-light border-bottom-0 py-0 px-3'> <div class='row'> <div class='col-md-9'>" + data.username + "</div><div class='col-md-3 text-md-right'>" + data.time + "</div></div></div><div class='card-body'> <p class='card-text'>" + data.comment + "</p></div><div class='card-footer p-0'> <div class='row flex-nowrap justify-content-between no-gutters'> <div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 text-success'> <i class='fas fa-chevron-circle-up'></i> <span>0</span> </button> </div><div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger'> <i class='fas fa-chevron-circle-down'></i> <span>0</span> </button> </div><div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 text-primary' data-toggle='dropdown'> <i class='fas fa-ellipsis-h'></i> </button> <div class='dropdown-menu dropdown-menu-right'> <button class='dropdown-item' type='button'>Request to Delete </button> </div></div></div></div></div></div>";
                                                                                 $('.comments-row').append(comment);
                                                                                 $('#commentBox').val('');
+                                                                                $('#errcomment').html('');
+
                                                                             }
 
                                                                         },

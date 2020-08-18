@@ -4,6 +4,8 @@ const forumposts = require.main.require('./models/forum/forumposts');
 const forumModel = require.main.require('./models/forum/forumModel');
 const postFormatter = require('./postFormatter');
 const { registerReport } = require('../../models/forum/forumModel');
+const { check, validationResult } = require('express-validator');
+
 const router = express.Router();
 
 router.get('*', function (req, res, next) {
@@ -98,26 +100,47 @@ router.get('/walkthroughs/:id', function (req, res) {
 });
 
 
+const mapErrors = (a) => {
+    return a.reduce((accu, current) => {
+        return ({
+            ...accu,
+            [current.param]: current.msg,
+        })
+    }, {});
+};
+
 //comment
-router.post('/comment', function (req, res) {
-    console.log(req.body);
-    const comment = {
-        comment: req.body.comment,
-        postid: parseInt(req.body.postid),
-        username: req.cookies["user"].username
-    };
-    forumposts.createComment(comment, (result) => {
-        if (!result) {
-            res.json({ failure: true });
-        } else {
-            res.json({
-                commentid: result,
-                username: comment.username,
-                comment: comment.comment,
-                time: moment().unix()
-            });
-        }
-    });
+router.post('/comment', [
+    check('comment').trim()
+        .not().isEmpty().withMessage('comment can not be empty')
+        .escape(),
+
+], function (req, res) {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        res.json({
+            errors: mapErrors(errors.array())
+        });
+
+    } else {
+        const comment = {
+            comment: req.body.comment,
+            postid: parseInt(req.body.postid),
+            username: req.cookies["user"].username
+        };
+        forumposts.createComment(comment, (result) => {
+            if (!result) {
+                res.json({ failure: true });
+            } else {
+                res.json({
+                    commentid: result,
+                    username: comment.username,
+                    comment: comment.comment,
+                    time: moment().unix()
+                });
+            }
+        });
+    }
 });
 
 
