@@ -206,24 +206,36 @@ module.exports = {
     },
 
     upvotePost: (postid, username, callback) => {
-        const sql = "SELECT COUNT(*) as count FROM postvotes WHERE postid = ? and username =?";
+        const sql = "SELECT vote FROM postvotes WHERE postid = ? and username =?";
         db.getResults(sql, [postid, username], function (result) {
-            // console.log(result[0].count);
-            if (result[0].count > 0) {
-                var sql2 = "update postvotes set vote = 'up' where username = ? and postid = ?";
-                db.execute(sql2, [username, postid], function (status) {
-                    if (status) {
-                        // console.log(status);
-                        callback(true);
-                    } else {
-                        callback(false);
-                    }
-                });
+            if (result.length > 0) {
+                const prevVote = result[0].vote;
+                if (prevVote == 'up') {
+                    // perform delete vote
+                    const sql2 = "delete from postvotes where postid=? and username = ?";
+                    db.execute(sql2, [postid, username], function (status) {
+                        if (status) {
+                            callback({ up: 'minus', down: 'none' });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                } else if (prevVote == 'down') {
+                    //perform update vote
+                    const sql2 = "update postvotes set vote = 'up' where username = ? and postid = ?";
+                    db.execute(sql2, [username, postid], function (status) {
+                        if (status) {
+                            callback({ up: 'plus', down: 'minus' });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                }
             } else {
-                var sql3 = "insert into postvotes values(?, ?, ?, ?)";
+                const sql3 = "insert into postvotes values(?, ?, ?, ?)";
                 db.execute(sql3, ['', postid, username, 'up'], function (status) {
                     if (status) {
-                        callback(true);
+                        callback({ up: 'plus', down: 'none' });
                     } else {
                         callback(false);
                     }
@@ -232,24 +244,36 @@ module.exports = {
         });
     },
     downvotePost: (postid, username, callback) => {
-        const sql = "SELECT COUNT(*) as count FROM postvotes WHERE postid = ? and username =?";
+        const sql = "SELECT vote FROM postvotes WHERE postid = ? and username =?";
         db.getResults(sql, [postid, username], function (result) {
-            // console.log(result[0].count);
-            if (result[0].count > 0) {
-                var sql2 = "update postvotes set vote = 'down' where username = ? and postid = ?";
-                db.execute(sql2, [username, postid], function (status) {
-                    if (status) {
-                        // console.log(status);
-                        callback(true);
-                    } else {
-                        callback(false);
-                    }
-                });
+            if (result.length > 0) {
+                const prevVote = result[0].vote;
+                if (prevVote == 'down') {
+                    // perform delete vote
+                    const sql2 = "delete from postvotes where postid=? and username = ?";
+                    db.execute(sql2, [postid, username], function (status) {
+                        if (status) {
+                            callback({ up: 'none', down: 'minus' });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                } else if (prevVote == 'up') {
+                    //perform update vote
+                    const sql2 = "update postvotes set vote = 'down' where username = ? and postid = ?";
+                    db.execute(sql2, [username, postid], function (status) {
+                        if (status) {
+                            callback({ up: 'minus', down: 'plus' });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                }
             } else {
-                var sql3 = "insert into postvotes values(?, ?, ?, ?)";
+                const sql3 = "insert into postvotes values(?, ?, ?, ?)";
                 db.execute(sql3, ['', postid, username, 'down'], function (status) {
                     if (status) {
-                        callback(true);
+                        callback({ up: 'none', down: 'plus' });
                     } else {
                         callback(false);
                     }
@@ -257,6 +281,7 @@ module.exports = {
             }
         });
     }
+
 
 
     // delete: function (id, callback) {

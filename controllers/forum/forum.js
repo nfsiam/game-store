@@ -197,10 +197,10 @@ router.post('/report-comment', function (req, res) {
 router.post('/upvote-post', function (req, res) {
     const postid = parseInt(req.body.postid);
     forumposts.upvotePost(postid, req.cookies['user'].username, (result) => {
-        if (result) {
-            res.json({ status: true })
+        if (!result) {
+            res.json({ failure: true })
         } else {
-            res.json({ status: false })
+            res.json(result);
         }
     });
 
@@ -209,10 +209,10 @@ router.post('/upvote-post', function (req, res) {
 router.post('/downvote-post', function (req, res) {
     const postid = parseInt(req.body.postid);
     forumposts.downvotePost(postid, req.cookies['user'].username, (result) => {
-        if (result) {
-            res.json({ status: true })
+        if (!result) {
+            res.json({ failure: true })
         } else {
-            res.json({ status: false })
+            res.json(result);
         }
     });
 

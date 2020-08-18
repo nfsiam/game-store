@@ -373,14 +373,26 @@
                                                                         dataType: 'JSON',
                                                                         data: data,
                                                                         success: function (data) {
-                                                                            if ('status' in data) {
-                                                                                if (data.status == true) {
+                                                                            if ('failure' in data) {
+                                                                                alert('Something went wrong');
+                                                                            } else {
+                                                                                if (data.up == 'plus') {
+                                                                                    //up the digit
                                                                                     let c = parseInt(that.find('span').html());
                                                                                     c += 1;
                                                                                     that.find('span').html(c);
-                                                                                } else {
-
+                                                                                } else if (data.up == 'minus') {
+                                                                                    //decrease the digit
+                                                                                    let c = parseInt(that.find('span').html());
+                                                                                    c -= 1;
+                                                                                    that.find('span').html(c);
                                                                                 }
+                                                                                if (data.down == 'minus') {
+                                                                                    let c = parseInt($('.action-downvote').find('span').html());
+                                                                                    c -= 1;
+                                                                                    $('.action-downvote').find('span').html(c);
+                                                                                }
+
                                                                             }
                                                                         },
                                                                     });
@@ -398,14 +410,26 @@
                                                                         dataType: 'JSON',
                                                                         data: data,
                                                                         success: function (data) {
-                                                                            if ('status' in data) {
-                                                                                if (data.status == true) {
+                                                                            if ('failure' in data) {
+                                                                                alert('Something went wrong');
+                                                                            } else {
+                                                                                if (data.down == 'plus') {
+                                                                                    //up the digit
+                                                                                    let c = parseInt(that.find('span').html());
+                                                                                    c += 1;
+                                                                                    that.find('span').html(c);
+                                                                                } else if (data.down == 'minus') {
+                                                                                    //decrease the digit
                                                                                     let c = parseInt(that.find('span').html());
                                                                                     c -= 1;
                                                                                     that.find('span').html(c);
-                                                                                } else {
-
                                                                                 }
+                                                                                if (data.up == 'minus') {
+                                                                                    let c = parseInt($('.action-upvote').find('span').html());
+                                                                                    c -= 1;
+                                                                                    $('.action-upvote').find('span').html(c);
+                                                                                }
+
                                                                             }
                                                                         },
                                                                     });
