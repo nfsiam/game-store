@@ -280,6 +280,82 @@ module.exports = {
                 });
             }
         });
+    },
+    upvoteComment: (commentid, username, callback) => {
+        const sql = "SELECT vote FROM commentvotes WHERE commentid = ? and username =?";
+        db.getResults(sql, [commentid, username], function (result) {
+            if (result.length > 0) {
+                const prevVote = result[0].vote;
+                if (prevVote == 'up') {
+                    // perform delete vote
+                    const sql2 = "delete from commentvotes where commentid=? and username = ?";
+                    db.execute(sql2, [commentid, username], function (status) {
+                        if (status) {
+                            callback({ up: 'minus', down: 'none' });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                } else if (prevVote == 'down') {
+                    //perform update vote
+                    const sql2 = "update commentvotes set vote = 'up' where username = ? and commentid = ?";
+                    db.execute(sql2, [username, commentid], function (status) {
+                        if (status) {
+                            callback({ up: 'plus', down: 'minus' });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                }
+            } else {
+                const sql3 = "insert into commentvotes values(?, ?, ?, ?)";
+                db.execute(sql3, ['', commentid, username, 'up'], function (status) {
+                    if (status) {
+                        callback({ up: 'plus', down: 'none' });
+                    } else {
+                        callback(false);
+                    }
+                });
+            }
+        });
+    },
+    downvoteComment: (commentid, username, callback) => {
+        const sql = "SELECT vote FROM commentvotes WHERE commentid = ? and username =?";
+        db.getResults(sql, [commentid, username], function (result) {
+            if (result.length > 0) {
+                const prevVote = result[0].vote;
+                if (prevVote == 'down') {
+                    // perform delete vote
+                    const sql2 = "delete from commentvotes where commentid=? and username = ?";
+                    db.execute(sql2, [commentid, username], function (status) {
+                        if (status) {
+                            callback({ up: 'none', down: 'minus' });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                } else if (prevVote == 'up') {
+                    //perform update vote
+                    const sql2 = "update commentvotes set vote = 'down' where username = ? and commentid = ?";
+                    db.execute(sql2, [username, commentid], function (status) {
+                        if (status) {
+                            callback({ up: 'minus', down: 'plus' });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                }
+            } else {
+                const sql3 = "insert into commentvotes values(?, ?, ?, ?)";
+                db.execute(sql3, ['', commentid, username, 'down'], function (status) {
+                    if (status) {
+                        callback({ up: 'none', down: 'plus' });
+                    } else {
+                        callback(false);
+                    }
+                });
+            }
+        });
     }
 
 

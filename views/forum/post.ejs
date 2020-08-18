@@ -213,13 +213,17 @@
                                                                 class="row flex-nowrap justify-content-between no-gutters">
                                                                 <div class="col-sm-4">
                                                                     <button type="button"
-                                                                        class="btn btn-light btn-sm btn-block rounded-0 text-success"><i
+                                                                        class="btn btn-light btn-sm btn-block rounded-0 text-success action-upvote-comment"
+                                                                        data-commentid="<%=comments[i].commentid%>"
+                                                                        data-commenter="<%=comments[i].username%>"><i
                                                                             class="fas fa-chevron-circle-up"></i>
                                                                         <span><%=comments[i].upvote%></span></button>
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <button type="button"
-                                                                        class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger"><i
+                                                                        class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger action-downvote-comment"
+                                                                        data-commentid="<%=comments[i].commentid%>"
+                                                                        data-commenter="<%=comments[i].username%>"><i
                                                                             class="fas fa-chevron-circle-down"></i>
                                                                         <span><%=comments[i].downvote%></span></button>
                                                                 </div>
@@ -527,6 +531,7 @@
                                                             <%}%>
                                                         <% if(user.role=='enduser' || user.role == 'publisher'){ %>
                                                             <script>
+                                                                //comment o the post
                                                                 $('#commentForm').submit(function (e) {
                                                                     e.preventDefault();
                                                                     $.ajax({
@@ -550,6 +555,83 @@
 
                                                                             }
 
+                                                                        },
+                                                                    });
+                                                                });
+
+                                                                //vote comment
+
+                                                                $('.action-upvote-comment').click(function () {
+                                                                    const that = $(this);
+                                                                    if (that.data('commenter') == "<%=user.username%>") {
+                                                                        return;
+                                                                    }
+                                                                    $.ajax({
+                                                                        url: '/forum/upvote-comment',
+                                                                        method: 'POST',
+                                                                        dataType: 'JSON',
+                                                                        data: {
+                                                                            commentid: that.data('commentid'),
+                                                                        },
+                                                                        success: function (data) {
+                                                                            if ('failure' in data) {
+                                                                                alert('Something went wrong');
+                                                                            } else {
+                                                                                if (data.up == 'plus') {
+                                                                                    //up the digit
+                                                                                    let c = parseInt(that.find('span').html());
+                                                                                    c += 1;
+                                                                                    that.find('span').html(c);
+                                                                                } else if (data.up == 'minus') {
+                                                                                    //decrease the digit
+                                                                                    let c = parseInt(that.find('span').html());
+                                                                                    c -= 1;
+                                                                                    that.find('span').html(c);
+                                                                                }
+                                                                                if (data.down == 'minus') {
+                                                                                    let c = parseInt($(`.action-downvote-comment[data-commentid="${that.data('commentid')}"]`).find('span').html());
+                                                                                    c -= 1;
+                                                                                    $(`.action-downvote-comment[data-commentid="${that.data('commentid')}"]`).find('span').html(c);
+                                                                                }
+
+                                                                            }
+                                                                        },
+                                                                    });
+                                                                });
+                                                                $('.action-downvote-comment').click(function () {
+                                                                    const that = $(this);
+                                                                    if (that.data('commenter') == "<%=user.username%>") {
+                                                                        return;
+                                                                    }
+                                                                    $.ajax({
+                                                                        url: '/forum/downvote-comment',
+                                                                        method: 'POST',
+                                                                        dataType: 'JSON',
+                                                                        data: {
+                                                                            commentid: that.data('commentid'),
+                                                                        },
+                                                                        success: function (data) {
+                                                                            if ('failure' in data) {
+                                                                                alert('Something went wrong');
+                                                                            } else {
+                                                                                if (data.down == 'plus') {
+                                                                                    //up the digit
+                                                                                    let c = parseInt(that.find('span').html());
+                                                                                    c += 1;
+                                                                                    that.find('span').html(c);
+                                                                                } else if (data.down == 'minus') {
+                                                                                    //decrease the digit
+                                                                                    let c = parseInt(that.find('span').html());
+                                                                                    c -= 1;
+                                                                                    that.find('span').html(c);
+                                                                                }
+                                                                                if (data.up == 'minus') {
+                                                                                    let c = parseInt($(`.action-upvote-comment[data-commentid="${that.data('commentid')}"]`).find('span').html());
+                                                                                    c -= 1;
+                                                                                    $(`.action-upvote-comment[data-commentid="${that.data('commentid')}"]`).find('span').html(c);
+                                                                                }
+
+                                                                            }
                                                                         },
                                                                     });
                                                                 });

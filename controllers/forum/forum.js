@@ -170,7 +170,6 @@ router.post('/report-post', function (req, res) {
 //report comment
 router.post('/report-comment', function (req, res) {
 
-    // console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
     // console.log(req.body);
     if (req.body.commentid != '') {
         const report = {
@@ -212,6 +211,34 @@ router.post('/downvote-post', function (req, res) {
         if (!result) {
             res.json({ failure: true })
         } else {
+            res.json(result);
+        }
+    });
+
+});
+
+
+//upvote comment
+router.post('/upvote-comment', function (req, res) {
+    const commentid = parseInt(req.body.commentid);
+    forumposts.upvoteComment(commentid, req.cookies['user'].username, (result) => {
+        if (!result) {
+            res.json({ failure: true })
+        } else {
+            res.json(result);
+        }
+    });
+
+});
+//downvote comment
+router.post('/downvote-comment', function (req, res) {
+    // console.log(req.body);
+    const commentid = parseInt(req.body.commentid);
+    forumposts.downvoteComment(commentid, req.cookies['user'].username, (result) => {
+        if (!result) {
+            res.json({ failure: true })
+        } else {
+            // console.log('succ');
             res.json(result);
         }
     });
