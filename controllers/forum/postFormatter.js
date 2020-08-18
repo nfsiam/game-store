@@ -68,8 +68,8 @@ const formatPosts = (data, callback) => {
 module.exports = {
     getPost: (obj, callback) => {
         forumposts.getPost(obj.user.username, parseInt(obj.postid), obj.type, (postWithComments) => {
-            console.log("kkkkkkkkkkkkkkkkkkkkkkkkkk");
-            console.log(postWithComments.comments);
+            // console.log("kkkkkkkkkkkkkkkkkkkkkkkkkk");
+            // console.log(postWithComments.comments);
 
             if (!postWithComments) {
                 callback(false);

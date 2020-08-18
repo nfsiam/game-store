@@ -60,43 +60,57 @@
         <!-- breadcumb end -->
 
         <!-- form start -->
-        <form method="post">
+        <form method="post" id="createForm" novalidate class="needs-validation">
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label for="selectGame">Select Game</label>
-                        <select class="custom-select" id="selectGame" name="gamename">
+                        <select class="custom-select cvalid" id="gamename" name="gamename">
+                            <option value=""></option>
                             <% for(let i=0; i<gamelist.length; i++) { %>
                             <option value="<%=gamelist[i].title%>"><%=gamelist[i].title%></option>
                             <% }%>
 
                             <!-- <option value="gameID1">Game 1</option>
-                            <option value="gameID2">Game 2</option>
                             <option value="gameID3">Game 3</option>
                             <option value="gameID4">Game 4</option> -->
                         </select>
+                        <small id="errgamename"></small>
                     </div>
 
                     <div class="form-group">
                         <label for="selectType">Select Type</label>
-                        <select class="custom-select" id="selectType" name="posttype">
+                        <select class="custom-select cvalid" id="type" name="type">
+                            <option value=""></option>
                             <option value="issue">Issue</option>
                             <option value="review">Review</option>
                             <option value="walkthrough">Walkthrough</option>
                         </select>
+                        <small id="errtype"></small>
                     </div>
 
                     <div class="form-group">
                         <label for="shortDes">Title</label>
-                        <textarea class="form-control" id="shortDes" rows="3" name="title"></textarea>
+                        <textarea class="form-control cvalid" id="title" rows="3" name="title"></textarea>
                         <small class="form-text text-muted">
                             A short description or title, not more than 30 characters
                         </small>
+                        <small id="errtitle"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="codeToggle">
+                            <label class="custom-control-label" for="codeToggle">Toggle this switch element</label>
+
+                        </div>
+                        <textarea class="form-control cvalid" id="codes" rows="6" name="codes" disabled></textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control" id="shortDes" rows="6" name="body"></textarea>
+                        <textarea class="form-control cvalid" id="body" rows="6" name="body"></textarea>
+                        <small id="errbody"></small>
                     </div>
 
                     <div class="form-group d-flex justify-content-end">
@@ -105,6 +119,7 @@
                     </div>
                 </div>
             </div>
+
         </form>
         <!-- form end -->
 
@@ -113,7 +128,72 @@
     <script src="/jquery.min.js"></script>
     <script src="/popper.min.js"></script>
     <script src="/bootstrap.min.js"></script>
+    <script>
+        $("#codeToggle").change(function () {
+            if ($(this).prop("checked") == true) {
+                //run code
+                $('#codes').attr('disabled', false);
+            } else {
+                $('#codes').attr('disabled', true);
+            }
+        });
+        $('.cvalid').click(function () {
+            $(this).removeClass('border-danger');
+        })
+        $('#createForm').submit(function (e) {
+            e.preventDefault();
+            let codes = "";
+            if ($('#codeToggle').prop("checked") == true) {
+                codes = $('#codes').val().trim();
+            }
+            $.ajax({
+                url: '/forum/create',
+                method: 'POST',
+                dataType: 'JSON',
+                data: {
+                    title: $('#title').val(),
+                    body: $('#body').val(),
+                    gamename: $('#gamename').val(),
+                    type: $('#type').val(),
+                    codes: $('#codes').val(),
 
+                },
+                success: function (data) {
+                    if ('errors' in data) {
+                        let obj = data.errors;
+                        console.log(obj);
+                        if ('title' in obj) {
+                            $('#errtitle').text(obj.title);
+                            $('#errtitle').prev().prev().addClass('border-danger');
+
+                        }
+                        if ('body' in obj) {
+                            $('#errbody').text(obj.body);
+                            $('#errbody').prev().addClass('border-danger');
+
+                        }
+                        if ('gamename' in obj) {
+                            $('#errgamename').text(obj.gamename);
+                            $('#errgamename').prev().addClass('border-danger');
+
+                        }
+                        if ('type' in obj) {
+                            $('#errtype').text(obj.type);
+                            $('#errtype').prev().addClass('border-danger');
+
+                        }
+                    } else if ('failure' in data) {
+                        alert("Something went wrong");
+                        window.location.href = "/forum/create";
+                    } else if ('success' in data) {
+                        alert("Your post has been submitted for approval");
+                        window.location.href = "/forum";
+
+                    }
+                },
+            });
+        });
+    </script>
 </body>
 
 </html>

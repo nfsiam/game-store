@@ -87,7 +87,7 @@ module.exports = {
             comments: []
         };
         if (type != '') {
-            const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.username, forumpost.status, postcontent.title, postcontent.body, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote, (SELECT reporttype from reports where reporter = ? and postid = ? and reportof = 'post') reporttype  FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.posttype = ? and forumpost.status <> 'pending' ";
+            const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.username, forumpost.status, postcontent.title, postcontent.body, postcontent.codes, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote, (SELECT reporttype from reports where reporter = ? and postid = ? and reportof = 'post') reporttype  FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.posttype = ? and forumpost.status <> 'pending' ";
             db.getResults(sql, [username, postid, postid, type], function (result) {
                 if (result.length > 0) {
                     postAndComments.post = result[0];
@@ -99,7 +99,7 @@ module.exports = {
                         if (result.length > 0) {
                             postAndComments.comments = result;
                         }
-                        console.log("dddddddddddddddddddddddddddddddddddd", postAndComments);
+                        // console.log("dddddddddddddddddddddddddddddddddddd", postAndComments);
                         callback(postAndComments);
                     });
                 } else {
@@ -107,7 +107,7 @@ module.exports = {
                 }
             });
         } else {
-            const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.username, forumpost.status, postcontent.title, postcontent.body, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote, (SELECT reporttype from reports where reporter = ? and postid = ?  and reportof = 'post') reporttype  FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.status <> 'pending' ";
+            const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.username, forumpost.status, postcontent.title, postcontent.body, postcontent.codes, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote, (SELECT reporttype from reports where reporter = ? and postid = ?  and reportof = 'post') reporttype  FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.status <> 'pending' ";
             db.getResults(sql, [username, postid, postid], function (result) {
                 if (result.length > 0) {
                     postAndComments.post = result[0];
@@ -137,7 +137,7 @@ module.exports = {
             post: [],
             comments: []
         };
-        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.status, postcontent.title, postcontent.body, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.status = ?";
+        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.username, forumpost.gamename, forumpost.status, postcontent.title, postcontent.body,  postcontent.codes, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.status = ?";
         db.getResults(sql, [postid, 'pending'], function (result) {
             if (result.length > 0) {
                 postAndComments.post = result[0];
@@ -198,12 +198,12 @@ module.exports = {
     upvotePost: (postid, username, callback) => {
         const sql = "SELECT COUNT(*) as count FROM postvotes WHERE postid = ? and username =?";
         db.getResults(sql, [postid, username], function (result) {
-            console.log(result[0].count);
+            // console.log(result[0].count);
             if (result[0].count > 0) {
                 var sql2 = "update postvotes set vote = 'up' where username = ? and postid = ?";
                 db.execute(sql2, [username, postid], function (status) {
                     if (status) {
-                        console.log(status);
+                        // console.log(status);
                         callback(true);
                     } else {
                         callback(false);
@@ -224,12 +224,12 @@ module.exports = {
     downvotePost: (postid, username, callback) => {
         const sql = "SELECT COUNT(*) as count FROM postvotes WHERE postid = ? and username =?";
         db.getResults(sql, [postid, username], function (result) {
-            console.log(result[0].count);
+            // console.log(result[0].count);
             if (result[0].count > 0) {
                 var sql2 = "update postvotes set vote = 'down' where username = ? and postid = ?";
                 db.execute(sql2, [username, postid], function (status) {
                     if (status) {
-                        console.log(status);
+                        // console.log(status);
                         callback(true);
                     } else {
                         callback(false);

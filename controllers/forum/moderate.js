@@ -81,7 +81,7 @@ router.get('/reported-post', function (req, res) {
         } else {
             // data["role"] = req.cookies['user'].role;
             // data["pending"] = 'yes';
-            console.log(data);
+            // console.log(data);
             res.render('forum/reports', {
                 reportList: data
             });
@@ -138,7 +138,7 @@ router.get('/reported-comment/:postid&:commentid', function (req, res) {
 //delete post
 router.post('/delete-post', function (req, res) {
 
-    console.log(req.body);
+    // console.log(req.body);
     if (req.body.postid != '') {
         const postid = parseInt(req.body.postid);
 
@@ -156,7 +156,7 @@ router.post('/delete-post', function (req, res) {
 //turn off comment for post
 router.post('/turnoff-post', function (req, res) {
 
-    console.log(req.body);
+    // console.log(req.body);
     if (req.body.postid != '') {
         const postid = parseInt(req.body.postid);
 

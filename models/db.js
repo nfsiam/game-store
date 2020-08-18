@@ -14,7 +14,7 @@ function getConnection(callback) {
             console.error('error connecting: ' + err.stack);
             return;
         }
-        console.log('connected as id ' + connection.threadId);
+        // console.log('connected as id ' + connection.threadId);
 
         callback(connection);
     });
@@ -48,7 +48,7 @@ module.exports = {
             }
 
             connection.end(function (err) {
-                console.log('connection end...');
+                // console.log('connection end...');
             });
         });
     },
@@ -76,7 +76,7 @@ module.exports = {
             }
 
             connection.end(function (err) {
-                console.log('connection end...');
+                // console.log('connection end...');
             });
         });
     }

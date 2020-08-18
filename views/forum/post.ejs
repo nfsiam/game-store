@@ -9,9 +9,16 @@
     <link rel="stylesheet" href="/css/all.css">
     <link rel="stylesheet" href="/bootstrap.min.css">
     <link rel="stylesheet" href="/css/sb-admin-2.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+
 
 
     <title><%=post.postid%></title>
+    <style>
+        .prettyprint ol.linenums>li {
+            list-style-type: decimal;
+        }
+    </style>
 </head>
 
 <body>
@@ -67,15 +74,15 @@
             </ol>
         </nav>
         <!-- breadcumb end -->
-
-        <!-- post start -->
-        <div class="row mb-5">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header bg-secondary text-white border border-secondary border-bottom-0">
+        <div class="row">
+            <div class="col-lg-12 mb-4">
+                <!-- Illustrations -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
                         <div class="row">
                             <div class="col-md-9">
-                                <%=post.gamename%>
+                                on <span class="text-primary"><%=post.gamename%></span> by <span
+                                    class="text-info"><%=post.username%></span>
                             </div>
                             <div class="col-md-3 text-md-right">
                                 <%=post.time%>
@@ -84,6 +91,12 @@
                     </div>
                     <div class="card-body">
                         <h6 class="card-title"><%=post.title%></h6>
+
+                        <% if (post.codes != "") {%>
+
+                        <pre class="prettyprint linenums"><%=post.codes%></pre>
+
+                        <% } %>
 
                         <p class="card-text"><%=post.body%></p>
                     </div>
@@ -148,6 +161,9 @@
                 </div>
             </div>
         </div>
+
+        <!-- post start -->
+
         <!-- post end -->
         <% if(post.status == 'pending') { %>
                                     <div class="row mv-5">
@@ -238,7 +254,8 @@
                                                                 <!-- moderator / admin end -->
                                                                 <% } else { %>
                                                                 <!-- postmaker -->
-                                                                <button class="dropdown-item" type="button">Request to
+                                                                <button class="dropdown-item" type="button">Request
+                                                                    to
                                                                     Delete</button>
                                                                 <!-- postmaker end -->
                                                                 <%}%>

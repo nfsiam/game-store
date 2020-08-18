@@ -123,8 +123,8 @@ router.post('/report-post', function (req, res) {
 //report comment
 router.post('/report-comment', function (req, res) {
 
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
-    console.log(req.body);
+    // console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+    // console.log(req.body);
     if (req.body.commentid != '') {
         const report = {
             postid: parseInt(req.body.postid),
@@ -133,7 +133,7 @@ router.post('/report-comment', function (req, res) {
             reporter: req.cookies["user"].username,
             reportof: "comment"
         }
-        console.log('calling db');
+        // console.log('calling db');
         forumModel.reportComment(report, (result) => {
             // console.log(result);
             if (result) {

@@ -98,11 +98,11 @@ module.exports = {
     createPost: (post, callback) => {
         // console.log("innnnnnnnnnnnnnnnnnn", post);
         const sql = "Insert into forumpost(posttype,gamename,time,username) values(?,?,UNIX_TIMESTAMP(),?)";
-        db.execute(sql, [post.posttype, post.gamename, post.username], function (status) {
+        db.execute(sql, [post.type, post.gamename, post.username], function (status) {
             if (status) {
                 // console.log("inserted----------------------------------------");
-                const sql2 = "INSERT INTO postcontent(title,body) VALUES (?,?);";
-                db.execute(sql2, [post.title, post.body], function (status) {
+                const sql2 = "INSERT INTO postcontent(title,body,codes) VALUES (?,?,?);";
+                db.execute(sql2, [post.title, post.body, post.codes], function (status) {
                     if (status) {
                         callback(true);
                     } else {
