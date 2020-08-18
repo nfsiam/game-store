@@ -183,6 +183,16 @@ module.exports = {
     //         }
     //     });
     // },
+    createComment: (comment, callback) => {
+        const sql = "Insert into postcomments (postid,username,comment,time) values(?,?,?,UNIX_TIMESTAMP())";
+        db.operate(sql, [comment.postid, comment.username, comment.comment], function (status) {
+            if (!status) {
+                callback(false);
+            } else {
+                callback(status.insertId);
+            }
+        });
+    },
 
     changeStatus: (postid, decision, callback) => {
         const sql = "update forumpost set status=? where postid=?";

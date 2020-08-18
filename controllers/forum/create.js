@@ -4,35 +4,6 @@ const createModel = require.main.require('./models/forum/createModel');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
-// const errors = {
-//     gamename: '',
-//     type: '',
-//     title: '',
-//     body: ''
-// };
-
-// const ov = [
-//     { value: 'value of title', msg: 'Invalid msg related to title', param: 'title', location: 'body' },
-//     { value: 'value of body', msg: 'Invalid msg related to body', param: 'body', location: 'body' }
-// ];
-
-// const nv = {
-//     title: {
-//         msg: 'Invalid msg related to title',
-//         value: 'value of title'
-//     },
-//     body: {
-//         msg: 'Invalid msg related to body',
-//         value: 'value of body'
-//     }
-// };
-
-// const mapErrors = (err, errors, callback) => {
-
-// };
-
-
-
 router.get('*', function (req, res, next) {
     if (req.cookies['user'] == null) {
         res.redirect('/login');

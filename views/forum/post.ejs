@@ -186,203 +186,222 @@
 
 
                                     <div class="row">
-                                        <% for(let i=0; i<comments.length; i++) { %>
-                                        <!-- comment start -->
-                                        <div class="col-md-12 mb-2">
-                                            <div class="card">
-                                                <div
-                                                    class="card-header bg-light border border-light border-bottom-0 py-0 px-3">
-                                                    <div class="row">
-                                                        <div class="col-md-9">
-                                                            <%=comments[i].username%>
+                                        <div class="col-sm-12">
+                                            <!-- comment row start  -->
+                                            <div class="row comments-row">
+
+                                                <% for(let i=0; i<comments.length; i++) { %>
+                                                <!-- comment start -->
+                                                <div class="col-md-12 mb-2">
+                                                    <div class="card">
+                                                        <div
+                                                            class="card-header bg-light border border-light border-bottom-0 py-0 px-3">
+                                                            <div class="row">
+                                                                <div class="col-md-9">
+                                                                    <%=comments[i].username%>
+                                                                </div>
+                                                                <div class="col-md-3 text-md-right">
+                                                                    <%=comments[i].time%>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-3 text-md-right">
-                                                            <%=comments[i].time%>
+                                                        <div class="card-body">
+                                                            <p class="card-text"><%=comments[i].comment%></p>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-body">
-                                                    <p class="card-text"><%=comments[i].comment%></p>
-                                                </div>
-                                                <div class="card-footer p-0">
-                                                    <div class="row flex-nowrap justify-content-between no-gutters">
-                                                        <div class="col-sm-4">
-                                                            <button type="button"
-                                                                class="btn btn-light btn-sm btn-block rounded-0 text-success"><i
-                                                                    class="fas fa-chevron-circle-up"></i>
-                                                                <span><%=comments[i].upvote%></span></button>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <button type="button"
-                                                                class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger"><i
-                                                                    class="fas fa-chevron-circle-down"></i>
-                                                                <span><%=comments[i].downvote%></span></button>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <button type="button"
-                                                                class="btn btn-light btn-sm btn-block rounded-0 text-primary"
-                                                                data-toggle="dropdown"><i
-                                                                    class="fas fa-ellipsis-h"></i></button>
-                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                <% if((user.role=='enduser' || user.role == 'publisher') && user.username != post.username ){ %>
-                                                                <!-- user -->
-                                                                <button class="dropdown-item action-report-comment"
-                                                                    type="button" data-reporttype="spam"
-                                                                    data-commentid="">
-                                                                    Report as Spam
-                                                                    <span><i class=""></i></span>
-                                                                </button>
-                                                                <button class="dropdown-item action-report-comment"
-                                                                    type="button" data-reporttype="duplicate"
-                                                                    data-commentid="">
-                                                                    Report as Duplicate
-                                                                    <span><i class=""></i></span>
-                                                                </button>
-                                                                <button class="dropdown-item action-report-comment"
-                                                                    type="button" data-reporttype="other"
-                                                                    data-commentid="">
-                                                                    Report as Other
-                                                                    <span><i class=""></i></span>
-                                                                </button>
-                                                                <!-- user end -->
-                                                                <% }  else if(user.role == 'moderator' || user.role == 'admin') { %>
-                                                                <!-- moderator / admin -->
-                                                                <button class="dropdown-item"
-                                                                    type="button">Delete</button>
-                                                                <button class="dropdown-item" type="button">Turn Off
-                                                                    Comment</button>
-                                                                <!-- moderator / admin end -->
-                                                                <% } else { %>
-                                                                <!-- postmaker -->
-                                                                <button class="dropdown-item" type="button">Request
-                                                                    to
-                                                                    Delete</button>
-                                                                <!-- postmaker end -->
-                                                                <%}%>
+                                                        <div class="card-footer p-0">
+                                                            <div
+                                                                class="row flex-nowrap justify-content-between no-gutters">
+                                                                <div class="col-sm-4">
+                                                                    <button type="button"
+                                                                        class="btn btn-light btn-sm btn-block rounded-0 text-success"><i
+                                                                            class="fas fa-chevron-circle-up"></i>
+                                                                        <span><%=comments[i].upvote%></span></button>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <button type="button"
+                                                                        class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger"><i
+                                                                            class="fas fa-chevron-circle-down"></i>
+                                                                        <span><%=comments[i].downvote%></span></button>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <button type="button"
+                                                                        class="btn btn-light btn-sm btn-block rounded-0 text-primary"
+                                                                        data-toggle="dropdown"><i
+                                                                            class="fas fa-ellipsis-h"></i></button>
+                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                        <% if((user.role=='enduser' || user.role == 'publisher') && user.username != post.username ){ %>
+                                                                        <!-- user -->
+                                                                        <button
+                                                                            class="dropdown-item action-report-comment"
+                                                                            type="button" data-reporttype="spam"
+                                                                            data-commentid="">
+                                                                            Report as Spam
+                                                                            <span><i class=""></i></span>
+                                                                        </button>
+                                                                        <button
+                                                                            class="dropdown-item action-report-comment"
+                                                                            type="button" data-reporttype="duplicate"
+                                                                            data-commentid="">
+                                                                            Report as Duplicate
+                                                                            <span><i class=""></i></span>
+                                                                        </button>
+                                                                        <button
+                                                                            class="dropdown-item action-report-comment"
+                                                                            type="button" data-reporttype="other"
+                                                                            data-commentid="">
+                                                                            Report as Other
+                                                                            <span><i class=""></i></span>
+                                                                        </button>
+                                                                        <!-- user end -->
+                                                                        <% }  else if(user.role == 'moderator' || user.role == 'admin') { %>
+                                                                        <!-- moderator / admin -->
+                                                                        <button class="dropdown-item"
+                                                                            type="button">Delete</button>
+                                                                        <button class="dropdown-item" type="button">Turn
+                                                                            Off
+                                                                            Comment</button>
+                                                                        <!-- moderator / admin end -->
+                                                                        <% } else { %>
+                                                                        <!-- postmaker -->
+                                                                        <button class="dropdown-item"
+                                                                            type="button">Request
+                                                                            to
+                                                                            Delete</button>
+                                                                        <!-- postmaker end -->
+                                                                        <%}%>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <!-- comment end -->
-                                        <% } %>
+                                                <!-- comment end -->
+                                                <% } %>
+                                                                        <!-- comment row end -->
+                                                                    </div>
 
-                                                                <!-- comment box start -->
-                                                                <% if(post.status != 'offcomment'){ %>
-                                                                <div class="col-md-12">
-                                                                    <form action="post">
-                                                                        <div class="row mb-5">
-                                                                            <div class="col-sm-12">
+                                                                    <!-- comment box start -->
+                                                                    <% if(post.status != 'offcomment'){ %>
+                                                                    <div class="col-sm-12">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <form action="post" id="commentForm">
+                                                                                    <div class="row mb-5">
+                                                                                        <div class="col-sm-12">
 
-                                                                                <div class="form-group">
-                                                                                    <label for="comment">Comment</label>
-                                                                                    <textarea class="form-control"
-                                                                                        id="comment" rows="4"
-                                                                                        placeholder="type your comment..."></textarea>
-                                                                                </div>
+                                                                                            <div class="form-group">
+                                                                                                <label
+                                                                                                    for="comment">Comment</label>
+                                                                                                <textarea
+                                                                                                    class="form-control"
+                                                                                                    id="commentBox"
+                                                                                                    rows="4"
+                                                                                                    placeholder="type your comment..."></textarea>
+                                                                                            </div>
 
-                                                                                <div
-                                                                                    class="form-group d-flex justify-content-end">
-                                                                                    <button type="reset"
-                                                                                        class="btn btn-secondary mr-2">Clear</button>
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-primary">Submit</button>
-                                                                                </div>
+                                                                                            <div
+                                                                                                class="form-group d-flex justify-content-end">
+                                                                                                <button type="reset"
+                                                                                                    class="btn btn-secondary mr-2">Clear</button>
+                                                                                                <button type="submit"
+                                                                                                    class="btn btn-primary">Submit</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
                                                                             </div>
                                                                         </div>
-                                                                    </form>
+                                                                    </div>
+                                                                    <% } %>
+                                                                    <!-- comment box end -->
                                                                 </div>
+
                                                                 <% } %>
-                                                                <!-- comment box end -->
+
                                                             </div>
 
-                                                            <% } %>
+                                                            <script src="/jquery.min.js"></script>
+                                                            <script src="/popper.min.js"></script>
+                                                            <script src="/bootstrap.min.js"></script>
 
-                                                        </div>
+                                                            <% if((user.role=='enduser' || user.role == 'publisher') && user.username != post.username ){ %>
+                                                            <!-- user -->
+                                                            <script>
+                                                                $('.action-report-post').click(function () {
+                                                                    const that = $(this);
+                                                                    data = {
+                                                                        reporttype: $(this).data('reporttype'),
+                                                                        postid: "<%=post.postid%>"
+                                                                    }
 
-                                                        <script src="/jquery.min.js"></script>
-                                                        <script src="/popper.min.js"></script>
-                                                        <script src="/bootstrap.min.js"></script>
+                                                                    $.ajax({
+                                                                        url: '/forum/report-post',
+                                                                        method: 'POST',
+                                                                        dataType: 'JSON',
+                                                                        data: data,
+                                                                        success: function (data) {
+                                                                            if ('status' in data) {
+                                                                                if (data.status == true) {
+                                                                                    $('.action-report-post span').html('');
+                                                                                    that.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                                } else {
 
-                                                        <% if((user.role=='enduser' || user.role == 'publisher') && user.username != post.username ){ %>
-                                                        <!-- user -->
-                                                        <script>
-                                                            $('.action-report-post').click(function () {
-                                                                const that = $(this);
-                                                                data = {
-                                                                    reporttype: $(this).data('reporttype'),
-                                                                    postid: "<%=post.postid%>"
-                                                                }
-
-                                                                $.ajax({
-                                                                    url: '/forum/report-post',
-                                                                    method: 'POST',
-                                                                    dataType: 'JSON',
-                                                                    data: data,
-                                                                    success: function (data) {
-                                                                        if ('status' in data) {
-                                                                            if (data.status == true) {
-                                                                                $('.action-report-post span').html('');
-                                                                                that.find('span').html("<i class='fas fa-check-circle'></i>");
-                                                                            } else {
-
+                                                                                }
                                                                             }
-                                                                        }
-                                                                    },
+                                                                        },
+                                                                    });
                                                                 });
-                                                            });
 
-                                                            $('.action-upvote').click(function () {
-                                                                const that = $(this);
-                                                                data = {
-                                                                    postid: "<%=post.postid%>"
-                                                                }
-                                                                console.log(data);
+                                                                $('.action-upvote').click(function () {
+                                                                    const that = $(this);
+                                                                    data = {
+                                                                        postid: "<%=post.postid%>"
+                                                                    }
+                                                                    console.log(data);
 
-                                                                $.ajax({
-                                                                    url: '/forum/upvote-post',
-                                                                    method: 'POST',
-                                                                    dataType: 'JSON',
-                                                                    data: data,
-                                                                    success: function (data) {
-                                                                        if ('status' in data) {
-                                                                            if (data.status == true) {
-                                                                                let c = parseInt(that.find('span').html());
-                                                                                c += 1;
-                                                                                that.find('span').html(c);
-                                                                            } else {
+                                                                    $.ajax({
+                                                                        url: '/forum/upvote-post',
+                                                                        method: 'POST',
+                                                                        dataType: 'JSON',
+                                                                        data: data,
+                                                                        success: function (data) {
+                                                                            if ('status' in data) {
+                                                                                if (data.status == true) {
+                                                                                    let c = parseInt(that.find('span').html());
+                                                                                    c += 1;
+                                                                                    that.find('span').html(c);
+                                                                                } else {
 
+                                                                                }
                                                                             }
-                                                                        }
-                                                                    },
+                                                                        },
+                                                                    });
                                                                 });
-                                                            });
-                                                            $('.action-downvote').click(function () {
-                                                                const that = $(this);
-                                                                data = {
-                                                                    postid: "<%=post.postid%>"
-                                                                }
-                                                                console.log(data);
+                                                                $('.action-downvote').click(function () {
+                                                                    const that = $(this);
+                                                                    data = {
+                                                                        postid: "<%=post.postid%>"
+                                                                    }
+                                                                    console.log(data);
 
-                                                                $.ajax({
-                                                                    url: '/forum/downvote-post',
-                                                                    method: 'POST',
-                                                                    dataType: 'JSON',
-                                                                    data: data,
-                                                                    success: function (data) {
-                                                                        if ('status' in data) {
-                                                                            if (data.status == true) {
-                                                                                let c = parseInt(that.find('span').html());
-                                                                                c -= 1;
-                                                                                that.find('span').html(c);
-                                                                            } else {
+                                                                    $.ajax({
+                                                                        url: '/forum/downvote-post',
+                                                                        method: 'POST',
+                                                                        dataType: 'JSON',
+                                                                        data: data,
+                                                                        success: function (data) {
+                                                                            if ('status' in data) {
+                                                                                if (data.status == true) {
+                                                                                    let c = parseInt(that.find('span').html());
+                                                                                    c -= 1;
+                                                                                    that.find('span').html(c);
+                                                                                } else {
 
+                                                                                }
                                                                             }
-                                                                        }
-                                                                    },
+                                                                        },
+                                                                    });
                                                                 });
-                                                            });
 
                                                             // $('.action-report-comment').click(function () {
                                                             //     const that = $(this);
@@ -412,68 +431,92 @@
                                                             //         },
                                                             //     });
                                                             // });
-                                                        </script>
-                                                        <!-- user end -->
-                                                        <% }  else if(user.role == 'moderator' || user.role == 'admin') { %>
-                                                        <!-- moderator / admin -->
-                                                        <script>
-                                                            $("#delete").click(function () {
-                                                                if (confirm('Are you sure to delete this post?')) {
+                                                            </script>
+                                                            <!-- user end -->
+                                                            <% }  else if(user.role == 'moderator' || user.role == 'admin') { %>
+                                                            <!-- moderator / admin -->
+                                                            <script>
+                                                                $("#delete").click(function () {
+                                                                    if (confirm('Are you sure to delete this post?')) {
+                                                                        $.ajax({
+                                                                            url: '/forum/moderate/delete-post',
+                                                                            method: 'POST',
+                                                                            dataType: 'JSON',
+                                                                            data: {
+                                                                                postid: $(this).data('postid'),
+                                                                            },
+                                                                            success: function (data) {
+                                                                                if ('status' in data) {
+                                                                                    if (data.status == true) {
+                                                                                        window.location.href = "/forum";
+                                                                                    } else {
+
+                                                                                    }
+                                                                                }
+                                                                            },
+                                                                        });
+                                                                    } else {
+
+                                                                    }
+
+                                                                });
+                                                                $("#turnoff").click(function () {
+                                                                    if (confirm('Are you sure to turm off comment for this post?')) {
+                                                                        $.ajax({
+                                                                            url: '/forum/moderate/turnoff-post',
+                                                                            method: 'POST',
+                                                                            dataType: 'JSON',
+                                                                            data: {
+                                                                                postid: $(this).data('postid'),
+                                                                            },
+                                                                            success: function (data) {
+                                                                                if ('status' in data) {
+                                                                                    if (data.status == true) {
+                                                                                        window.location.href = window.location.href;
+                                                                                    } else {
+
+                                                                                    }
+                                                                                }
+                                                                            },
+                                                                        });
+                                                                    } else {
+
+                                                                    }
+
+                                                                });
+                                                            </script>
+                                                            <!-- moderator / admin end -->
+                                                            <% } else { %>
+                                                            <!-- postmaker -->
+                                                            <script>
+
+                                                            </script>
+                                                            <!-- postmaker end -->
+                                                            <%}%>
+                                                        <% if(user.role=='enduser' || user.role == 'publisher'){ %>
+                                                            <script>
+                                                                $('#commentForm').submit(function (e) {
+                                                                    e.preventDefault();
                                                                     $.ajax({
-                                                                        url: '/forum/moderate/delete-post',
+                                                                        url: '/forum/comment',
                                                                         method: 'POST',
                                                                         dataType: 'JSON',
                                                                         data: {
-                                                                            postid: $(this).data('postid'),
+                                                                            comment: $('#commentBox').val(),
+                                                                            postid: "<%=post.postid%>",
                                                                         },
                                                                         success: function (data) {
-                                                                            if ('status' in data) {
-                                                                                if (data.status == true) {
-                                                                                    window.location.href = "/forum";
-                                                                                } else {
-
-                                                                                }
+                                                                            if ('commentid' in data && 'username' in data && 'comment' in data && 'time' in data) {
+                                                                                let comment = "<div class='col-md-12 mb-2'> <div class='card'> <div class='card-header bg-light border border-light border-bottom-0 py-0 px-3'> <div class='row'> <div class='col-md-9'>" + data.username + "</div><div class='col-md-3 text-md-right'>" + data.time + "</div></div></div><div class='card-body'> <p class='card-text'>" + data.comment + "</p></div><div class='card-footer p-0'> <div class='row flex-nowrap justify-content-between no-gutters'> <div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 text-success'> <i class='fas fa-chevron-circle-up'></i> <span>0</span> </button> </div><div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger'> <i class='fas fa-chevron-circle-down'></i> <span>0</span> </button> </div><div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 text-primary' data-toggle='dropdown'> <i class='fas fa-ellipsis-h'></i> </button> <div class='dropdown-menu dropdown-menu-right'> <button class='dropdown-item' type='button'>Request to Delete </button> </div></div></div></div></div></div>";
+                                                                                $('.comments-row').append(comment);
+                                                                                $('#commentBox').val('');
                                                                             }
+
                                                                         },
                                                                     });
-                                                                } else {
-
-                                                                }
-
-                                                            });
-                                                            $("#turnoff").click(function () {
-                                                                if (confirm('Are you sure to turm off comment for this post?')) {
-                                                                    $.ajax({
-                                                                        url: '/forum/moderate/turnoff-post',
-                                                                        method: 'POST',
-                                                                        dataType: 'JSON',
-                                                                        data: {
-                                                                            postid: $(this).data('postid'),
-                                                                        },
-                                                                        success: function (data) {
-                                                                            if ('status' in data) {
-                                                                                if (data.status == true) {
-                                                                                    window.location.href = window.location.href;
-                                                                                } else {
-
-                                                                                }
-                                                                            }
-                                                                        },
-                                                                    });
-                                                                } else {
-
-                                                                }
-
-                                                            });
-                                                        </script>
-                                                        <!-- moderator / admin end -->
-                                                        <% } else { %>
-                                                        <!-- postmaker -->
-                                                        <script>
-
-                                                        </script>
-                                                        <!-- postmaker end -->
-                                                        <%}%>
+                                                                });
+                                                            </script>
+                                                            <%}%>
                                 
 
 

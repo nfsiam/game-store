@@ -98,6 +98,30 @@ router.get('/walkthroughs/:id', function (req, res) {
 });
 
 
+//comment
+router.post('/comment', function (req, res) {
+    console.log(req.body);
+    const comment = {
+        comment: req.body.comment,
+        postid: parseInt(req.body.postid),
+        username: req.cookies["user"].username
+    };
+    forumposts.createComment(comment, (result) => {
+        if (!result) {
+            res.json({ failure: true });
+        } else {
+            res.json({
+                commentid: result,
+                username: comment.username,
+                comment: comment.comment,
+                time: moment().unix()
+            });
+        }
+    });
+});
+
+
+
 
 //report post
 router.post('/report-post', function (req, res) {
