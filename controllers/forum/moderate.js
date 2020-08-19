@@ -36,7 +36,7 @@ router.get('/', function (req, res) {
     });
 });
 
-//pending post page
+//delete post req list
 router.get('/delete-post-requests', function (req, res) {
     forumposts.getDeletePostReqList((deletePostReqList) => {
         res.render('forum/delpostreqs', { deletePostReqList });
@@ -176,7 +176,7 @@ router.post('/delete-post', function (req, res) {
     }
 });
 
-//delete post
+//delete comment
 router.post('/delete-comment', function (req, res) {
 
     // console.log(req.body);
@@ -201,6 +201,24 @@ router.post('/turnoff-post', function (req, res) {
         const postid = parseInt(req.body.postid);
 
         forumposts.changeStatus(postid, 'offcomment', (result) => {
+            if (!result) {
+                res.json({ failure: true });
+            } else {
+                res.json(result);
+            }
+        });
+    }
+
+});
+
+
+//check turn off comment for post
+router.post('/check-turnoff-post', function (req, res) {
+    // console.log(req.body);
+    if (req.body.postid != '') {
+        const postid = parseInt(req.body.postid);
+
+        forumposts.checkStatus(postid, 'offcomment', (result) => {
             if (result) {
                 res.json({ status: true })
             } else {

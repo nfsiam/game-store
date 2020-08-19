@@ -220,10 +220,34 @@ module.exports = {
         });
     },
 
-    changeStatus: (postid, decision, callback) => {
-        const sql = "update forumpost set status=? where postid=?";
-        db.execute(sql, [decision, postid], function (status) {
-            if (status) {
+    changeStatus: (postid, status, callback) => {
+        const sql = "select * from forumpost where postid=? and status=?";
+        db.getResults(sql, [postid, status], function (result) {
+            if (result.length > 0) {
+                const sql2 = "update forumpost set status=? where postid=?";
+                db.execute(sql2, ['approved', postid], function (status) {
+                    if (status) {
+                        callback({ turnedoff: false });
+                    } else {
+                        callback(false);
+                    }
+                });
+            } else {
+                const sql3 = "update forumpost set status=? where postid=?";
+                db.execute(sql3, [status, postid], function (status) {
+                    if (status) {
+                        callback({ turnedoff: true });
+                    } else {
+                        callback(false);
+                    }
+                });
+            }
+        });
+    },
+    checkStatus: (postid, status, callback) => {
+        const sql = "select * from forumpost where postid=? and status=?";
+        db.getResults(sql, [postid, status], function (result) {
+            if (result.length > 0) {
                 callback(true);
             } else {
                 callback(false);

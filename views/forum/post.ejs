@@ -152,7 +152,7 @@
                                     <button class="dropdown-item" type="button" data-postid="<%=post.postid%>"
                                         id="delete">Delete</button>
                                     <button class="dropdown-item" type="button" data-postid="<%=post.postid%>"
-                                        id="turnoff">Turn Off Comment</button>
+                                        id="turnoff">Turn Off Comment <span></span></button>
                                     <!-- moderator / admin end -->
                                     <% } else { %>
                                     <!-- postmaker -->
@@ -272,7 +272,7 @@
                                                                             type="button">Delete</button>
                                                                         <button class="dropdown-item" type="button">Turn
                                                                             Off
-                                                                            Comment</button>
+                                                                            Comment<span></span></button>
                                                                         <!-- moderator / admin end -->
                                                                         <% } else { %>
                                                                         <!-- postmaker -->
@@ -535,7 +535,7 @@
 
 
                                                                 $("#turnoff").click(function () {
-                                                                    if (confirm('Are you sure to turm off comment for this post?')) {
+                                                                    if (confirm('Are you sure to change status for this post?')) {
                                                                         $.ajax({
                                                                             url: '/forum/moderate/turnoff-post',
                                                                             method: 'POST',
@@ -544,19 +544,33 @@
                                                                                 postid: $(this).data('postid'),
                                                                             },
                                                                             success: function (data) {
-                                                                                if ('status' in data) {
-                                                                                    if (data.status == true) {
-                                                                                        window.location.href = window.location.href;
-                                                                                    } else {
-
-                                                                                    }
+                                                                                if ('turnedoff' in data) {
+                                                                                    window.location.href = window.location.href;
                                                                                 }
                                                                             },
                                                                         });
                                                                     } else {
 
                                                                     }
+                                                                });
 
+                                                                //auto check turn off state
+                                                                const tfc = $('#turnoff');
+                                                                $.ajax({
+                                                                    url: '/forum/moderate/check-turnoff-post',
+                                                                    method: 'POST',
+                                                                    dataType: 'JSON',
+                                                                    data: {
+                                                                        postid: tfc.data('postid'),
+                                                                    },
+                                                                    success: function (data) {
+                                                                        console.log(data);
+                                                                        if ('status' in data) {
+                                                                            if (data.status == true) {
+                                                                                tfc.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                            }
+                                                                        }
+                                                                    },
                                                                 });
                                                             </script>
                                                             <!-- moderator / admin end -->
