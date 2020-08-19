@@ -26,6 +26,23 @@ module.exports = {
     turnoffPost: function (postid, callback) {
 
     },
+    deleteComment: function (commentid, callback) {
+        var sql = "delete from postcomments where commentid=?";
+        db.execute(sql, [commentid], function (status) {
+            if (status) {
+                var sql2 = "delete from commentvotes where commentid=?";
+                db.execute(sql2, [commentid], function (status) {
+                    if (status) {
+                        callback(true);
+                    } else {
+                        callback(false);
+                    }
+                });
+            } else {
+                callback(false);
+            }
+        });
+    },
     deletePost: function (postid, callback) {
         var sql = "delete from forumpost where postid=?";
         db.execute(sql, [postid], function (status) {

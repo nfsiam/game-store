@@ -5,6 +5,7 @@ const forumModel = require.main.require('./models/forum/forumModel');
 const postFormatter = require('./postFormatter');
 const { registerReport } = require('../../models/forum/forumModel');
 const { check, validationResult } = require('express-validator');
+const moderateModel = require('../../models/forum/moderateModel');
 
 const router = express.Router();
 
@@ -235,6 +236,21 @@ router.post('/downvote-comment', function (req, res) {
     // console.log(req.body);
     const commentid = parseInt(req.body.commentid);
     forumposts.downvoteComment(commentid, req.cookies['user'].username, (result) => {
+        if (!result) {
+            res.json({ failure: true })
+        } else {
+            // console.log('succ');
+            res.json(result);
+        }
+    });
+
+});
+
+//req delete post
+router.post('/req-delete-post', function (req, res) {
+    // console.log(req.body);
+    const postid = parseInt(req.body.postid);
+    forumModel.reqDeletePost(postid, req.cookies['user'].username, (result) => {
         if (!result) {
             res.json({ failure: true })
         } else {

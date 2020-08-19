@@ -150,7 +150,9 @@
                                     <!-- moderator / admin end -->
                                     <% } else { %>
                                     <!-- postmaker -->
-                                    <button class="dropdown-item" type="button">Request to Delete</button>
+                                    <button class="dropdown-item" type="button" id="reqDeletePost"
+                                        data-postid="<%=post.postid%>">Request to
+                                        Delete <span></span> </button>
                                     <!-- postmaker end -->
                                     <%}%>
 
@@ -192,7 +194,7 @@
 
                                                 <% for(let i=0; i<comments.length; i++) { %>
                                                 <!-- comment start -->
-                                                <div class="col-md-12 mb-2">
+                                                <div class="col-md-12 mb-2 comment">
                                                     <div class="card">
                                                         <div
                                                             class="card-header bg-light border border-light border-bottom-0 py-0 px-3">
@@ -259,7 +261,8 @@
                                                                         <!-- user end -->
                                                                         <% }  else if(user.role == 'moderator' || user.role == 'admin') { %>
                                                                         <!-- moderator / admin -->
-                                                                        <button class="dropdown-item"
+                                                                        <button class="dropdown-item delete-comment"
+                                                                            data-commentid="<%=comments[i].commentid%>"
                                                                             type="button">Delete</button>
                                                                         <button class="dropdown-item" type="button">Turn
                                                                             Off
@@ -295,7 +298,7 @@
 
                                                                                             <div class="form-group">
                                                                                                 <label
-                                                                                                    for="comment">Comment</label>
+                                                                                                    for="commentBox">Comment</label>
                                                                                                 <textarea
                                                                                                     class="form-control"
                                                                                                     id="commentBox"
@@ -496,6 +499,34 @@
                                                                     }
 
                                                                 });
+                                                                $(".delete-comment").click(function () {
+                                                                    const that = $(this);
+
+                                                                    if (confirm('Are you sure to delete this comment?')) {
+                                                                        $.ajax({
+                                                                            url: '/forum/moderate/delete-comment',
+                                                                            method: 'POST',
+                                                                            dataType: 'JSON',
+                                                                            data: {
+                                                                                commentid: $(this).data('commentid'),
+                                                                            },
+                                                                            success: function (data) {
+                                                                                if ('status' in data) {
+                                                                                    if (data.status == true) {
+                                                                                        that.closest('.comment').fadeOut();
+                                                                                    } else {
+
+                                                                                    }
+                                                                                }
+                                                                            },
+                                                                        });
+                                                                    } else {
+
+                                                                    }
+
+                                                                });
+
+
                                                                 $("#turnoff").click(function () {
                                                                     if (confirm('Are you sure to turm off comment for this post?')) {
                                                                         $.ajax({
@@ -637,7 +668,30 @@
                                                                 });
                                                             </script>
                                                             <%}%>
-                                
+                                                            <% if(user.username == post.username) {%>
+                                                            <script>
+                                                                $('#reqDeletePost').click(function () {
+                                                                    const that = $(this);
+                                                                    console.log(that.data('postid'));
+                                                                    $.ajax({
+                                                                        url: '/forum/req-delete-post',
+                                                                        method: 'POST',
+                                                                        dataType: 'JSON',
+                                                                        data: {
+                                                                            postid: that.data('postid'),
+                                                                        },
+                                                                        success: function (data) {
+                                                                            if ('requested' in data) {
+                                                                                that.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                            } else if ('cancel' in data) {
+                                                                                that.find('span').html("");
+                                                                            }
+                                                                        },
+                                                                    });
+                                                                });
+                                                            </script>
+                                                            <% } %>
+
 
 
 </body>

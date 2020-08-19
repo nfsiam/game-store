@@ -150,7 +150,23 @@ router.post('/delete-post', function (req, res) {
             }
         });
     }
+});
 
+//delete post
+router.post('/delete-comment', function (req, res) {
+
+    // console.log(req.body);
+    if (req.body.commentid != '') {
+        const commentid = parseInt(req.body.commentid);
+
+        forumposts.deleteComment(commentid, (result) => {
+            if (result) {
+                res.json({ status: true })
+            } else {
+                res.json({ status: false })
+            }
+        });
+    }
 });
 
 //turn off comment for post
