@@ -107,7 +107,7 @@ module.exports = {
             comments: []
         };
         if (type != '') {
-            const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.username, forumpost.status, postcontent.title, postcontent.body, postcontent.codes, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote, (SELECT reporttype from reports where reporter = ? and postid = ? and reportof = 'post') reporttype  FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.posttype = ? and forumpost.status <> 'pending' ";
+            const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.username, forumpost.status, postcontent.title, postcontent.body, postcontent.codes, postcontent.fname, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote, (SELECT reporttype from reports where reporter = ? and postid = ? and reportof = 'post') reporttype  FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.posttype = ? and forumpost.status <> 'pending' ";
             db.getResults(sql, [username, postid, postid, type], function (result) {
                 if (result.length > 0) {
                     postAndComments.post = result[0];
@@ -127,7 +127,7 @@ module.exports = {
                 }
             });
         } else {
-            const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.username, forumpost.status, postcontent.title, postcontent.body, postcontent.codes, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote, (SELECT reporttype from reports where reporter = ? and postid = ?  and reportof = 'post') reporttype  FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.status <> 'pending' ";
+            const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, forumpost.username, forumpost.status, postcontent.title, postcontent.body, postcontent.codes, postcontent.fname, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote, (SELECT reporttype from reports where reporter = ? and postid = ?  and reportof = 'post') reporttype  FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.status <> 'pending' ";
             db.getResults(sql, [username, postid, postid], function (result) {
                 if (result.length > 0) {
                     postAndComments.post = result[0];
@@ -157,7 +157,7 @@ module.exports = {
             post: [],
             comments: []
         };
-        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.username, forumpost.gamename, forumpost.status, postcontent.title, postcontent.body,  postcontent.codes, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.status = ?";
+        const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.username, forumpost.gamename, forumpost.status, postcontent.title, postcontent.body,  postcontent.codes, postcontent.fname, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.status = ?";
         db.getResults(sql, [postid, 'pending'], function (result) {
             if (result.length > 0) {
                 postAndComments.post = result[0];

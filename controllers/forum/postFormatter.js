@@ -69,7 +69,7 @@ module.exports = {
     getPost: (obj, callback) => {
         forumposts.getPost(obj.user.username, parseInt(obj.postid), obj.type, (postWithComments) => {
             // console.log("kkkkkkkkkkkkkkkkkkkkkkkkkk");
-            // console.log(postWithComments.comments);
+            // console.log(postWithComments.post.fname);
 
             if (!postWithComments) {
                 callback(false);

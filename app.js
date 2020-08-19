@@ -17,11 +17,16 @@ const forum = require('./controllers/forum/forum');
 const create = require('./controllers/forum/create');
 const gossiproom = require('./controllers/forum/gossiproom');
 const moderate = require('./controllers/forum/moderate');
+const fileUpload = require('express-fileupload');
+
 
 //config
 app.set('view engine', 'ejs');
+app.use(fileUpload());
+
 
 app.use(express.static('public'));
+app.use(express.static('./storage'));
 app.use(express.static('./node_modules/@fortawesome/fontawesome-free/'));
 app.use(express.static('./node_modules/bootstrap/dist/js/'));
 app.use(express.static('./node_modules/bootstrap/dist/css/'));

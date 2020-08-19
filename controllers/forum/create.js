@@ -3,6 +3,10 @@ const moment = require('moment');
 const createModel = require.main.require('./models/forum/createModel');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
+var path = require('path');
+
+
+
 
 router.get('*', function (req, res, next) {
     if (req.cookies['user'] == null) {
@@ -73,6 +77,20 @@ router.post('/', [
         });
     }
 
+});
+
+router.post('/imageUpload', function (req, res) {
+    const image = req.files.pic;
+    const ext = image.mimetype.split('\/').pop();
+    tpath = path.dirname(require.main.filename) + "/storage/fp/" + image.md5 + "." + ext;
+    image.mv(tpath, (err) => {
+        if (err) {
+            res.json({});
+
+        } else {
+            res.json({ fname: image.md5 + '.' + ext })
+        }
+    });
 });
 
 

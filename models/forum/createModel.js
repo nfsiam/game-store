@@ -101,8 +101,8 @@ module.exports = {
         db.execute(sql, [post.type, post.gamename, post.username], function (status) {
             if (status) {
                 // console.log("inserted----------------------------------------");
-                const sql2 = "INSERT INTO postcontent(title,body,codes) VALUES (?,?,?);";
-                db.execute(sql2, [post.title, post.body, post.codes], function (status) {
+                const sql2 = "INSERT INTO postcontent(title,body,codes,fname) VALUES (?,?,?,?);";
+                db.execute(sql2, [post.title, post.body, post.codes, post.fname], function (status) {
                     if (status) {
                         callback(true);
                     } else {
