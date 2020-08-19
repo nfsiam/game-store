@@ -261,5 +261,19 @@ router.post('/req-delete-post', function (req, res) {
 
 });
 
+//check req delete post
+router.post('/check-req-delete-post', function (req, res) {
+    // console.log(req.body);
+    const postid = parseInt(req.body.postid);
+    forumModel.checkReqDeletePost(postid, req.cookies['user'].username, (result) => {
+        if (!result) {
+            res.json({ failure: true })
+        } else {
+            res.json(result);
+        }
+    });
+
+});
+
 
 module.exports = router;

@@ -670,6 +670,7 @@
                                                             <%}%>
                                                             <% if(user.username == post.username) {%>
                                                             <script>
+                                                                //req to delete post
                                                                 $('#reqDeletePost').click(function () {
                                                                     const that = $(this);
                                                                     console.log(that.data('postid'));
@@ -688,6 +689,29 @@
                                                                             }
                                                                         },
                                                                     });
+                                                                });
+
+                                                                //load req status
+                                                                $('#reqDeletePost').click(function () {
+
+                                                                });
+                                                                const rdb = $('#reqDeletePost');
+                                                                $.ajax({
+                                                                    url: '/forum/check-req-delete-post',
+                                                                    method: 'POST',
+                                                                    dataType: 'JSON',
+                                                                    data: {
+                                                                        postid: rdb.data('postid'),
+                                                                    },
+                                                                    success: function (data) {
+                                                                        if ('requested' in data) {
+                                                                            if (data.requested == true) {
+                                                                                rdb.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                            }
+                                                                        } else if ('cancel' in data) {
+                                                                            rdb.find('span').html("");
+                                                                        }
+                                                                    },
                                                                 });
                                                             </script>
                                                             <% } %>

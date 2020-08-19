@@ -95,6 +95,17 @@ module.exports = {
         });
     },
 
+    checkReqDeletePost: (postid, username, callback) => {
+        const sql = "SELECT * FROM deletereq WHERE postid = ? and deleteof=? and username = ? and status = ?";
+        db.getResults(sql, [postid, 'post', username, 'pending'], function (result) {
+            if (result.length > 0) {
+                callback({ requested: true });
+            } else {
+                callback({ requested: false });
+            }
+        });
+    },
+
     // getAll: function (callback) {
     //     var sql = "select * from user";
     //     db.getResults(sql, null, function (result) {
