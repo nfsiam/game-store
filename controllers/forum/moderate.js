@@ -28,12 +28,36 @@ router.get('/', function (req, res) {
             const pendingCount = result[0].pendingCount;
             const postReports = result[0].postReports;
             const commentReports = result[0].commentReports;
-            res.render('forum/moderate', { pendingCount, postReports, commentReports });
+            const deletePostReqs = result[0].deletePostReqs;
+            res.render('forum/moderate', { pendingCount, postReports, commentReports, deletePostReqs });
         } else {
             res.redirect('/forum');
         }
     });
 });
+
+//pending post page
+router.get('/delete-post-requests', function (req, res) {
+    forumposts.getDeletePostReqList((deletePostReqList) => {
+        res.render('forum/delpostreqs', { deletePostReqList });
+    })
+});
+//delete post req post
+router.get('/delete-post-requests/:postid', function (req, res) {
+    const postid = req.params.postid;
+    const user = req.cookies['user'];
+    postFormatter.getPost({ postid, user, type: '' }, (data) => {
+        if (!data) {
+            res.send('something went wrong');
+        } else {
+            data["delete_requested_post"] = 'yes';
+            res.render('forum/post', data);
+        }
+    });
+});
+
+
+
 
 //pending post page
 router.get('/pending', function (req, res) {

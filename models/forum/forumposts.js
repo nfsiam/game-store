@@ -56,6 +56,9 @@ module.exports = {
                                 var sql4 = "delete from reports where postid=?";
                                 db.execute(sql4, [postid], function (status) {
                                     if (status) {
+                                        var sql5 = "delete from deletereq where postid=?";
+                                        db.execute(sql5, [postid], function (status) {
+                                        });
                                         callback(true);
                                     } else {
                                         callback(false);
@@ -164,6 +167,12 @@ module.exports = {
             }
 
             // callback(result[0] || false);
+        });
+    },
+    getDeletePostReqList: (callback) => {
+        const sql = "select id, time, username, postid from deletereq where status='pending'";
+        db.getResults(sql, null, function (result) {
+            callback(result || []);
         });
     },
 

@@ -64,9 +64,15 @@
                 <% if(post.status == 'pending') { %>
                 <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
                 <li class="breadcrumb-item"><a href="/forum/moderate/pending">pending</a></li>
-                <% }else if(reported_post == 'yes') { %>
+                <% }else if(reported_post == 'yes' || locals.delete_requested_post) { %>
+                <% if(locals.delete_requested_post) {%>
+                <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
+                <li class="breadcrumb-item"><a href="/forum/moderate/delete-post-requests/">delete-post-requests</a>
+                </li>
+                <%} else {%>
                 <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
                 <li class="breadcrumb-item"><a href="/forum/moderate/reported-post">reported-post</a></li>
+                <%}%>
                 <% } else { %>
                 <li class="breadcrumb-item"><a href="/forum/<%=post.posttype%>s"><%=post.posttype%>s</a></li>
                 <% } %>
@@ -486,6 +492,7 @@
                                                                             },
                                                                             success: function (data) {
                                                                                 if ('status' in data) {
+
                                                                                     if (data.status == true) {
                                                                                         window.location.href = "/forum";
                                                                                     } else {

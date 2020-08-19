@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sb-admin-2.min.css">
+    <title>Moderation Panel</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!-- nav start-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+            <a class="navbar-brand" href="#">Game Store</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Store</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link dropdown-toggle" href="/forum" data-toggle="dropdown">Forum</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <!-- user -->
+                            <a href="/forum/issues" class="dropdown-item">Issues</a>
+                            <a href="/forum/reviews" class="dropdown-item">Reviews</a>
+                            <a href="/forum/walkthroughs" class="dropdown-item">Walkthroughs</a>
+                            <a href="/forum/gossiproom" class="dropdown-item">Gossip Room</a>
+                            <!-- user -->
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- nav end -->
+
+        <!-- breadcumb start -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/forum">forum</a></li>
+                <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
+                <li class="breadcrumb-item active" aria-current="page">delete-post-requests</li>
+            </ol>
+        </nav>
+        <!-- breadcumb end -->
+
+        <div class="row mb-5">
+            <div class="col-sm-12 table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">request id</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">User</th>
+                            <th scope="col">postid</th>
+                            <th scope="col">Approve</th>
+                            <th scope="col">Decline</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i=0; i<deletePostReqList.length; i++) { %>
+                        <tr class="post-row" data-postid="<%=deletePostReqList[i].postid%>">
+                            <th scope="row"><%=deletePostReqList[i].id%></th>
+                            <td><%=deletePostReqList[i].time%></td>
+                            <td><%=deletePostReqList[i].username%></td>
+                            <td><%=deletePostReqList[i].postid%></td>
+                            <td>
+                                <button type="submit" class="btn btn-block btn-success"
+                                    data-postid="<%=deletePostReqList[i].postid%>">Approve</button>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-block btn-danger"
+                                    data-postid="<%=deletePostReqList[i].postid%>">Decline</button>
+                            </td>
+                        </tr>
+
+                        <% } %>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/jquery.min.js"></script>
+    <script src="/popper.min.js"></script>
+    <script src="/bootstrap.min.js"></script>
+    <script>
+        $('.post-row').click(function () {
+            window.location.href = '/forum/moderate/delete-post-requests/' + $(this).data('postid');
+        });
+    </script>
+
+</body>
+
+</html>
