@@ -61,23 +61,33 @@
         <!-- breadcumb end -->
 
         <!-- create and search start -->
+        <!-- create and search start -->
         <div class="row mb-5">
-            <div class="col-md-2 mb-2 mb-md-0">
+            <div class="col-md-2 mb-2 mb-md-0 ">
                 <% if (user.role=='moderator') {%>
                 <a href="/forum/moderate" class="btn btn-primary btn-block">Moderate</a>
                 <% } else { %>
                 <a href="/forum/create" class="btn btn-primary btn-block">Create</a>
                 <% }%>
+
+
             </div>
             <div class="col-md-10">
-                <div class="input-group">
-                    <input type="text" class="form-control input-group-prepend" placeholder="search text...">
-
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Search</button>
+                <form action="/forum/search" method="post">
+                    <div class="input-group">
+                        <input type="text" class="form-control input-group-prepend" name="key"
+                            placeholder="search text...">
+                        <select class="custom-select" name="type">
+                            <option selected value="everything">in Everything</option>
+                            <option value="issue">in Issues</option>
+                            <option value="review">in Reviews</option>
+                            <option value="walkthrough">in Walkthroughs</option>
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
                     </div>
-
-                </div>
+                </form>
             </div>
         </div>
         <!-- create and search end -->
@@ -119,7 +129,7 @@
                                     <span><%=posts[i].downvote%></span></button>
                             </div>
                             <div class="col-sm-4">
-                                <a href="/forum/<%=breadcumb%>/<%=posts[i].postid%>"
+                                <a href="/forum/<%=posts[i].posttype%>s/<%=posts[i].postid%>"
                                     class="btn btn-light btn-sm btn-block rounded-0 text-primary"
                                     data-postid="<%=posts[i].postid%>">read
                                     more <i class="fas fa-chevron-right"></i></a>

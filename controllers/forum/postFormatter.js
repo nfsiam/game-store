@@ -87,5 +87,20 @@ module.exports = {
                 callback(formattedData);
             })
         });
+    },
+    getSearchPosts: (obj, callback) => {
+        // console.log(obj);
+        forumposts.getSearchPosts(obj.key, obj.type, (posts) => {
+            formatPosts({
+                posts,
+                user: obj.user,
+                breadcumb: 'search'
+
+            }, (formattedData) => {
+                // console.log(formattedData);
+                // res.render('forum/issues', formattedData);
+                callback(formattedData);
+            })
+        });
     }
 }

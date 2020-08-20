@@ -61,19 +61,21 @@
 
             </div>
             <div class="col-md-10">
-                <div class="input-group">
-                    <input type="text" class="form-control input-group-prepend" placeholder="search text...">
-                    <select class="custom-select">
-                        <option selected>in Everything</option>
-                        <option value="issue">in Issues</option>
-                        <option value="review">in Reviews</option>
-                        <option value="walkthrough">in Walkthroughs</option>
-                    </select>
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Search</button>
+                <form action="/forum/search" method="post">
+                    <div class="input-group">
+                        <input type="text" class="form-control input-group-prepend" name="key"
+                            placeholder="search text...">
+                        <select class="custom-select" name="type">
+                            <option selected value="everything">in Everything</option>
+                            <option value="issue">in Issues</option>
+                            <option value="review">in Reviews</option>
+                            <option value="walkthrough">in Walkthroughs</option>
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
                     </div>
-
-                </div>
+                </form>
             </div>
         </div>
         <!-- create and search end -->

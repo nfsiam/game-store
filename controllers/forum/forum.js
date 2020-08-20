@@ -39,6 +39,19 @@ router.get('/', function (req, res) {
 });
 
 
+
+
+//search
+router.post('/search', function (req, res) {
+    // console.log(req.body);
+    const key = req.body.key || '';
+    const type = req.body.type;
+    const user = req.cookies['user'];
+    postFormatter.getSearchPosts({ user, key, type }, (data) => {
+        res.render('forum/posts', data);
+    });
+});
+
 //issues
 router.get('/issues', function (req, res) {
     const user = req.cookies['user'];
