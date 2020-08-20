@@ -246,7 +246,7 @@
                                                                         data-toggle="dropdown"><i
                                                                             class="fas fa-ellipsis-h"></i></button>
                                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                                        <% if((user.role=='enduser' || user.role == 'publisher') && user.username != post.username ){ %>
+                                                                        <% if((user.role=='enduser' || user.role == 'publisher') && user.username != comments[i].username ){ %>
                                                                         <!-- user -->
                                                                         <button
                                                                             class="dropdown-item action-report-comment"
@@ -279,12 +279,14 @@
                                                                             Off
                                                                             Comment<span></span></button>
                                                                         <!-- moderator / admin end -->
-                                                                        <% } else { %>
+                                                                        <% } %>
+                                                                        <% if(user.username == comments[i].username){ %>
                                                                         <!-- postmaker -->
-                                                                        <button class="dropdown-item"
-                                                                            type="button">Request
+                                                                        <button class="dropdown-item req-delete-comment"
+                                                                            type="button" data-postid="<%=post.postid%>"
+                                                                            data-commentid="<%=comments[i].commentid%>">Request
                                                                             to
-                                                                            Delete</button>
+                                                                            Delete <span></span> </button>
                                                                         <!-- postmaker end -->
                                                                         <%}%>
                                                                     </div>
@@ -348,6 +350,52 @@
                                                                 $('#commentBox').click(function () {
                                                                     $(this).removeClass('border-danger');
                                                                 })
+
+                                                                //req to delete comment
+                                                                $(document).on('click', '.req-delete-comment', function () {
+                                                                    const that = $(this);
+                                                                    console.log(that[0]);
+                                                                    $.ajax({
+                                                                        url: '/forum/req-delete-comment',
+                                                                        method: 'POST',
+                                                                        dataType: 'JSON',
+                                                                        data: {
+                                                                            postid: that.data('postid'),
+                                                                            commentid: that.data('commentid'),
+                                                                        },
+                                                                        success: function (data) {
+                                                                            if ('requested' in data) {
+                                                                                that.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                            } else if ('cancel' in data) {
+                                                                                that.find('span').html("");
+                                                                            }
+                                                                        },
+                                                                    });
+                                                                });
+
+                                                                //load req status
+                                                                $('.req-delete-comment').each(function () {
+                                                                    const rdc = $(this);
+                                                                    $.ajax({
+                                                                        url: '/forum/check-req-delete-comment',
+                                                                        method: 'POST',
+                                                                        dataType: 'JSON',
+                                                                        data: {
+                                                                            postid: rdc.data('postid'),
+                                                                            commentid: rdc.data('commentid'),
+                                                                        },
+                                                                        success: function (data) {
+                                                                            if ('requested' in data) {
+                                                                                if (data.requested == true) {
+                                                                                    rdc.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                                }
+                                                                            } else if ('cancel' in data) {
+                                                                                rdc.find('span').html("");
+                                                                            }
+                                                                        },
+                                                                    });
+                                                                });
+
                                                             </script>
 
                                                             <% if((user.role=='enduser' || user.role == 'publisher') && user.username != post.username ){ %>
@@ -590,6 +638,7 @@
                                                             <script>
                                                                 //comment o the post
                                                                 $('#commentForm').submit(function (e) {
+                                                                    const pidc = "<%=post.postid%>";
                                                                     e.preventDefault();
                                                                     $.ajax({
                                                                         url: '/forum/comment',
@@ -605,7 +654,7 @@
                                                                                 $('#errcomment').prev().addClass('border-danger');
                                                                             }
                                                                             else if ('commentid' in data && 'username' in data && 'comment' in data && 'time' in data) {
-                                                                                let comment = "<div class='col-md-12 mb-2'> <div class='card'> <div class='card-header bg-light border border-light border-bottom-0 py-0 px-3'> <div class='row'> <div class='col-md-9'>" + data.username + "</div><div class='col-md-3 text-md-right'>" + data.time + "</div></div></div><div class='card-body'> <p class='card-text'>" + data.comment + "</p></div><div class='card-footer p-0'> <div class='row flex-nowrap justify-content-between no-gutters'> <div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 text-success'> <i class='fas fa-chevron-circle-up'></i> <span>0</span> </button> </div><div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger'> <i class='fas fa-chevron-circle-down'></i> <span>0</span> </button> </div><div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 text-primary' data-toggle='dropdown'> <i class='fas fa-ellipsis-h'></i> </button> <div class='dropdown-menu dropdown-menu-right'> <button class='dropdown-item' type='button'>Request to Delete </button> </div></div></div></div></div></div>";
+                                                                                let comment = "<div class='col-md-12 mb-2'> <div class='card'> <div class='card-header bg-light border border-light border-bottom-0 py-0 px-3'> <div class='row'> <div class='col-md-9'>" + data.username + "</div><div class='col-md-3 text-md-right'>" + data.time + "</div></div></div><div class='card-body'> <p class='card-text'>" + data.comment + "</p></div><div class='card-footer p-0'> <div class='row flex-nowrap justify-content-between no-gutters'> <div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 text-success'> <i class='fas fa-chevron-circle-up'></i> <span>0</span> </button> </div><div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger'> <i class='fas fa-chevron-circle-down'></i> <span>0</span> </button> </div><div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 text-primary' data-toggle='dropdown'> <i class='fas fa-ellipsis-h'></i> </button> <div class='dropdown-menu dropdown-menu-right'> <button class='dropdown-item req-delete-comment' type='button' data-postid='" + pidc + "'data-commentid='" + data.commentid + "'>Request to Delete <span></span> </button> </div></div></div></div></div></div>";
                                                                                 $('.comments-row').append(comment);
                                                                                 $('#commentBox').val('');
                                                                                 $('#errcomment').html('');

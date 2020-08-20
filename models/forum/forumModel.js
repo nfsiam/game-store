@@ -68,6 +68,44 @@ module.exports = {
         });
     },
 
+    reqDeleteComment: (postid, commentid, username, callback) => {
+        const sql = "SELECT * FROM deletereq WHERE postid = ? and commentid=? and deleteof=? and username = ? and status = ?";
+        db.getResults(sql, [postid, commentid, 'comment', username, 'pending'], function (result) {
+            if (result.length > 0) {
+                if (result[0].username == username) {
+                    const sql2 = "delete from deletereq where postid=? and commentid=? and deleteof=? and username = ? and status =?";
+                    db.execute(sql2, [postid, commentid, 'comment', username, 'pending'], function (status) {
+                        if (status) {
+                            console.log("here in cancel true");
+                            callback({ cancel: true });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                }
+            } else {
+                const sql3 = "insert into deletereq values(?, UNIX_TIMESTAMP(), ?, ?, ?,?,?)";
+                db.execute(sql3, [null, username, 'comment', postid, commentid, 'pending'], function (status) {
+                    if (status) {
+                        callback({ requested: true });
+                    } else {
+                        callback(false);
+                    }
+                });
+            }
+        });
+    },
+    checkReqDeleteComment: (postid, commentid, username, callback) => {
+        const sql = "SELECT * FROM deletereq WHERE postid = ? and commentid=? and deleteof=? and username = ? and status = ?";
+        db.getResults(sql, [postid, commentid, 'comment', username, 'pending'], function (result) {
+            if (result.length > 0) {
+                callback({ requested: true });
+            } else {
+                callback({ requested: false });
+            }
+        });
+    },
+
     reqDeletePost: (postid, username, callback) => {
         const sql = "SELECT * FROM deletereq WHERE postid = ? and deleteof=? and username = ? and status = ?";
         db.getResults(sql, [postid, 'post', username, 'pending'], function (result) {

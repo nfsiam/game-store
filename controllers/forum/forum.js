@@ -246,6 +246,36 @@ router.post('/downvote-comment', function (req, res) {
 
 });
 
+//req delete comment
+router.post('/req-delete-comment', function (req, res) {
+    // console.log(req.body);
+    const postid = parseInt(req.body.postid);
+    const commentid = parseInt(req.body.commentid);
+    forumModel.reqDeleteComment(postid, commentid, req.cookies['user'].username, (result) => {
+        if (!result) {
+            res.json({ failure: true })
+        } else {
+            // console.log('succ');
+            res.json(result);
+        }
+    });
+
+});
+
+//check req delete comment
+router.post('/check-req-delete-comment', function (req, res) {
+    // console.log(req.body);
+    const postid = parseInt(req.body.postid);
+    const commentid = parseInt(req.body.commentid);
+    forumModel.checkReqDeleteComment(postid, commentid, req.cookies['user'].username, (result) => {
+        if (!result) {
+            res.json({ failure: true })
+        } else {
+            res.json(result);
+        }
+    });
+
+});
 //req delete post
 router.post('/req-delete-post', function (req, res) {
     // console.log(req.body);

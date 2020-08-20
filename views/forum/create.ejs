@@ -127,7 +127,7 @@
                     </div>
 
                     <div class="form-group d-flex justify-content-end">
-                        <button type="reset" class="btn btn-secondary mr-2">Clear</button>
+                        <button type="button" class="btn btn-secondary mr-2 reset">Clear</button>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
@@ -186,6 +186,19 @@
             });
         });
 
+        $(".reset").click(function () {
+            $(':input', '#createForm')
+                .not(':button, :submit, :reset, :hidden')
+                .val('')
+                .prop('checked', false)
+                .prop('selected', false);
+
+            $('#selFile')[0].value = null;
+            fname = '';
+            $('.custom-file-label').html('Choose File');
+
+
+        })
         //form submit
         $('#createForm').submit(function (e) {
             e.preventDefault();
