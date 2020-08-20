@@ -30,7 +30,8 @@ router.get('/', function (req, res) {
             const postReports = result[0].postReports;
             const commentReports = result[0].commentReports;
             const deletePostReqs = result[0].deletePostReqs;
-            res.render('forum/moderate', { pendingCount, postReports, commentReports, deletePostReqs });
+            const mutedUsers = result[0].mutedUsers;
+            res.render('forum/moderate', { pendingCount, postReports, commentReports, deletePostReqs, mutedUsers });
         } else {
             res.redirect('/forum');
         }
@@ -60,6 +61,12 @@ router.get('/delete-post-requests/:postid', function (req, res) {
 
 
 
+///muted users
+router.get('/muted-users', function (req, res) {
+    forumModel.getMutedUserList((mutedUserList) => {
+        res.render('forum/mutedusers', { mutedUserList });
+    })
+});
 //pending post page
 router.get('/pending', function (req, res) {
     forumposts.getPendingPosts((pendingPostList) => {

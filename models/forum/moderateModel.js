@@ -25,7 +25,7 @@ module.exports = {
     // },
 
     getModerateCounts: (callback) => {
-        const sql = "SELECT  (SELECT COUNT(*) FROM   forumpost where status=?) AS pendingCount, (SELECT COUNT(*) FROM  reports where status=? and reportof = ?) AS postReports, (SELECT COUNT(*) FROM  reports where status=? and reportof = ?) AS commentReports, (SELECT COUNT(*) FROM  deletereq where status=? and deleteof = ?) AS deletePostReqs FROM dual";
+        const sql = "SELECT  (SELECT COUNT(*) FROM   forumpost where status=?) AS pendingCount, (SELECT COUNT(*) FROM  reports where status=? and reportof = ?) AS postReports, (SELECT COUNT(*) FROM  reports where status=? and reportof = ?) AS commentReports, (SELECT COUNT(*) FROM  deletereq where status=? and deleteof = ?) AS deletePostReqs , (SELECT COUNT(*) FROM  mutedusers) AS mutedUsers FROM dual";
         db.getResults(sql, ['pending', 'pending', 'post', 'pending', 'comment', 'pending', 'post'], function (result) {
             callback(result || []);
         });

@@ -177,6 +177,16 @@ module.exports = {
             }
         });
     },
+    getMutedUserList: (callback) => {
+        const sql = "SELECT * FROM mutedusers";
+        db.getResults(sql, null, function (result) {
+            if (result.length > 0) {
+                callback(result);
+            } else {
+                callback([]);
+            }
+        });
+    },
 
     // getAll: function (callback) {
     //     var sql = "select * from user";
