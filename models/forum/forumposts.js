@@ -84,7 +84,6 @@ module.exports = {
         } else {
             sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename,  forumpost.status, forumpost.posttype, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.status <> 'pending' and (postcontent.title like '%" + key + "%' or postcontent.body like '%" + key + "%' or forumpost.gamename like '%" + key + "%') order by postid desc";
         }
-        // console.log('#####', sql);
         db.getResults(sql, [type], function (result) {
             callback(result || []);
         });
@@ -131,7 +130,6 @@ module.exports = {
                         if (result.length > 0) {
                             postAndComments.comments = result;
                         }
-                        // console.log("dddddddddddddddddddddddddddddddddddd", postAndComments);
                         callback(postAndComments);
                     });
                 } else {

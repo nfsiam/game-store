@@ -17,7 +17,6 @@ router.get('*', function (req, res, next) {
         } else {
             res.redirect('/forum');
         }
-        // console.log(req.cookies['user']);
     }
 });
 
@@ -56,8 +55,6 @@ router.post('/', [
     const errors = validationResult(req)
 
     req.body["username"] = req.cookies['user'].username;
-
-    console.log(req.body);
 
     if (!errors.isEmpty()) {
         res.json({

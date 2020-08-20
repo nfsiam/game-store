@@ -21,7 +21,6 @@ module.exports = {
         //passed to db and called 
         const cbAlluserModel = (result) => {
             if (result.length > 0) {
-                // console.log(result);
                 cbLoginController(result[0].role);
             } else {
                 cbLoginController(false);

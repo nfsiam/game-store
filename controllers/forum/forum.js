@@ -13,7 +13,6 @@ router.get('*', function (req, res, next) {
     if (req.cookies['user'] == null) {
         res.redirect('/login');
     } else {
-        // console.log(req.cookies['user']);
         next();
     }
 });
@@ -43,7 +42,6 @@ router.get('/', function (req, res) {
 
 //search
 router.post('/search', function (req, res) {
-    // console.log(req.body);
     const key = req.body.key || '';
     const type = req.body.type;
     const user = req.cookies['user'];
@@ -84,7 +82,6 @@ router.get('/reviews/:id', function (req, res) {
     const postid = req.params.id;
     const user = req.cookies['user'];
     postFormatter.getPost({ postid, user, type: 'review' }, (data) => {
-        // console.log('here');
         if (!data) {
             res.send('something went wrong');
         } else {
@@ -170,7 +167,6 @@ router.post('/report-post', function (req, res) {
             reportof: "post"
         }
         forumModel.reportPost(report, (result) => {
-            // console.log(result);
             if (result) {
                 res.json({ status: true })
             } else {
@@ -184,7 +180,6 @@ router.post('/report-post', function (req, res) {
 //report comment
 router.post('/report-comment', function (req, res) {
 
-    // console.log(req.body);
     if (req.body.commentid != '') {
         const report = {
             postid: parseInt(req.body.postid),
@@ -193,9 +188,7 @@ router.post('/report-comment', function (req, res) {
             reporter: req.cookies["user"].username,
             reportof: "comment"
         }
-        // console.log('calling db');
         forumModel.reportComment(report, (result) => {
-            // console.log(result);
             if (result) {
                 res.json({ status: true })
             } else {
@@ -246,13 +239,11 @@ router.post('/upvote-comment', function (req, res) {
 });
 //downvote comment
 router.post('/downvote-comment', function (req, res) {
-    // console.log(req.body);
     const commentid = parseInt(req.body.commentid);
     forumposts.downvoteComment(commentid, req.cookies['user'].username, (result) => {
         if (!result) {
             res.json({ failure: true })
         } else {
-            // console.log('succ');
             res.json(result);
         }
     });
@@ -261,14 +252,12 @@ router.post('/downvote-comment', function (req, res) {
 
 //req delete comment
 router.post('/req-delete-comment', function (req, res) {
-    // console.log(req.body);
     const postid = parseInt(req.body.postid);
     const commentid = parseInt(req.body.commentid);
     forumModel.reqDeleteComment(postid, commentid, req.cookies['user'].username, (result) => {
         if (!result) {
             res.json({ failure: true })
         } else {
-            // console.log('succ');
             res.json(result);
         }
     });
@@ -277,7 +266,6 @@ router.post('/req-delete-comment', function (req, res) {
 
 //check req delete comment
 router.post('/check-req-delete-comment', function (req, res) {
-    // console.log(req.body);
     const postid = parseInt(req.body.postid);
     const commentid = parseInt(req.body.commentid);
     forumModel.checkReqDeleteComment(postid, commentid, req.cookies['user'].username, (result) => {
@@ -291,13 +279,11 @@ router.post('/check-req-delete-comment', function (req, res) {
 });
 //req delete post
 router.post('/req-delete-post', function (req, res) {
-    // console.log(req.body);
     const postid = parseInt(req.body.postid);
     forumModel.reqDeletePost(postid, req.cookies['user'].username, (result) => {
         if (!result) {
             res.json({ failure: true })
         } else {
-            // console.log('succ');
             res.json(result);
         }
     });
@@ -306,7 +292,6 @@ router.post('/req-delete-post', function (req, res) {
 
 //check req delete post
 router.post('/check-req-delete-post', function (req, res) {
-    // console.log(req.body);
     const postid = parseInt(req.body.postid);
     forumModel.checkReqDeletePost(postid, req.cookies['user'].username, (result) => {
         if (!result) {

@@ -103,7 +103,7 @@
                             <div class="col-md-9">
                                 <%=posts[i].gamename%>
                             </div>
-                            <div class="col-md-3 text-md-right">
+                            <div class="col-md-3 text-md-right dtime">
                                 <%=posts[i].time%>
                             </div>
                         </div>
@@ -167,6 +167,16 @@
     <script src="/jquery.min.js"></script>
     <script src="/popper.min.js"></script>
     <script src="/bootstrap.min.js"></script>
+    <script src="/moment.min.js"></script>
+
+    <script>
+        $('.dtime').each(function () {
+            const utime = parseInt($(this).html());
+            const formattedTime = moment.unix(utime).format("MM/DD/YYYY hh:mm:ss a");
+            $(this).html(formattedTime);
+
+        });
+    </script>
 
 </body>
 

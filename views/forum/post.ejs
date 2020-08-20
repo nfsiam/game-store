@@ -90,7 +90,7 @@
                                 on <span class="text-primary"><%=post.gamename%></span> by <span
                                     class="text-info"><%=post.username%></span>
                             </div>
-                            <div class="col-md-3 text-md-right">
+                            <div class="col-md-3 text-md-right dtime">
                                 <%=post.time%>
                             </div>
                         </div>
@@ -213,7 +213,7 @@
                                                                 <div class="col-md-9">
                                                                     <%=comments[i].username%>
                                                                 </div>
-                                                                <div class="col-md-3 text-md-right">
+                                                                <div class="col-md-3 text-md-right dtime">
                                                                     <%=comments[i].time%>
                                                                 </div>
                                                             </div>
@@ -346,6 +346,16 @@
                                                             <script src="/jquery.min.js"></script>
                                                             <script src="/popper.min.js"></script>
                                                             <script src="/bootstrap.min.js"></script>
+                                                            <script src="/moment.min.js"></script>
+
+                                                            <script>
+                                                                $('.dtime').each(function () {
+                                                                    const utime = parseInt($(this).html());
+                                                                    const formattedTime = moment.unix(utime).format("MM/DD/YYYY hh:mm:ss a");
+                                                                    $(this).html(formattedTime);
+
+                                                                });
+                                                            </script>
 
                                                             <script>
                                                                 $('#commentBox').click(function () {
@@ -355,7 +365,7 @@
                                                                 //req to delete comment
                                                                 $(document).on('click', '.req-delete-comment', function () {
                                                                     const that = $(this);
-                                                                    console.log(that[0]);
+                                                                    // console.log(that[0]);
                                                                     $.ajax({
                                                                         url: '/forum/req-delete-comment',
                                                                         method: 'POST',
@@ -437,7 +447,7 @@
                                                                     data = {
                                                                         postid: "<%=post.postid%>"
                                                                     }
-                                                                    console.log(data);
+                                                                    // console.log(data);
 
                                                                     $.ajax({
                                                                         url: '/forum/upvote-post',
@@ -471,7 +481,7 @@
                                                                 });
                                                                 $('.action-downvote').click(function () {
                                                                     const muted = "<%=muted%>";
-                                                                    console.log(muted);
+                                                                    // console.log(muted);
                                                                     if (muted == 'true') {
                                                                         alert('You can not do this remaining muted!');
                                                                         return;
@@ -480,7 +490,7 @@
                                                                     data = {
                                                                         postid: "<%=post.postid%>"
                                                                     }
-                                                                    console.log(data);
+                                                                    // console.log(data);
 
                                                                     $.ajax({
                                                                         url: '/forum/downvote-post',
@@ -629,7 +639,7 @@
                                                                         postid: tfc.data('postid'),
                                                                     },
                                                                     success: function (data) {
-                                                                        console.log(data);
+                                                                        // console.log(data);
                                                                         if ('status' in data) {
                                                                             if (data.status == true) {
                                                                                 tfc.find('span').html("<i class='fas fa-check-circle'></i>");
@@ -819,7 +829,7 @@
                                                                 //req to delete post
                                                                 $('#reqDeletePost').click(function () {
                                                                     const that = $(this);
-                                                                    console.log(that.data('postid'));
+                                                                    // console.log(that.data('postid'));
                                                                     $.ajax({
                                                                         url: '/forum/req-delete-post',
                                                                         method: 'POST',

@@ -79,7 +79,7 @@
                         <% for(let i=0; i<pendingPostList.length; i++) { %>
                         <tr class="post-row" data-postid="<%=pendingPostList[i].postid%>">
                             <th scope="row"><%=pendingPostList[i].postid%></th>
-                            <td><%=pendingPostList[i].time%></td>
+                            <td class="dtime"><%=pendingPostList[i].time%></td>
                             <td><%=pendingPostList[i].username%></td>
                             <td><%=pendingPostList[i].gamename%></td>
                             <td><%=pendingPostList[i].posttype%></td>
@@ -112,6 +112,16 @@
     <script src="/jquery.min.js"></script>
     <script src="/popper.min.js"></script>
     <script src="/bootstrap.min.js"></script>
+    <script src="/moment.min.js"></script>
+
+    <script>
+        $('.dtime').each(function () {
+            const utime = parseInt($(this).html());
+            const formattedTime = moment.unix(utime).format("MM/DD/YYYY hh:mm:ss a");
+            $(this).html(formattedTime);
+
+        });
+    </script>
     <script>
         $('.post-row').click(function () {
             window.location.href = '/forum/moderate/pending/' + $(this).data('postid');

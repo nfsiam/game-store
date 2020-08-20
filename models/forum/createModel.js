@@ -10,11 +10,9 @@ module.exports = {
     },
 
     createPost: (post, callback) => {
-        // console.log("innnnnnnnnnnnnnnnnnn", post);
         const sql = "Insert into forumpost(posttype,gamename,time,username) values(?,?,UNIX_TIMESTAMP(),?)";
         db.execute(sql, [post.type, post.gamename, post.username], function (status) {
             if (status) {
-                // console.log("inserted----------------------------------------");
                 const sql2 = "INSERT INTO postcontent(title,body,codes,fname) VALUES (?,?,?,?);";
                 db.execute(sql2, [post.title, post.body, post.codes, post.fname], function (status) {
                     if (status) {

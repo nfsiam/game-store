@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div class="container-fluid">
+    <div class="container">
         <!-- nav start-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
             <a class="navbar-brand" href="#">Game Store</a>
@@ -77,7 +77,7 @@
                         <% for(let i=0; i<deletePostReqList.length; i++) { %>
                         <tr class="post-row" data-postid="<%=deletePostReqList[i].postid%>">
                             <th scope="row"><%=deletePostReqList[i].id%></th>
-                            <td><%=deletePostReqList[i].time%></td>
+                            <td class="dtime"><%=deletePostReqList[i].time%></td>
                             <td><%=deletePostReqList[i].username%></td>
                             <td><%=deletePostReqList[i].postid%></td>
                             <td>
@@ -102,6 +102,16 @@
     <script src="/jquery.min.js"></script>
     <script src="/popper.min.js"></script>
     <script src="/bootstrap.min.js"></script>
+    <script src="/moment.min.js"></script>
+
+    <script>
+        $('.dtime').each(function () {
+            const utime = parseInt($(this).html());
+            const formattedTime = moment.unix(utime).format("MM/DD/YYYY hh:mm:ss a");
+            $(this).html(formattedTime);
+
+        });
+    </script>
     <script>
         $('.post-row').click(function () {
             window.location.href = '/forum/moderate/delete-post-requests/' + $(this).data('postid');

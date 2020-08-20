@@ -75,7 +75,7 @@
                         <% for(let i=0; i<mutedUserList.length; i++) { %>
                         <tr class="user-row">
                             <th scope="row"><%=mutedUserList[i].id%></th>
-                            <td><%=mutedUserList[i].time%></td>
+                            <td class="dtime"><%=mutedUserList[i].time%></td>
                             <td><%=mutedUserList[i].username%></td>
                             <td>
                                 <button type="button" class="btn btn-block btn-success unmute"
@@ -95,6 +95,16 @@
     <script src="/jquery.min.js"></script>
     <script src="/popper.min.js"></script>
     <script src="/bootstrap.min.js"></script>
+    <script src="/moment.min.js"></script>
+
+    <script>
+        $('.dtime').each(function () {
+            const utime = parseInt($(this).html());
+            const formattedTime = moment.unix(utime).format("MM/DD/YYYY hh:mm:ss a");
+            $(this).html(formattedTime);
+
+        });
+    </script>
     <script>
         $('.unmute').click(function () {
             const that = $(this);

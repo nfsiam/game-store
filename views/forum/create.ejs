@@ -162,7 +162,7 @@
         });
 
         $('#selFile').change(function () {
-            console.log($(this)[0].files[0]);
+            // console.log($(this)[0].files[0]);
             var file = $(this)[0].files[0];
             var filename = file.name;
             $('.custom-file-label').html(filename);
@@ -202,7 +202,7 @@
         //form submit
         $('#createForm').submit(function (e) {
             e.preventDefault();
-            console.log(fname);
+            // console.log(fname);
             let codes = "";
             if ($('#codeToggle').prop("checked") == true) {
                 codes = $('#codes').val().trim();
@@ -222,7 +222,7 @@
                 success: function (data) {
                     if ('errors' in data) {
                         let obj = data.errors;
-                        console.log(obj);
+                        // console.log(obj);
                         if ('title' in obj) {
                             $('#errtitle').text(obj.title);
                             $('#errtitle').prev().prev().addClass('border-danger');

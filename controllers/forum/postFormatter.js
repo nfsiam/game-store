@@ -5,9 +5,7 @@ const forumposts = require.main.require('./models/forum/forumposts');
 const formatPost = (data, callback) => {
     const rsym = "fas fa-check-circle";
     const pwc = data.postWithComments;
-    // console.log(data.username);
     forumModel.checkMutedUser(data.user.username, (result) => {
-        // console.log(result);
         pwc.post["reportSpam"] = "";
         pwc.post["reportDuplicate"] = "";
         pwc.post["reportWrongCategory"] = "";
@@ -59,8 +57,6 @@ const formatPosts = (data, callback) => {
 module.exports = {
     getPost: (obj, callback) => {
         forumposts.getPost(obj.user.username, parseInt(obj.postid), obj.type, (postWithComments) => {
-            // console.log("kkkkkkkkkkkkkkkkkkkkkkkkkk");
-            // console.log(postWithComments.post.fname);
 
             if (!postWithComments) {
                 callback(false);
@@ -82,14 +78,11 @@ module.exports = {
                 breadcumb: obj.type + 's'
 
             }, (formattedData) => {
-                // console.log(formattedData);
-                // res.render('forum/issues', formattedData);
                 callback(formattedData);
             })
         });
     },
     getSearchPosts: (obj, callback) => {
-        // console.log(obj);
         forumposts.getSearchPosts(obj.key, obj.type, (posts) => {
             formatPosts({
                 posts,
@@ -97,8 +90,6 @@ module.exports = {
                 breadcumb: 'search'
 
             }, (formattedData) => {
-                // console.log(formattedData);
-                // res.render('forum/issues', formattedData);
                 callback(formattedData);
             })
         });

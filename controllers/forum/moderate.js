@@ -17,7 +17,6 @@ router.get('*', function (req, res, next) {
         } else {
             res.redirect('/forum');
         }
-        // console.log(req.cookies['user']);
     }
 });
 
@@ -45,8 +44,6 @@ router.get('/', function (req, res) {
                 }
                 const areaChart = { days, postcreate, report, delreq, votes };
                 const dnut = result.counts;
-                // console.log(areaChart);
-                // console.log(dnut);
                 res.render('forum/moderate', { pendingCount, postReports, commentReports, deletePostReqs, mutedUsers, allUsers, areaChart, dnut });
             })
 
@@ -94,7 +91,6 @@ router.get('/muted-users', function (req, res) {
 //pending post page
 router.get('/pending', function (req, res) {
     forumposts.getPendingPosts((pendingPostList) => {
-        // console.log(pendingPostList);
         res.render('forum/pending', { pendingPostList });
     })
 });
@@ -102,7 +98,6 @@ router.get('/pending', function (req, res) {
 //pending post
 router.get('/pending/:postid', function (req, res) {
     const postid = req.params.postid;
-    // console.log(postid);
     forumposts.getPendingPost(postid, (data) => {
         if (!data) {
             res.send('can not get post');
@@ -116,7 +111,6 @@ router.get('/pending/:postid', function (req, res) {
 router.post('/pending/:postid', function (req, res) {
     const postid = req.params.postid;
     const decision = req.body.decision;
-    // console.log(decision);
 
     forumposts.changeStatus(postid, decision, (status) => {
         if (status) {
@@ -130,14 +124,10 @@ router.post('/pending/:postid', function (req, res) {
 //post reports
 router.get('/reported-post', function (req, res) {
     const postid = req.params.postid;
-    // console.log(postid);
     moderateModel.getPostReports((data) => {
         if (!data) {
             res.send('can not get post');
         } else {
-            // data["role"] = req.cookies['user'].role;
-            // data["pending"] = 'yes';
-            // console.log(data);
             res.render('forum/reports', {
                 reportList: data
             });
@@ -163,7 +153,6 @@ router.get('/reported-post/:postid', function (req, res) {
 //comment reports
 router.get('/reported-comment', function (req, res) {
     const postid = req.params.postid;
-    // console.log(postid);
     moderateModel.getCommentReports((data) => {
         if (!data) {
             res.send('can not get post');
@@ -194,7 +183,6 @@ router.get('/reported-comment/:postid&:commentid', function (req, res) {
 //delete post
 router.post('/delete-post', function (req, res) {
 
-    // console.log(req.body);
     if (req.body.postid != '') {
         const postid = parseInt(req.body.postid);
 
@@ -210,8 +198,6 @@ router.post('/delete-post', function (req, res) {
 
 //delete comment
 router.post('/delete-comment', function (req, res) {
-
-    // console.log(req.body);
     if (req.body.commentid != '') {
         const commentid = parseInt(req.body.commentid);
 
@@ -227,8 +213,6 @@ router.post('/delete-comment', function (req, res) {
 
 //turn off comment for post
 router.post('/turnoff-post', function (req, res) {
-
-    // console.log(req.body);
     if (req.body.postid != '') {
         const postid = parseInt(req.body.postid);
 
@@ -246,7 +230,6 @@ router.post('/turnoff-post', function (req, res) {
 
 //check turn off comment for post
 router.post('/check-turnoff-post', function (req, res) {
-    // console.log(req.body);
     if (req.body.postid != '') {
         const postid = parseInt(req.body.postid);
 
