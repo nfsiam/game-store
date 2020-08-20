@@ -175,46 +175,15 @@ module.exports = {
             callback(result || []);
         });
     },
-
-    // validate: function (user, callback) {
-    //     var sql = "select * from user where username=? and password=?";
-    //     db.getResults(sql, [user.uname, user.password], function (result) {
-    //         if (result.length > 0) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // },
-
-    // insert: function (user, callback) {
-    //     var sql = "insert into user values(?, ?, ?, ?)";
-
-    //     db.execute(sql, ['', user.uname, user.password, user.type], function (status) {
-    //         if (status) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // },
-
-    // update: function (user, callback) {
-    //     var sql = "update user set username=?, password=?, type=? where id=?";
-    //     db.execute(sql, [user.uname, user.password, user.type, user.id], function (status) {
-    //         if (status) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // },
     createComment: (comment, callback) => {
         const sql = "Insert into postcomments (postid,username,comment,time) values(?,?,?,UNIX_TIMESTAMP())";
         db.operate(sql, [comment.postid, comment.username, comment.comment], function (status) {
             if (!status) {
                 callback(false);
             } else {
+                const sqlog = `INSERT INTO log(datestamp,commentcreate,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                db.execute(sqlog, [comment.username], function (status) {
+                });
                 callback(status.insertId);
             }
         });
@@ -265,6 +234,11 @@ module.exports = {
                     const sql2 = "delete from postvotes where postid=? and username = ?";
                     db.execute(sql2, [postid, username], function (status) {
                         if (status) {
+
+                            const sqlog = `INSERT INTO log(datestamp,pvote,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                            db.execute(sqlog, [username], function (status) {
+                            });
+
                             callback({ up: 'minus', down: 'none' });
                         } else {
                             callback(false);
@@ -275,6 +249,10 @@ module.exports = {
                     const sql2 = "update postvotes set vote = 'up' where username = ? and postid = ?";
                     db.execute(sql2, [username, postid], function (status) {
                         if (status) {
+
+                            const sqlog = `INSERT INTO log(datestamp,pvote,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                            db.execute(sqlog, [username], function (status) {
+                            });
                             callback({ up: 'plus', down: 'minus' });
                         } else {
                             callback(false);
@@ -285,6 +263,9 @@ module.exports = {
                 const sql3 = "insert into postvotes values(?, ?, ?, ?)";
                 db.execute(sql3, ['', postid, username, 'up'], function (status) {
                     if (status) {
+                        const sqlog = `INSERT INTO log(datestamp,pvote,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                        db.execute(sqlog, [username], function (status) {
+                        });
                         callback({ up: 'plus', down: 'none' });
                     } else {
                         callback(false);
@@ -303,6 +284,9 @@ module.exports = {
                     const sql2 = "delete from postvotes where postid=? and username = ?";
                     db.execute(sql2, [postid, username], function (status) {
                         if (status) {
+                            const sqlog = `INSERT INTO log(datestamp,pvote,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                            db.execute(sqlog, [username], function (status) {
+                            });
                             callback({ up: 'none', down: 'minus' });
                         } else {
                             callback(false);
@@ -313,6 +297,9 @@ module.exports = {
                     const sql2 = "update postvotes set vote = 'down' where username = ? and postid = ?";
                     db.execute(sql2, [username, postid], function (status) {
                         if (status) {
+                            const sqlog = `INSERT INTO log(datestamp,pvote,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                            db.execute(sqlog, [username], function (status) {
+                            });
                             callback({ up: 'minus', down: 'plus' });
                         } else {
                             callback(false);
@@ -323,6 +310,9 @@ module.exports = {
                 const sql3 = "insert into postvotes values(?, ?, ?, ?)";
                 db.execute(sql3, ['', postid, username, 'down'], function (status) {
                     if (status) {
+                        const sqlog = `INSERT INTO log(datestamp,pvote,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                        db.execute(sqlog, [username], function (status) {
+                        });
                         callback({ up: 'none', down: 'plus' });
                     } else {
                         callback(false);
@@ -341,6 +331,9 @@ module.exports = {
                     const sql2 = "delete from commentvotes where commentid=? and username = ?";
                     db.execute(sql2, [commentid, username], function (status) {
                         if (status) {
+                            const sqlog = `INSERT INTO log(datestamp,cvote,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                            db.execute(sqlog, [username], function (status) {
+                            });
                             callback({ up: 'minus', down: 'none' });
                         } else {
                             callback(false);
@@ -351,6 +344,9 @@ module.exports = {
                     const sql2 = "update commentvotes set vote = 'up' where username = ? and commentid = ?";
                     db.execute(sql2, [username, commentid], function (status) {
                         if (status) {
+                            const sqlog = `INSERT INTO log(datestamp,cvote,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                            db.execute(sqlog, [username], function (status) {
+                            });
                             callback({ up: 'plus', down: 'minus' });
                         } else {
                             callback(false);
@@ -361,6 +357,9 @@ module.exports = {
                 const sql3 = "insert into commentvotes values(?, ?, ?, ?)";
                 db.execute(sql3, ['', commentid, username, 'up'], function (status) {
                     if (status) {
+                        const sqlog = `INSERT INTO log(datestamp,cvote,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                        db.execute(sqlog, [username], function (status) {
+                        });
                         callback({ up: 'plus', down: 'none' });
                     } else {
                         callback(false);
@@ -379,6 +378,9 @@ module.exports = {
                     const sql2 = "delete from commentvotes where commentid=? and username = ?";
                     db.execute(sql2, [commentid, username], function (status) {
                         if (status) {
+                            const sqlog = `INSERT INTO log(datestamp,cvote,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                            db.execute(sqlog, [username], function (status) {
+                            });
                             callback({ up: 'none', down: 'minus' });
                         } else {
                             callback(false);
@@ -389,6 +391,9 @@ module.exports = {
                     const sql2 = "update commentvotes set vote = 'down' where username = ? and commentid = ?";
                     db.execute(sql2, [username, commentid], function (status) {
                         if (status) {
+                            const sqlog = `INSERT INTO log(datestamp,cvote,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                            db.execute(sqlog, [username], function (status) {
+                            });
                             callback({ up: 'minus', down: 'plus' });
                         } else {
                             callback(false);
@@ -399,6 +404,9 @@ module.exports = {
                 const sql3 = "insert into commentvotes values(?, ?, ?, ?)";
                 db.execute(sql3, ['', commentid, username, 'down'], function (status) {
                     if (status) {
+                        const sqlog = `INSERT INTO log(datestamp,cvote,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                        db.execute(sqlog, [username], function (status) {
+                        });
                         callback({ up: 'none', down: 'plus' });
                     } else {
                         callback(false);
@@ -408,16 +416,4 @@ module.exports = {
         });
     }
 
-
-
-    // delete: function (id, callback) {
-    //     var sql = "delete from user where id=?";
-    //     db.execute(sql, [id], function (status) {
-    //         if (status) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // }
 }

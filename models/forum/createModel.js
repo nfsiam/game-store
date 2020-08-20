@@ -2,98 +2,12 @@ var db = require.main.require('./models/db');
 
 module.exports = {
 
-    // get: function (id, callback) {
-    //     var sql = "select * from user where id=?";
-    //     db.getResults(sql, [id], function (result) {
-    //         if (result.length > 0) {
-    //             callback(result[0]);
-    //         } else {
-    //             callback([]);
-    //         }
-    //     });
-    // },
-
-    // getAll: function (callback) {
-    //     var sql = "select * from user";
-    //     db.getResults(sql, null, function (result) {
-    //         if (result.length > 0) {
-    //             callback(result);
-    //         } else {
-    //             callback([]);
-    //         }
-    //     });
-    // },
     getOwnedGames: (username, callback) => {
         const sql = "select library.id, library.gameid, (select gamelist.gametitle from gamelist gl where gl.gameid = library.gameid ) title FROM library inner join gamelist on library.gameid = gamelist.gameid WHERE username =?";
         db.getResults(sql, [username], function (result) {
             callback(result || []);
         });
     },
-    // getAllIssues: (callback) => {
-    //     const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.posttype = 'issue' order by postid desc";
-    //     db.getResults(sql, null, function (result) {
-    //         callback(result || []);
-    //     });
-    // },
-    // getAllReviews: (callback) => {
-    //     const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.posttype = 'review' order by postid desc";
-    //     db.getResults(sql, null, function (result) {
-    //         callback(result || []);
-    //     });
-    // },
-    // getAllWalkthroughs: (callback) => {
-    //     const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.posttype = 'walkthrough' order by postid desc";
-    //     db.getResults(sql, null, function (result) {
-    //         callback(result || []);
-    //     });
-    // },
-    // getPost: (postid, type, callback) => {
-    //     const postAndComments = {
-    //         post: [],
-    //         comments: []
-    //     };
-    //     const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, postcontent.title, postcontent.body, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.postid = ? and forumpost.posttype = ?";
-    //     db.getResults(sql, [postid, type], function (result) {
-    //         if (result.length > 0) {
-    //             postAndComments.post = result[0];
-
-    //             const sql2 = "select postcomments.commentid, postcomments.postid, postcomments.username, postcomments.comment, postcomments.time, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'up') upvote, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'down') downvote from postcomments where postid = ?;";
-    //             db.getResults(sql2, [postid], function (result) {
-    //                 if (result.length > 0) {
-    //                     postAndComments.comments = result;
-    //                 }
-    //                 callback(postAndComments);
-    //             });
-    //         } else {
-    //             callback(false);
-    //         }
-
-    //         // callback(result[0] || false);
-    //     });
-    // },
-
-    // validate: function (user, callback) {
-    //     var sql = "select * from user where username=? and password=?";
-    //     db.getResults(sql, [user.uname, user.password], function (result) {
-    //         if (result.length > 0) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // },
-
-    // insert: function (user, callback) {
-    //     var sql = "insert into user values(?, ?, ?, ?)";
-
-    //     db.execute(sql, ['', user.uname, user.password, user.type], function (status) {
-    //         if (status) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // },
 
     createPost: (post, callback) => {
         // console.log("innnnnnnnnnnnnnnnnnn", post);
@@ -104,6 +18,9 @@ module.exports = {
                 const sql2 = "INSERT INTO postcontent(title,body,codes,fname) VALUES (?,?,?,?);";
                 db.execute(sql2, [post.title, post.body, post.codes, post.fname], function (status) {
                     if (status) {
+                        const sqlog = `INSERT INTO log(datestamp,${post.type}create,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                        db.execute(sqlog, [post.username], function (status) {
+                        });
                         callback(true);
                     } else {
                         callback(false);
@@ -115,25 +32,4 @@ module.exports = {
         });
     },
 
-    // update: function (user, callback) {
-    //     var sql = "update user set username=?, password=?, type=? where id=?";
-    //     db.execute(sql, [user.uname, user.password, user.type, user.id], function (status) {
-    //         if (status) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // },
-
-    // delete: function (id, callback) {
-    //     var sql = "delete from user where id=?";
-    //     db.execute(sql, [id], function (status) {
-    //         if (status) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // }
 }

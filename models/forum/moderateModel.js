@@ -1,33 +1,29 @@
 var db = require.main.require('./models/db');
 
 module.exports = {
-
-    // get: function (id, callback) {
-    //     var sql = "select * from user where id=?";
-    //     db.getResults(sql, [id], function (result) {
-    //         if (result.length > 0) {
-    //             callback(result[0]);
-    //         } else {
-    //             callback([]);
-    //         }
-    //     });
-    // },
-
-    // getAll: function (callback) {
-    //     var sql = "select * from user";
-    //     db.getResults(sql, null, function (result) {
-    //         if (result.length > 0) {
-    //             callback(result);
-    //         } else {
-    //             callback([]);
-    //         }
-    //     });
-    // },
-
     getModerateCounts: (callback) => {
         const sql = "SELECT  (SELECT COUNT(*) FROM   forumpost where status=?) AS pendingCount, (SELECT COUNT(*) FROM  reports where status=? and reportof = ?) AS postReports, (SELECT COUNT(*) FROM  reports where status=? and reportof = ?) AS commentReports, (SELECT COUNT(*) FROM  deletereq where status=? and deleteof = ?) AS deletePostReqs , (SELECT COUNT(*) FROM  mutedusers) AS mutedUsers, (SELECT COUNT(*) FROM  alluser where role='enduser' or role='publisher') as allUsers FROM dual";
         db.getResults(sql, ['pending', 'pending', 'post', 'pending', 'comment', 'pending', 'post'], function (result) {
             callback(result || []);
+        });
+    },
+    getActivity: (callback) => {
+        const sql = "SELECT DISTINCT FROM_UNIXTIME(datestamp,'%d/%M/%Y') AS day, SUM(issuecreate)+SUM(reviewcreate)+SUM(walkthroughcreate) as postcreate, SUM(reportpost)+SUM(reportcomment) as report, SUM(deletereqpost)+SUM(deletereqcomment) as delreq, SUM(pvote)+SUM(cvote) as votes FROM log WHERE FROM_UNIXTIME(datestamp) >= CURDATE() - INTERVAL 15 Day GROUP by day order by day";
+        db.getResults(sql, null, function (result) {
+            if (result.length > 0) {
+                const activity = { log: result };
+                const sql2 = "select (select COUNT(postid) from forumpost where posttype = 'issue') issuecount, (select COUNT(postid) from forumpost where posttype = 'review') reviewcount,(select COUNT(postid) from forumpost where posttype = 'walkthrough') walkthroughcount from forumpost";
+                db.getResults(sql2, null, function (result) {
+                    if (result.length > 0) {
+                        activity["counts"] = result[0];
+                        callback(activity);
+                    } else {
+                        callback(false);
+                    }
+                });
+            } else {
+                callback(false);
+            }
         });
     },
     getPostReports: (callback) => {
@@ -42,50 +38,4 @@ module.exports = {
             callback(result || []);
         });
     }
-
-    // validate: function (user, callback) {
-    //     var sql = "select * from user where username=? and password=?";
-    //     db.getResults(sql, [user.uname, user.password], function (result) {
-    //         if (result.length > 0) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // },
-
-    // insert: function (user, callback) {
-    //     var sql = "insert into user values(?, ?, ?, ?)";
-
-    //     db.execute(sql, ['', user.uname, user.password, user.type], function (status) {
-    //         if (status) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // },
-
-    // update: function (user, callback) {
-    //     var sql = "update user set username=?, password=?, type=? where id=?";
-    //     db.execute(sql, [user.uname, user.password, user.type, user.id], function (status) {
-    //         if (status) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // },
-
-
-    // delete: function (id, callback) {
-    //     var sql = "delete from user where id=?";
-    //     db.execute(sql, [id], function (status) {
-    //         if (status) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // }
 }

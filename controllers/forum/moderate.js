@@ -32,7 +32,24 @@ router.get('/', function (req, res) {
             const deletePostReqs = result[0].deletePostReqs;
             const mutedUsers = result[0].mutedUsers;
             const allUsers = result[0].allUsers;
-            res.render('forum/moderate', { pendingCount, postReports, commentReports, deletePostReqs, mutedUsers, allUsers });
+
+            moderateModel.getActivity((result) => {
+                const days = [], postcreate = [], report = [], delreq = [], votes = [];
+
+                for (let i = 0; i < result.log.length; i++) {
+                    days.push(result.log[i].day);
+                    postcreate.push(result.log[i].postcreate);
+                    report.push(result.log[i].report);
+                    delreq.push(result.log[i].delreq);
+                    votes.push(result.log[i].votes);
+                }
+                const areaChart = { days, postcreate, report, delreq, votes };
+                const dnut = result.counts;
+                // console.log(areaChart);
+                // console.log(dnut);
+                res.render('forum/moderate', { pendingCount, postReports, commentReports, deletePostReqs, mutedUsers, allUsers, areaChart, dnut });
+            })
+
         } else {
             res.redirect('/forum');
         }

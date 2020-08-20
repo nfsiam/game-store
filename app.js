@@ -33,6 +33,7 @@ app.use(express.static('./node_modules/bootstrap/dist/css/'));
 app.use(express.static('./node_modules/jquery/dist/'));
 app.use(express.static('./node_modules/popper.js/dist/umd/'));
 app.use(express.static('./node_modules/moment/min'));
+app.use(express.static('./node_modules/chart.js/'));
 
 
 

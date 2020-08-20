@@ -23,6 +23,9 @@ module.exports = {
                 db.execute(sql2, [moment().unix(), report.reporttype, 'pending', report.postid, report.reporter], function (status) {
                     if (status) {
                         // console.log(status);
+                        const sqlog = `INSERT INTO log(datestamp,reportpost,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                        db.execute(sqlog, [report.reporter], function (status) {
+                        });
                         callback(true);
                     } else {
                         callback(false);
@@ -32,6 +35,9 @@ module.exports = {
                 var sql3 = "insert into reports values(?, ?, ?, ?, ?, ? ,? ,?)";
                 db.execute(sql3, ['', report.reportof, report.postid, null, report.reporter, moment().unix(), report.reporttype, 'pending'], function (status) {
                     if (status) {
+                        const sqlog = `INSERT INTO log(datestamp,reportpost,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                        db.execute(sqlog, [report.reporter], function (status) {
+                        });
                         callback(true);
                     } else {
                         callback(false);
@@ -50,6 +56,9 @@ module.exports = {
                 db.execute(sql2, [moment().unix(), report.reporttype, 'pending', report.postid, report.commentid, report.reporter], function (status) {
                     if (status) {
                         // console.log(status);
+                        const sqlog = `INSERT INTO log(datestamp,reportcomment,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                        db.execute(sqlog, [report.reporter], function (status) {
+                        });
                         callback(true);
                     } else {
                         callback(false);
@@ -59,6 +68,9 @@ module.exports = {
                 var sql3 = "insert into reports values(?, ?, ?, ?, ?, ? ,? ,?)";
                 db.execute(sql3, ['', report.reportof, report.postid, report.commentid, report.reporter, moment().unix(), report.reporttype, 'pending'], function (status) {
                     if (status) {
+                        const sqlog = `INSERT INTO log(datestamp,reportcomment,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                        db.execute(sqlog, [report.reporter], function (status) {
+                        });
                         callback(true);
                     } else {
                         callback(false);
@@ -76,7 +88,9 @@ module.exports = {
                     const sql2 = "delete from deletereq where postid=? and commentid=? and deleteof=? and username = ? and status =?";
                     db.execute(sql2, [postid, commentid, 'comment', username, 'pending'], function (status) {
                         if (status) {
-                            console.log("here in cancel true");
+                            const sqlog = `INSERT INTO log(datestamp,deletereqcomment,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                            db.execute(sqlog, [username], function (status) {
+                            });
                             callback({ cancel: true });
                         } else {
                             callback(false);
@@ -87,6 +101,9 @@ module.exports = {
                 const sql3 = "insert into deletereq values(?, UNIX_TIMESTAMP(), ?, ?, ?,?,?)";
                 db.execute(sql3, [null, username, 'comment', postid, commentid, 'pending'], function (status) {
                     if (status) {
+                        const sqlog = `INSERT INTO log(datestamp,deletereqcomment,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                        db.execute(sqlog, [username], function (status) {
+                        });
                         callback({ requested: true });
                     } else {
                         callback(false);
@@ -114,6 +131,9 @@ module.exports = {
                     const sql2 = "delete from deletereq where postid=? and deleteof=? and username = ? and status = ?";
                     db.execute(sql2, [postid, 'post', username, 'pending'], function (status) {
                         if (status) {
+                            const sqlog = `INSERT INTO log(datestamp,deletereqpost,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                            db.execute(sqlog, [username], function (status) {
+                            });
                             callback({ cancel: true });
                         } else {
                             callback(false);
@@ -124,6 +144,9 @@ module.exports = {
                 const sql3 = "insert into deletereq values(?, UNIX_TIMESTAMP(), ?, ?, ?,?,?)";
                 db.execute(sql3, [null, username, 'post', postid, null, 'pending'], function (status) {
                     if (status) {
+                        const sqlog = `INSERT INTO log(datestamp,deletereqpost,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                        db.execute(sqlog, [username], function (status) {
+                        });
                         callback({ requested: true });
                     } else {
                         callback(false);
@@ -198,16 +221,6 @@ module.exports = {
         });
     },
 
-    // getAll: function (callback) {
-    //     var sql = "select * from user";
-    //     db.getResults(sql, null, function (result) {
-    //         if (result.length > 0) {
-    //             callback(result);
-    //         } else {
-    //             callback([]);
-    //         }
-    //     });
-    // },
     getLandingPosts: (callback) => {
         const landingPosts = [];
         const sql = "select forumpost.postid, forumpost.time, forumpost.posttype, forumpost.gamename, postcontent.title, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'up') upvote, (select count(*) from postvotes pv where pv.postid = forumpost.postid AND pv.vote = 'down') downvote FROM forumpost inner join postcontent on forumpost.postid = postcontent.postid where forumpost.posttype = 'issue' and forumpost.status <> 'pending' order by postid desc limit 3";
@@ -224,49 +237,4 @@ module.exports = {
             });
         });
     },
-
-    // validate: function (user, callback) {
-    //     var sql = "select * from user where username=? and password=?";
-    //     db.getResults(sql, [user.uname, user.password], function (result) {
-    //         if (result.length > 0) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // },
-
-    // insert: function (user, callback) {
-    //     var sql = "insert into user values(?, ?, ?, ?)";
-
-    //     db.execute(sql, ['', user.uname, user.password, user.type], function (status) {
-    //         if (status) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // },
-
-    // update: function (user, callback) {
-    //     var sql = "update user set username=?, password=?, type=? where id=?";
-    //     db.execute(sql, [user.uname, user.password, user.type, user.id], function (status) {
-    //         if (status) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // },
-
-    // delete: function (id, callback) {
-    //     var sql = "delete from user where id=?";
-    //     db.execute(sql, [id], function (status) {
-    //         if (status) {
-    //             callback(true);
-    //         } else {
-    //             callback(false);
-    //         }
-    //     });
-    // }
 }
