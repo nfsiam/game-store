@@ -1,57 +1,48 @@
 const moment = require('moment');
+const forumModel = require('../../models/forum/forumModel');
 const forumposts = require.main.require('./models/forum/forumposts');
 
 const formatPost = (data, callback) => {
     const rsym = "fas fa-check-circle";
     const pwc = data.postWithComments;
+    // console.log(data.username);
+    forumModel.checkMutedUser(data.user.username, (result) => {
+        // console.log(result);
+        pwc.post["reportSpam"] = "";
+        pwc.post["reportDuplicate"] = "";
+        pwc.post["reportWrongCategory"] = "";
+        pwc.post["reportOther"] = "";
 
-    // console.log("---------------------------------------------------------------------------------------------------------------------------");
-    // console.log(pwc.comments);
-    // console.log("---------------------------------------------------------------------------------------------------------------------------");
+        if (pwc.post.reporttype == 'spam') {
+            pwc.post["reportSpam"] = rsym;
+        } else if (pwc.post.reporttype == 'duplicate') {
+            pwc.post["reportDuplicate"] = rsym;
+        } else if (pwc.post.reporttype == 'wrongcategory') {
+            pwc.post["reportWrongCategory"] = rsym;
+        } else if (pwc.post.reporttype == 'other') {
+            pwc.post["reportOther"] = rsym;
+        }
 
-    pwc.post["reportSpam"] = "";
-    pwc.post["reportDuplicate"] = "";
-    pwc.post["reportWrongCategory"] = "";
-    pwc.post["reportOther"] = "";
-
-    if (pwc.post.reporttype == 'spam') {
-        pwc.post["reportSpam"] = rsym;
-    } else if (pwc.post.reporttype == 'duplicate') {
-        pwc.post["reportDuplicate"] = rsym;
-    } else if (pwc.post.reporttype == 'wrongcategory') {
-        pwc.post["reportWrongCategory"] = rsym;
-    } else if (pwc.post.reporttype == 'other') {
-        pwc.post["reportOther"] = rsym;
-    }
-
-    // for (let k = 0; k < pwc.comments.length; k++) {
-    //     pwc.comments[k]["reportSpam"] = "";
-    //     pwc.comments[k]["reportDuplicate"] = "";
-    //     pwc.comments[k]["reportOther"] = "";
-
-    //     if (pwc.comments[k].commentid == pwc.comments[k].cid) {
-
-    //         if (pwc.comments[k].reporttype == 'spam') {
-    //             pwc.comments[k]["reportSpam"] = rsym;
-    //         } else if (pwc.comments[k].reporttype == 'duplicate') {
-    //             pwc.comments[k]["reportDuplicate"] = rsym;
-    //         } else if (pwc.comments[k].reporttype == 'other') {
-    //             pwc.comments[k]["reportOther"] = rsym;
-    //         }
-    //     }
-    // }
-    // console.log({
-    //     post: pwc.post,
-    //     comments: pwc.comments,
-    //     user: data.user,
-    //     reported_post: ''
-    // });
-    callback({
-        post: pwc.post,
-        comments: pwc.comments,
-        user: data.user,
-        reported_post: ''
+        if (result.muted == true) {
+            callback({
+                post: pwc.post,
+                comments: pwc.comments,
+                user: data.user,
+                reported_post: '',
+                muted: true
+            });
+        } else {
+            callback({
+                post: pwc.post,
+                comments: pwc.comments,
+                user: data.user,
+                reported_post: '',
+                muted: false
+            });
+        }
     });
+
+
 };
 
 const formatPosts = (data, callback) => {

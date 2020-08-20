@@ -302,7 +302,7 @@
                                                                     </div>
 
                                                                     <!-- comment box start -->
-                                                                    <% if(post.status != 'offcomment'){ %>
+                                                                    <% if(post.status != 'offcomment' && muted == false){ %>
                                                                     <div class="col-sm-12">
                                                                         <div class="row">
                                                                             <div class="col-md-12">
@@ -428,6 +428,11 @@
                                                                 });
 
                                                                 $('.action-upvote').click(function () {
+                                                                    const muted = "<%=muted%>";
+                                                                    if (muted == 'true') {
+                                                                        alert('You can not do this remaining muted!');
+                                                                        return;
+                                                                    }
                                                                     const that = $(this);
                                                                     data = {
                                                                         postid: "<%=post.postid%>"
@@ -465,6 +470,12 @@
                                                                     });
                                                                 });
                                                                 $('.action-downvote').click(function () {
+                                                                    const muted = "<%=muted%>";
+                                                                    console.log(muted);
+                                                                    if (muted == 'true') {
+                                                                        alert('You can not do this remaining muted!');
+                                                                        return;
+                                                                    }
                                                                     const that = $(this);
                                                                     data = {
                                                                         postid: "<%=post.postid%>"
@@ -641,7 +652,7 @@
                                                                             },
                                                                             success: function (data) {
                                                                                 if ('muted' in data) {
-                                                                                    if (data.muted == true) {
+                                                                                    if (data.muted == 'true') {
                                                                                         that.find('span').html("<i class='fas fa-check-circle'></i>");
                                                                                     } else {
                                                                                         that.find('span').html("");
@@ -666,7 +677,7 @@
                                                                         },
                                                                         success: function (data) {
                                                                             if ('muted' in data) {
-                                                                                if (data.muted == true) {
+                                                                                if (data.muted == 'true') {
                                                                                     mtu.find('span').html("<i class='fas fa-check-circle'></i>");
                                                                                 } else {
                                                                                     mtu.find('span').html("");
@@ -718,6 +729,11 @@
                                                                 //vote comment
 
                                                                 $('.action-upvote-comment').click(function () {
+                                                                    const muted = "<%=muted%>";
+                                                                    if (muted == 'true') {
+                                                                        alert('You can not do this remaining muted!');
+                                                                        return;
+                                                                    }
                                                                     const that = $(this);
                                                                     if (that.data('commenter') == "<%=user.username%>") {
                                                                         return;
@@ -755,6 +771,11 @@
                                                                     });
                                                                 });
                                                                 $('.action-downvote-comment').click(function () {
+                                                                    const muted = "<%=muted%>";
+                                                                    if (muted == 'true') {
+                                                                        alert('You can not do this remaining muted!');
+                                                                        return;
+                                                                    }
                                                                     const that = $(this);
                                                                     if (that.data('commenter') == "<%=user.username%>") {
                                                                         return;
