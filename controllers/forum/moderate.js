@@ -2,6 +2,7 @@ const express = require('express');
 const moment = require('moment');
 const moderateModel = require.main.require('./models/forum/moderateModel');
 const postFormatter = require('./postFormatter');
+const forumModel = require('../../models/forum/forumModel');
 
 const forumposts = require.main.require('./models/forum/forumposts');
 const router = express.Router();
@@ -227,6 +228,35 @@ router.post('/check-turnoff-post', function (req, res) {
         });
     }
 
+});
+
+//mute user
+router.post('/mute-user', function (req, res) {
+    if (req.body.commenter != '') {
+        const userToBeMuted = req.body.commenter;
+        forumModel.muteUser(userToBeMuted, (result) => {
+            if (!result) {
+                res.json({ failure: true });
+            } else {
+                res.json(result);
+            }
+        });
+    }
+});
+
+
+//check muted user
+router.post('/check-muted-user', function (req, res) {
+    if (req.body.commenter != '') {
+        const username = req.body.commenter;
+        forumModel.checkMutedUser(username, (result) => {
+            if (!result) {
+                res.json({ failure: true });
+            } else {
+                res.json(result);
+            }
+        });
+    }
 });
 
 module.exports = router;

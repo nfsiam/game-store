@@ -143,6 +143,40 @@ module.exports = {
             }
         });
     },
+    muteUser: (username, callback) => {
+        const sql = "SELECT * FROM mutedusers WHERE username = ?";
+        db.getResults(sql, [username], function (result) {
+            if (result.length > 0) {
+                const sql2 = "delete from mutedusers where username = ?";
+                db.execute(sql2, [username], function (status) {
+                    if (status) {
+                        callback({ muted: false });
+                    } else {
+                        callback(false);
+                    }
+                });
+            } else {
+                const sql3 = "insert into mutedusers values(?,?, UNIX_TIMESTAMP())";
+                db.execute(sql3, ['', username], function (status) {
+                    if (status) {
+                        callback({ muted: true });
+                    } else {
+                        callback(false);
+                    }
+                });
+            }
+        });
+    },
+    checkMutedUser: (username, callback) => {
+        const sql = "SELECT * FROM mutedusers WHERE username = ?";
+        db.getResults(sql, [username], function (result) {
+            if (result.length > 0) {
+                callback({ muted: true });
+            } else {
+                callback({ muted: false });
+            }
+        });
+    },
 
     // getAll: function (callback) {
     //     var sql = "select * from user";

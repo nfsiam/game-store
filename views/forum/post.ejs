@@ -275,9 +275,10 @@
                                                                         <button class="dropdown-item delete-comment"
                                                                             data-commentid="<%=comments[i].commentid%>"
                                                                             type="button">Delete</button>
-                                                                        <button class="dropdown-item" type="button">Turn
-                                                                            Off
-                                                                            Comment<span></span></button>
+                                                                        <button class="dropdown-item action-mute-user"
+                                                                            type="button"
+                                                                            data-commenter="<%=comments[i].username%>">Mute
+                                                                            User<span></span></button>
                                                                         <!-- moderator / admin end -->
                                                                         <% } %>
                                                                         <% if(user.username == comments[i].username){ %>
@@ -624,6 +625,55 @@
                                                                             }
                                                                         }
                                                                     },
+                                                                });
+
+                                                                //mute user
+                                                                $(".action-mute-user").click(function () {
+                                                                    const that = $(this);
+
+                                                                    if (confirm('Are you sure to change mute status for this user?')) {
+                                                                        $.ajax({
+                                                                            url: '/forum/moderate/mute-user',
+                                                                            method: 'POST',
+                                                                            dataType: 'JSON',
+                                                                            data: {
+                                                                                commenter: $(this).data('commenter'),
+                                                                            },
+                                                                            success: function (data) {
+                                                                                if ('muted' in data) {
+                                                                                    if (data.muted == true) {
+                                                                                        that.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                                    } else {
+                                                                                        that.find('span').html("");
+                                                                                    }
+                                                                                }
+                                                                            },
+                                                                        });
+                                                                    } else {
+
+                                                                    }
+
+                                                                });
+                                                                //auto check muted state
+                                                                $('.action-mute-user').each(function () {
+                                                                    const mtu = $(this);
+                                                                    $.ajax({
+                                                                        url: '/forum/moderate/check-muted-user',
+                                                                        method: 'POST',
+                                                                        dataType: 'JSON',
+                                                                        data: {
+                                                                            commenter: mtu.data('commenter'),
+                                                                        },
+                                                                        success: function (data) {
+                                                                            if ('muted' in data) {
+                                                                                if (data.muted == true) {
+                                                                                    mtu.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                                } else {
+                                                                                    mtu.find('span').html("");
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                    });
                                                                 });
                                                             </script>
                                                             <!-- moderator / admin end -->
