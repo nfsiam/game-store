@@ -5,6 +5,7 @@ module.exports ={
     
     insertTransanction:(username,gameid,price,callback)=>{
         var sql="insert into transaction values('','"+gameid+"','"+username+"','"+price+"')";
+        console.log("trasaction query"+sql);
         db.execute(sql,(status)=>{
 
             callback(status);

@@ -59,13 +59,13 @@ router.get('/checkout', function(req, res){
 						{
 							for(var i=0;i<result.length;i++)
 							{
-								console.log("hello World"+i);
-								infos.gameid=result[i].gameid;
+								console.log("inside for loop ", result[i]);
 								infos.price=result[i].price;
-			
+								//infos.totalcheckout+=result[i].price;
 								console.log("Checkout price "+infos.totalcheckout);
 								console.log("infos price izzz"+infos.price);
 								transactionModel.insertTransanction(req.session.username,infos.gameid,infos.price,(status)=>{
+									//console
 									console.log("inside transanction !");
 									if(status)
 									{
@@ -92,14 +92,12 @@ router.get('/checkout', function(req, res){
 													{
 														res.send("<script>alert('Error fetching wallet')</script>");
 													}
-			
 												});
 											}
 											else
 											{
 												res.send("<script>alert('Error Adding Game to Library')</script>");
 											}
-			
 										});
 									}
 									else
@@ -129,7 +127,7 @@ router.get('/checkout', function(req, res){
 			cartModel.removeItems(req.session.username,(status)=>{
 				 if(status){
 					res.send("<script>Operation Successful</script>");
-					
+
 				}
 				else
 				{
