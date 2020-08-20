@@ -58,6 +58,7 @@ $(document).ready(function(){
         url:"cart/getitems/",
         method: 'GET',
         success: function(data) {
+          $(".cart-menu").html('');
            for(var i=0;i<data.length;i++)
           {
             $(".cart-menu").append("Game name "+data[i].gametitle+"<br>");
