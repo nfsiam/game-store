@@ -187,6 +187,16 @@ module.exports = {
             }
         });
     },
+    getAllUserList: (callback) => {
+        const sql = "select alluser.username, alluser.role, (SELECT COUNT(*) from mutedusers where username =alluser.username) muted, (SELECT count(*) from forumpost where username = alluser.username) postcount, (SELECT count(*) from postcomments where username=alluser.username) commentcount, (SELECT count(*) from postvotes where username=alluser.username) pvcount, (SELECT count(*) from commentvotes where username=alluser.username) cvcount from alluser ORDER by username";
+        db.getResults(sql, null, function (result) {
+            if (result.length > 0) {
+                callback(result);
+            } else {
+                callback([]);
+            }
+        });
+    },
 
     // getAll: function (callback) {
     //     var sql = "select * from user";

@@ -31,7 +31,8 @@ router.get('/', function (req, res) {
             const commentReports = result[0].commentReports;
             const deletePostReqs = result[0].deletePostReqs;
             const mutedUsers = result[0].mutedUsers;
-            res.render('forum/moderate', { pendingCount, postReports, commentReports, deletePostReqs, mutedUsers });
+            const allUsers = result[0].allUsers;
+            res.render('forum/moderate', { pendingCount, postReports, commentReports, deletePostReqs, mutedUsers, allUsers });
         } else {
             res.redirect('/forum');
         }
@@ -61,6 +62,12 @@ router.get('/delete-post-requests/:postid', function (req, res) {
 
 
 
+///all users
+router.get('/all-users', function (req, res) {
+    forumModel.getAllUserList((allUserList) => {
+        res.render('forum/allusers', { allUserList });
+    })
+});
 ///muted users
 router.get('/muted-users', function (req, res) {
     forumModel.getMutedUserList((mutedUserList) => {
