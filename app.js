@@ -17,6 +17,7 @@ const forum = require('./controllers/forum/forum');
 const create = require('./controllers/forum/create');
 const gossiproom = require('./controllers/forum/gossiproom');
 const moderate = require('./controllers/forum/moderate');
+const generate = require('./controllers/forum/generatereport');
 const fileUpload = require('express-fileupload');
 
 
@@ -47,6 +48,7 @@ app.use('/forum', forum);
 app.use('/forum/create', create);
 app.use('/forum/gossiproom', gossiproom);
 app.use('/forum/moderate', moderate);
+app.use('/forum/moderate/generate-report', generate);
 
 
 server.listen(3000, () => {
