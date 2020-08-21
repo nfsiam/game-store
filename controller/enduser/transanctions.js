@@ -5,14 +5,14 @@ var enduserModel = require.main.require("./models/enduser");
 router.get('/', function(req, res){
 
 	
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
 		var results={
 			propic:'',
 			bio:'',
 			username:''
 		};
-		enduserModel.getprofileinfo(req.session.username,(enduserResult)=>{
+		enduserModel.getprofileinfo(req.cookies['user'].username,(enduserResult)=>{
 
 			if(enduserResult.length>0)
 			{
@@ -20,7 +20,7 @@ router.get('/', function(req, res){
 				results.bio=enduserResult[0].bio;
 				results.username=enduserResult[0].username;
 
-				transactionModel.getAllTransaction(req.session.username,(result)=>{
+				transactionModel.getAllTransaction(req.cookies['user'].username,(result)=>{
 					res.render("enduser/transaction",{result,results});
 				});
 			}

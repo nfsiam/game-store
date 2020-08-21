@@ -19,49 +19,56 @@ var userinfo =
 }
 
 router.get('/', function(req, res){
-	userinfo.username='';
-	userinfo.propic='';
-	userinfo.bio='';
-	userinfo.balance='';
-
-	enduserModel.getprofileinfo(req.session.username,(result)=>{
-		if(result.length==1)
-		{
-			err.success=-1;
-			if(req.session.username!=null)
+	if(req.cookies['user']!=null)
+	{
+		userinfo.username='';
+		userinfo.propic='';
+		userinfo.bio='';
+		userinfo.balance='';
+	
+		enduserModel.getprofileinfo(req.cookies['user'].username,(result)=>{
+			if(result.length==1)
 			{
-				userinfo.username=req.session.username;
-				userinfo.propic=result[0].propic;
-				userinfo.bio=result[0].bio;
-
-				walletModel.getCurrentBalance(req.session.username,(results)=>{
-					if(results.length==1)
-					{
-						userinfo.balance=results[0].amount;
-						res.render('enduser/wallet',{err,userinfo});
-					}
-					else
-					{
-						res.redirect('/login');
-					}
-				});
+				err.success=-1;
+				if(req.cookies['user'].username!=null)
+				{
+					userinfo.username=req.cookies['user'].username;
+					userinfo.propic=result[0].propic;
+					userinfo.bio=result[0].bio;
+	
+					walletModel.getCurrentBalance(req.cookies['user'].username,(results)=>{
+						if(results.length==1)
+						{
+							userinfo.balance=results[0].amount;
+							res.render('enduser/wallet',{err,userinfo});
+						}
+						else
+						{
+							res.redirect('/login');
+						}
+					});
+				}
+				else
+				{
+					res.redirect('/login');
+				}
 			}
 			else
 			{
 				res.redirect('/login');
 			}
-		}
-		else
-		{
-			res.redirect('/login');
-		}
-		//console.log("result length is "+result.length);
-
-	});
-
-	/* userinfo.username=req.session.username;
-	propic */
+			//console.log("result length is "+result.length);
 	
+		});
+	
+		/* userinfo.username=req.session.username;
+		propic */
+		
+	}
+	else
+	{
+		res.redirect('/login');
+	}
 	
 
 });
@@ -82,24 +89,24 @@ router.post('/', function(req, res){
 		err.success=1;
 	}
 
-	if(req.session.username!=null)
+	if(req.cookies['user'].username!=null)
 	{
 		if(err.success==1)
 		{
-			rechargerequestModel.sentRequest(req.session.username,req.body.amount,(status)=>{
+			rechargerequestModel.sentRequest(req.cookies['user'].username,req.body.amount,(status)=>{
 				if(status)
 				{
-					enduserModel.getprofileinfo(req.session.username,(result)=>{
+					enduserModel.getprofileinfo(req.cookies['user'].username,(result)=>{
 						if(result.length==1)
 						{
 							//err.success=-1;
-							if(req.session.username!=null)
+							if(req.cookies['user'].username!=null)
 							{
-								userinfo.username=req.session.username;
+								userinfo.username=req.cookies['user'].username;
 								userinfo.propic=result[0].propic;
 								userinfo.bio=result[0].bio;
 				
-								walletModel.getCurrentBalance(req.session.username,(results)=>{
+								walletModel.getCurrentBalance(req.cookies['user'].username,(results)=>{
 									if(results.length==1)
 									{
 										userinfo.balance=results[0].amount;
@@ -132,17 +139,17 @@ router.post('/', function(req, res){
 		}
 		else
 		{
-			enduserModel.getprofileinfo(req.session.username,(result)=>{
+			enduserModel.getprofileinfo(req.cookies['user'].username,(result)=>{
 				if(result.length==1)
 				{
 					//err.success=-1;
-					if(req.session.username!=null)
+					if(req.cookies['user'].username!=null)
 					{
-						userinfo.username=req.session.username;
+						userinfo.username=req.cookies['user'].username;
 						userinfo.propic=result[0].propic;
 						userinfo.bio=result[0].bio;
 		
-						walletModel.getCurrentBalance(req.session.username,(results)=>{
+						walletModel.getCurrentBalance(req.cookies['user'].username,(results)=>{
 							if(results.length==1)
 							{
 								userinfo.balance=results[0].amount;

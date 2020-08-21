@@ -4,9 +4,9 @@ var notificationModel = require.main.require("./models/notification");
 
 router.get('/', function(req, res){
 
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
-        notificationModel.getNotification(req.session.username,(result)=>{
+        notificationModel.getNotification(req.cookies['user'].username,(result)=>{
             if(result.length>0)
             {
                 res.send(result);

@@ -8,7 +8,7 @@ var walletModel = require.main.require("./models/wallet.js");
 
 router.get('/getitems', function(req, res){
 	
-	if(req.session.username!=null)
+	/* if(req.session.username!=null)
 	{
         cartModel.getItems(req.session.username,(result)=>{
             res.send(result);
@@ -17,14 +17,28 @@ router.get('/getitems', function(req, res){
 	else
 	{
 		res.redirect('/login');
-	}
+	} */
+
+	if (req.cookies['user'] != null) {
+
+		cartModel.getItems(req.cookies['user'].username,(result)=>{
+            res.send(result);
+        });
+	} 
+	else 
+	{
+        res.redirect('/login');
+    }
+
+
+
 });
 
 router.get('/removeitems', function(req, res){
 	
-	if(req.session.username!=null)
+	if (req.cookies['user'] != null) 
 	{
-        cartModel.removeItems(req.session.username,(status)=>{
+        cartModel.removeItems(req.cookies['user'].username,(status)=>{
             res.send(status);
         });
 	}
@@ -42,9 +56,9 @@ router.get('/checkout', function(req, res){
 		amount:'',
 		totalcheckout:0
 	};
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
-		cartModel.getItems(req.session.username,(result)=>{
+		cartModel.getItems(req.cookies['user'].username,(result)=>{
 			console.log("cart result length is "+result.length);
 			if(result.length>0)
 			{
@@ -52,7 +66,7 @@ router.get('/checkout', function(req, res){
 				{
 					infos.totalcheckout+=result[i].price;
 				}
-				walletModel.getCurrentBalance(req.session.username,(walletResult)=>{
+				walletModel.getCurrentBalance(req.cookies['user'].username,(walletResult)=>{
 					if(walletResult.length==1)
 					{
 						if(infos.totalcheckout<=walletResult[0].amount)
@@ -64,15 +78,15 @@ router.get('/checkout', function(req, res){
 								//infos.totalcheckout+=result[i].price;
 								console.log("Checkout price "+infos.totalcheckout);
 								console.log("infos price izzz"+infos.price);
-								transactionModel.insertTransanction(req.session.username,infos.gameid,infos.price,(status)=>{
+								transactionModel.insertTransanction(req.cookies['user'].username,infos.gameid,infos.price,(status)=>{
 									//console
 									console.log("inside transanction !");
 									if(status)
 									{
-										libraryModel.insertLibrary(req.session.username,infos.gameid,(status)=>{
+										libraryModel.insertLibrary(req.cookies['user'].username,infos.gameid,(status)=>{
 											if(status)
 											{
-												walletModel.getCurrentBalance(req.session.username,(walletResult)=>{
+												walletModel.getCurrentBalance(req.cookies['user'].username,(walletResult)=>{
 													if(walletResult.length==1)
 													{
 														infos.amount=walletResult[0].amount;
@@ -80,7 +94,7 @@ router.get('/checkout', function(req, res){
 														console.log("infos price should be"+infos.price);
 														var balance = infos.amount-infos.totalcheckout;
 														console.log("Balance after purchase should be "+balance);
-														walletModel.updateBalanceAfterPurchase(req.session.username,balance,(status)=>{
+														walletModel.updateBalanceAfterPurchase(req.cookies['user'].username,balance,(status)=>{
 															if(!status)
 															{
 																res.send("<script>alert('Error Updating wallet')</script>");
@@ -124,7 +138,7 @@ router.get('/checkout', function(req, res){
 			{
 				res.send("<script>alert('No Games in cart!')</script>");
 			}
-			cartModel.removeItems(req.session.username,(status)=>{
+			cartModel.removeItems(req.cookies['user'].username,(status)=>{
 				 if(status){
 					res.send("<script>Operation Successful</script>");
 

@@ -5,10 +5,10 @@ var walletModel = require.main.require("./models/wallet.js");
 
 router.get('/', function(req, res){
 
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
 		var dispData = {
-			username:req.session.username,
+			username:req.cookies['user'].username,
 			firstname:'',
 			lastname:'',
 			propic:'',
@@ -19,7 +19,7 @@ router.get('/', function(req, res){
 			bio:'',
 			balance:''
 		}
-		modelEnduser.getprofileinfo(req.session.username,(results)=>{
+		modelEnduser.getprofileinfo(req.cookies['user'].username,(results)=>{
 			//console.log("Result for getProfileInfo"+results.length);
 			if(results.length==1)
 			{

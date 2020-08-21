@@ -36,7 +36,7 @@ router.get('/', function(req, res){
 	err.gamepicture='';
 	err.parentgameid='';
 
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
 		res.render('publisher/publish',err);
 	}
@@ -60,7 +60,7 @@ router.post('/',function(req,res){
 
 	 var user= {
 		gametitle:req.body.gametitle,
-		publisher:req.session.username,
+		publisher:req.cookies['user'].username,
 		publishdate:req.body.publishdate,
 		price:req.body.price,
 		gamepicture:req.files,

@@ -12,6 +12,7 @@ module.exports =
 			if(result.length > 0)
 			{
 				user.role=result[0].role;
+				/* console.log('all',user); */
 				callback(true);
 			}
 			else{

@@ -38,6 +38,7 @@ var adminHome = require('./controller/admin/home');
 var app = express();
 //const fileUpload = require('express-fileupload');
 
+const cookieParser = require('cookie-parser');
 
 //app.use(fileUpload());
 
@@ -46,6 +47,8 @@ app.use('/assets/css/',express.static('assets/css'));
 app.use('/assets/js/',express.static('assets/js'));
 app.use('/res/',express.static('res'));
 
+
+app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(exSession({secret: 'my secret value', saveUninitialized: true, resave: false}));

@@ -6,9 +6,9 @@ var walletModel = require.main.require("./models/wallet.js");
 
 router.get('/', function(req, res){
 
-	if(req.session.username!=null)
+	if(req.cookies['user'].username!=null)
 	{
-        rechargerequestModel.getAllRequest(req.session.username,(result)=>{
+        rechargerequestModel.getAllRequest(req.cookies['user'].username,(result)=>{
        
             
             res.render("admin/index",{result});
@@ -23,12 +23,12 @@ router.get('/', function(req, res){
 });
 router.get('/approve/:id', function(req, res){
 
-	if(req.session.username!=null)
+	if(req.cookies['user'].username!=null)
 	{
-        rechargerequestModel.updateRequest(req.session.username,req.params.id,'approved',(status)=>{
+        rechargerequestModel.updateRequest(req.cookies['user'].username,req.params.id,'approved',(status)=>{
                 if(status)
                 {
-                    rechargerequestModel.getAllRequestById(req.session.username,req.params.id,(result)=>{ 
+                    rechargerequestModel.getAllRequestById(req.cookies['user'].username,req.params.id,(result)=>{ 
                         notificationModel.sendRechareNotification(result[0].username,'approved',req.params.id,(status)=>{
                             walletModel.updateBalance(result[0].username,result[0].amount,(status)=>{
                                 if(status)
@@ -59,13 +59,13 @@ router.get('/approve/:id', function(req, res){
 router.get('/reject/:id', function(req, res){
 
 	
-	if(req.session.username!=null)
+	if(req.cookies['user'].username!=null)
 	{
        
-        rechargerequestModel.updateRequest(req.session.username,req.params.id,'rejected',(status)=>{
+        rechargerequestModel.updateRequest(req.cookies['user'].username,req.params.id,'rejected',(status)=>{
                 if(status)
                 {
-                    rechargerequestModel.getAllRequest(req.session.username,(result)=>{ 
+                    rechargerequestModel.getAllRequest(req.cookies['user'].username,(result)=>{ 
                         notificationModel.sendRechareNotification(result[0].username,'rejected',result[0].id,(status)=>{
                             if(status)
                             {

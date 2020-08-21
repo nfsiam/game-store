@@ -5,9 +5,9 @@ var getAllUserModel = require.main.require('./models/enduser.js')
 
 router.get('/', function(req, res){
 
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
-		getAllUserModel.getAllUser(req.session.username,(results)=>{
+		getAllUserModel.getAllUser(req.cookies['user'].username,(results)=>{
 
 			console.log(results.length);
 			res.render('enduser/connect',{results});

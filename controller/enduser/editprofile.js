@@ -105,9 +105,9 @@ router.get('/', function(req, res){
 	err.bio='';
 	err.success=false;
 
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
-		enduserModel.getprofileinfo(req.session.username,(result)=>{
+		enduserModel.getprofileinfo(req.cookies['user'].username,(result)=>{
 			console.log("Result for getProfileInfo"+result.length);
 			if(result.length==1)
 			{
@@ -142,7 +142,7 @@ router.post('/', function(req, res){
 	var copyPicture=false;
 	var validate =true;
 	var user = {
-		username:req.session.username,
+		username:req.cookies['user'].username,
 		firstname:req.body.firstname,
 		lastname:req.body.lastname,
 		email:req.body.email,

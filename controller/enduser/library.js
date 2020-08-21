@@ -5,17 +5,18 @@ var libraryModel =  require.main.require("./models/library.js");
 router.get('/', function(req, res){
 	
 
-	libraryModel.getAllByUser(req.session.username,(result)=>{
-		if(req.session.username!=null)
+	
+		if(req.cookies['user']!=null)
 		{
-			res.render("enduser/library",{result});
+			libraryModel.getAllByUser(req.cookies['user'].username,(result)=>{
+				res.render("enduser/library",{result});
+			});
 			
 		}
 		else
 		{
 			res.redirect('/login');
 		}
-	});
 	
 	
 

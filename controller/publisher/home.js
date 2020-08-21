@@ -7,18 +7,16 @@ var gamesalestatsModel =require.main.require("./models/gamesalestats");
 
 router.get('/', function(req, res){
 
-	var gamelist = {
-		username:req.session.username,
-		gamename:[],
-		price:[],
-		totalpurchase:'',
-		gameid:[]
-	};
-	
-
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
-		gamelistModel.geAllGamesByUser(req.session.username,(result)=>{
+		var gamelist = {
+			username:req.cookies['user'].username,
+			gamename:[],
+			price:[],
+			totalpurchase:'',
+			gameid:[]
+		};
+		gamelistModel.geAllGamesByUser(req.cookies['user'].username,(result)=>{
 
 			if(result.length>0)
  			{
@@ -35,7 +33,7 @@ router.get('/', function(req, res){
 						console.log("game gametitle "+gamelist.gamename[i]);
 						console.log("game price "+gamelist.price[i]);
 
-						gamesalestatsModel.insert(req.session.username,gamelist.gameid[i],gamelist.price[i],gamelist.gamename[i],(status)=>{
+						gamesalestatsModel.insert(req.cookies['user'].username,gamelist.gameid[i],gamelist.price[i],gamelist.gamename[i],(status)=>{
 							if(!status)
 							{
 								console.log("Stats for game already exists");
@@ -59,26 +57,18 @@ router.get('/', function(req, res){
 										}
 								});
 							}
-						
-						});
-							
+						});	
 					}
 			}
-			
 		});
 		gamesalestatsModel.getAll(gamelist.username,(result)=>{
 			res.render('publisher/home',{result});
 		});
-
-
-
-		
 	}
 	else
 	{
 		res.redirect('/login');
 	}
-
 });
 
 module.exports = router;
