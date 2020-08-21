@@ -1,5 +1,7 @@
+global.msgQueue = [];
+const http = require('http');
 var express 	= require('express');
-var exSession 	= require('express-session');
+//var exSession 	= require('express-session');
 var bodyParser 	= require('body-parser');
 var login 		= require('./controller/login');
 var registration  = require('./controller/registration');
@@ -34,13 +36,22 @@ var puboffer = require('./controller/publisher/offer');
 var pubpatch = require('./controller/publisher/patch');
 
 
-var adminHome = require('./controller/admin/home');
+const forum = require('./controller/forum/forum');
+const create = require('./controller/forum/create');
+const gossiproom = require('./controller/forum/gossiproom');
+const moderate = require('./controller/forum/moderate');
+const generate = require('./controller/forum/generatereport');
+
 var app = express();
-//const fileUpload = require('express-fileupload');
+
+var adminHome = require('./controller/admin/home');
+const server = http.createServer(app);
+
+const fileUpload = require('express-fileupload');
 
 const cookieParser = require('cookie-parser');
 
-//app.use(fileUpload());
+app.use(fileUpload());
 
 app.set('view engine', 'ejs');
 app.use('/assets/css/',express.static('assets/css'));
@@ -48,10 +59,21 @@ app.use('/assets/js/',express.static('assets/js'));
 app.use('/res/',express.static('res'));
 
 
+app.use(express.static('public'));
+app.use(express.static('./storage'));
+app.use(express.static('./node_modules/@fortawesome/fontawesome-free/'));
+app.use(express.static('./node_modules/bootstrap/dist/js/'));
+app.use(express.static('./node_modules/bootstrap/dist/css/'));
+app.use(express.static('./node_modules/jquery/dist/'));
+app.use(express.static('./node_modules/popper.js/dist/umd/'));
+app.use(express.static('./node_modules/moment/min'));
+app.use(express.static('./node_modules/chart.js/'));
+
+
 app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(exSession({secret: 'my secret value', saveUninitialized: true, resave: false}));
+//app.use(exSession({secret: 'my secret value', saveUninitialized: true, resave: false}));
 
 
 app.use('/login', login);
@@ -89,6 +111,14 @@ app.use('/publisher/logout',publogout);
 
 app.use('/admin/home',adminHome);
 
+
+app.use('/forum', forum);
+app.use('/forum/create', create);
+app.use('/forum/gossiproom', gossiproom);
+app.use('/forum/moderate', moderate);
+app.use('/forum/moderate/generate-report', generate);
+
+
 app.get('/', function(req, res){
 	res.redirect("/login");
 });
@@ -97,6 +127,45 @@ app.get('/publisher',function(req,res){
 	res.redirect('/publisher/home');
 });
 
-app.listen(3000, function(){
-	console.log('express http server started at...3000');
+/* app.listen(3000, function(){
+	console.log('express http server started at...3000'); */
+
+
+//const cookieParser = require('cookie-parser');
+//const bodyParser = require('body-parser');
+
+
+//const app = express();
+
+
+//socket chat server
+
+
+//const login = require('./controller/login');
+//const logout = require('./controller/logout');
+
+//const fileUpload = require('express-fileupload');
+
+
+//config
+//app.set('view engine', 'ejs');
+//app.use(fileUpload());
+
+
+
+
+
+
+//middleware
+//app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(cookieParser());
+
+//app.use('/login', login);
+//app.use('/logout', logout);
+
+
+
+server.listen(3000, () => {
+    console.log('Server running at 3000');
+
 });

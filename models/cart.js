@@ -8,7 +8,7 @@ module.exports =
       getItems:(username,callback)=>{
         var sql ="select cart.cartid,cart.gameid,cart.username,gamelist.gametitle,gamelist.price from cart inner join gamelist on cart.gameid=gamelist.gameid where username = '"+username+"'";
         console.log(sql);
-        db.getResults(sql,(result)=>{
+        db.getResults(sql,null,(result)=>{
             
             if(result.length>0)
             {
@@ -22,7 +22,7 @@ module.exports =
       },
       getCartItemById:(username,id,callback)=>{
           var sql = "select * from cart where username='"+username+"' and gameid='"+id+"' ";
-          db.getResults(sql,(result)=>{
+          db.getResults(sql,null,(result)=>{
             if(result.length>0)
             {
               callback(result);
@@ -35,7 +35,7 @@ module.exports =
       },
       removeItems:(username,callback)=>{
         var sql="delete from cart where username= '"+username+"' ";
-        db.execute(sql,(status)=>{
+        db.execute(sql,null,(status)=>{
           if(status)
           {
             callback(true);

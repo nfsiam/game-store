@@ -7,7 +7,7 @@ router.get('/', function(req, res){
 	
 	if(req.cookies['user']!=null)
 	{
-		res.render('enduser/community');
+		res.render('fourm/forum');
 	}
 	else
 	{

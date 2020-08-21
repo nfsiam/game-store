@@ -7,7 +7,7 @@ module.exports =
 		var sql = "select * from alluser where username='"+user.username+"' and password='"+user.password+"'";
 	
 		console.log(sql);
-		db.getResults(sql, (result)=>{
+		db.getResults(sql,null, (result)=>{
 			//console.log(result[0]);
 			if(result.length > 0)
 			{

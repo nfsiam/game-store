@@ -20,19 +20,7 @@
 
   <div class="d-flex" id="wrapper">
     
-    <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading"><b>Menu</b></div>
-      <div class="list-group list-group-flush">
-        <a href="/home" class="list-group-item list-group-item-action bg-light">Home</a>
-        <a href="/store" class="list-group-item list-group-item-action bg-light">Store</a>
-        <a href="/library" class="list-group-item list-group-item-action bg-light">Library</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Communnity</a>
-        <a href="/connect" class="list-group-item list-group-item-action bg-light">Find Friends</a>
-        <a href="/myprofile" class="list-group-item list-group-item-action bg-light">My Profile</a>
-        <a href="/plans" class="list-group-item list-group-item-action bg-light">Plans</a>
-        <a href="/logout" class="list-group-item list-group-item-action bg-light">Logout</a>
-      </div>
-    </div>
+    <%- include('partial/sidebarnav.ejs') %>
         <div class="container-fluid">
           <button id="notification-btn" class="btn btn-primary mr-3 mt-3" style="float: right;"> <i class="fa fa-bell"></i> </button>
           <div class="notification-menu-wrapper">

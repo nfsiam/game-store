@@ -6,7 +6,7 @@ module.exports =
 
 		var sql = "insert into wallet values ('','"+user+"', '0') ";
 		console.log(sql);
-		db.execute(sql, (result)=>{
+		db.execute(sql, null,(result)=>{
 
 			if(result)
 			{
@@ -23,7 +23,7 @@ module.exports =
 		var updatedBalance;
 		var currentBalance= "select * from wallet where username='"+user+"'  ";
 		console.log(currentBalance);
-		db.getResults(currentBalance,(result)=>{
+		db.getResults(currentBalance,null,(result)=>{
 			if(result.length>0)
 			{
 				//callback(result);
@@ -47,7 +47,7 @@ module.exports =
 	updateBalanceAfterPurchase:(user,balance,callback)=>{
 		var sql = "update wallet set amount= '"+balance+"' where username='"+user+"'  ";
 		console.log(sql);
-		db.execute(sql, (result)=>{
+		db.execute(sql,null, (result)=>{
 
 			if(result)
 			{
@@ -66,7 +66,7 @@ module.exports =
 
 		var sql = "select * from wallet where username='"+user+"'  ";
 		console.log(sql);
-		db.getResults(sql,(result)=>{
+		db.getResults(sql,null,(result)=>{
 			if(result.length>0)
 			{
 				callback(result);

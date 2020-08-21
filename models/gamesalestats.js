@@ -6,7 +6,7 @@ module.exports =
     getAll:(user,callback)=>{
         var sql="select * from gamesalestats where publishername='"+user+"' ";
         console.log(sql);
-        db.getResults(sql,(result)=>{
+        db.getResults(sql,null,(result)=>{
             if(result.length>0)
             {
                 callback(result);
@@ -23,7 +23,7 @@ module.exports =
 	insert: (user,id,gameprice,gamename, callback)=>{
         var sql= "insert into gamesalestats values ('"+user+"','"+id+"','"+gamename+"','"+gameprice+"','0')";
         console.log(sql);
-        db.execute(sql,(status)=>{
+        db.execute(sql,null,(status)=>{
             if(status)
             {
                 callback(true);
@@ -38,7 +38,7 @@ module.exports =
     update:(id,total,callback)=>{
         var sql = "update gamesalestats set totalsold='"+total+"' where gameid='"+id+"' ";
         console.log(sql);
-        db.execute(sql,(status)=>{
+        db.execute(sql,null,(status)=>{
             if(status)
             {
                 callback(true);
