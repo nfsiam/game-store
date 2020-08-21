@@ -1,17 +1,56 @@
+global.msgQueue = [];
 const express = require('express');
+const http = require('http');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+
+
 const app = express();
+const server = http.createServer(app);
+
+//socket chat server
+require('./server')(server);
+
+const login = require('./controllers/login');
+const logout = require('./controllers/logout');
+const forum = require('./controllers/forum/forum');
+const create = require('./controllers/forum/create');
+const gossiproom = require('./controllers/forum/gossiproom');
+const moderate = require('./controllers/forum/moderate');
+const generate = require('./controllers/forum/generatereport');
+const fileUpload = require('express-fileupload');
+
 
 //config
 app.set('view engine', 'ejs');
+app.use(fileUpload());
+
 
 app.use(express.static('public'));
+app.use(express.static('./storage'));
+app.use(express.static('./node_modules/@fortawesome/fontawesome-free/'));
+app.use(express.static('./node_modules/bootstrap/dist/js/'));
+app.use(express.static('./node_modules/bootstrap/dist/css/'));
+app.use(express.static('./node_modules/jquery/dist/'));
+app.use(express.static('./node_modules/popper.js/dist/umd/'));
+app.use(express.static('./node_modules/moment/min'));
+app.use(express.static('./node_modules/chart.js/'));
+
+
 
 //middleware
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+app.use('/login', login);
+app.use('/logout', logout);
+app.use('/forum', forum);
+app.use('/forum/create', create);
+app.use('/forum/gossiproom', gossiproom);
+app.use('/forum/moderate', moderate);
+app.use('/forum/moderate/generate-report', generate);
 
 
-app.listen(3000, () => {
+server.listen(3000, () => {
     console.log('Server running at 3000');
 });

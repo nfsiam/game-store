@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sb-admin-2.min.css">
+    <title>All Users</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- nav start-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+            <a class="navbar-brand" href="#">Game Store</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Store</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link dropdown-toggle" href="/forum" data-toggle="dropdown">Forum</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <!-- user -->
+                            <a href="/forum/issues" class="dropdown-item">Issues</a>
+                            <a href="/forum/reviews" class="dropdown-item">Reviews</a>
+                            <a href="/forum/walkthroughs" class="dropdown-item">Walkthroughs</a>
+                            <a href="/forum/gossiproom" class="dropdown-item">Gossip Room</a>
+                            <!-- user -->
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- nav end -->
+
+        <!-- breadcumb start -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/forum">forum</a></li>
+                <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
+                <li class="breadcrumb-item active" aria-current="page">all-users</li>
+            </ol>
+        </nav>
+        <!-- breadcumb end -->
+
+        <div class="row mb-5">
+            <div class="col-sm-12 table-responsive">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">username</th>
+                            <th scope="col">role</th>
+                            <th scope="col">Post Counts</th>
+                            <th scope="col">Comment Counts</th>
+                            <th scope="col">Post Vote by user</th>
+                            <th scope="col">Comment Vote by User</th>
+                            <th scope="col">Mute</th>
+                            <th scope="col">Unmute</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i=0; i<allUserList.length; i++) { %>
+                        <tr class="user-row">
+                            <th scope="row"><%=allUserList[i].username%></th>
+                            <td><%=allUserList[i].role%></td>
+                            <td><%=allUserList[i].postcount%></td>
+                            <td><%=allUserList[i].commentcount%></td>
+                            <td><%=allUserList[i].pvcount%></td>
+                            <td><%=allUserList[i].cvcount%></td>
+                            <td>
+                                <button type="button" class="btn btn-block btn-sm btn-success unmute"
+                                    <% if(allUserList[i].muted == 0){ %> disabled <% }  %>
+                                    data-username="<%=allUserList[i].username%>">Unmute</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-block btn-sm btn-danger mute"
+                                    <% if(allUserList[i].muted == 1){ %> disabled <% }  %>
+                                    data-username="<%=allUserList[i].username%>">Mute</button>
+                            </td>
+                        </tr>
+
+                        <% } %>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/jquery.min.js"></script>
+    <script src="/popper.min.js"></script>
+    <script src="/bootstrap.min.js"></script>
+    <script>
+        $('.mute').click(function () {
+            const that = $(this);
+            if (confirm('Are you sure to change mute status for this user?')) {
+                $.ajax({
+                    url: '/forum/moderate/mute-user',
+                    method: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        commenter: $(this).data('username'),
+                    },
+                    success: function (data) {
+                        if ('muted' in data) {
+                            if (data.muted == true) {
+                                that.attr('disabled', true);
+                                that.closest('tr').find('.unmute').attr('disabled', false);
+                            }
+                        }
+                    },
+                });
+            } else {
+
+            }
+        });
+        $('.unmute').click(function () {
+            const that = $(this);
+            if (confirm('Are you sure to change mute status for this user?')) {
+                $.ajax({
+                    url: '/forum/moderate/mute-user',
+                    method: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        commenter: $(this).data('username'),
+                    },
+                    success: function (data) {
+                        if ('muted' in data) {
+                            if (data.muted == false) {
+                                that.attr('disabled', true);
+                                that.closest('tr').find('.mute').attr('disabled', false);
+                            }
+                        }
+                    },
+                });
+            } else {
+
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>

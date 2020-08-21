@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <title>Create</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- nav start-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+            <a class="navbar-brand" href="#">Game Store</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Store</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link dropdown-toggle" href="/forum" data-toggle="dropdown">Forum</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <!-- user -->
+                            <a href="/forum/issues" class="dropdown-item">Issues</a>
+                            <a href="/forum/reviews" class="dropdown-item">Reviews</a>
+                            <a href="/forum/walkthroughs" class="dropdown-item">Walkthroughs</a>
+                            <a href="/forum/gossiproom" class="dropdown-item">Gossip Room</a>
+                            <!-- user -->
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- nav end -->
+
+        <!-- breadcumb start -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/forum">forum</a></li>
+                <li class="breadcrumb-item active" aria-current="page">create</li>
+            </ol>
+        </nav>
+        <!-- breadcumb end -->
+
+        <!-- form start -->
+        <form method="post" id="createForm" novalidate class="needs-validation" enctype="multipart/form-data">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="selectGame">Select Game</label>
+                        <select class="custom-select cvalid" id="gamename" name="gamename">
+                            <option value=""></option>
+                            <% for(let i=0; i<gamelist.length; i++) { %>
+                            <option value="<%=gamelist[i].title%>"><%=gamelist[i].title%></option>
+                            <% }%>
+
+                            <!-- <option value="gameID1">Game 1</option>
+                            <option value="gameID3">Game 3</option>
+                            <option value="gameID4">Game 4</option> -->
+                        </select>
+                        <small id="errgamename"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="selectType">Select Type</label>
+                        <select class="custom-select cvalid" id="type" name="type">
+                            <option value=""></option>
+                            <option value="issue">Issue</option>
+                            <option value="review">Review</option>
+                            <option value="walkthrough">Walkthrough</option>
+                        </select>
+                        <small id="errtype"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shortDes">Title</label>
+                        <textarea class="form-control cvalid" id="title" rows="3" name="title"></textarea>
+                        <small class="form-text text-muted">
+                            A short description or title, not more than 30 characters
+                        </small>
+                        <small id="errtitle"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Upload</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="selFile"
+                                    accept="image/x-png,image/gif,image/jpeg">
+                                <label class="custom-file-label" for="selFile">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="codeToggle">
+                            <label class="custom-control-label" for="codeToggle">Toggle this switch element</label>
+
+                        </div>
+                        <textarea class="form-control cvalid" id="codes" rows="6" name="codes" disabled></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control cvalid" id="body" rows="6" name="body"></textarea>
+                        <small id="errbody"></small>
+                    </div>
+
+                    <div class="form-group d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary mr-2 reset">Clear</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <!-- form end -->
+
+    </div>
+
+    <script src="/jquery.min.js"></script>
+    <script src="/popper.min.js"></script>
+    <script src="/bootstrap.min.js"></script>
+    <script>
+        $("#codeToggle").change(function () {
+            if ($(this).prop("checked") == true) {
+                //run code
+                $('#codes').attr('disabled', false);
+            } else {
+                $('#codes').attr('disabled', true);
+            }
+        });
+        $('.cvalid').click(function () {
+            $(this).removeClass('border-danger');
+        })
+
+
+        //image upload
+        let fname = '';
+        $('#selFile').click(function () {
+            $(this)[0].value = null;
+        });
+
+        $('#selFile').change(function () {
+            // console.log($(this)[0].files[0]);
+            var file = $(this)[0].files[0];
+            var filename = file.name;
+            $('.custom-file-label').html(filename);
+
+            var formData = new FormData();
+
+            formData.append('pic', file);
+
+            $.ajax({
+                url: '/forum/create/imageUpload',
+                type: 'post',
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if ('fname' in data) {
+                        fname = data.fname;
+                    }
+                }
+            });
+        });
+
+        $(".reset").click(function () {
+            $(':input', '#createForm')
+                .not(':button, :submit, :reset, :hidden')
+                .val('')
+                .prop('checked', false)
+                .prop('selected', false);
+
+            $('#selFile')[0].value = null;
+            fname = '';
+            $('.custom-file-label').html('Choose File');
+
+
+        })
+        //form submit
+        $('#createForm').submit(function (e) {
+            e.preventDefault();
+            // console.log(fname);
+            let codes = "";
+            if ($('#codeToggle').prop("checked") == true) {
+                codes = $('#codes').val().trim();
+            }
+            $.ajax({
+                url: '/forum/create',
+                method: 'POST',
+                dataType: 'JSON',
+                data: {
+                    title: $('#title').val(),
+                    body: $('#body').val(),
+                    gamename: $('#gamename').val(),
+                    type: $('#type').val(),
+                    codes: $('#codes').val(),
+                    fname: fname
+                },
+                success: function (data) {
+                    if ('errors' in data) {
+                        let obj = data.errors;
+                        // console.log(obj);
+                        if ('title' in obj) {
+                            $('#errtitle').text(obj.title);
+                            $('#errtitle').prev().prev().addClass('border-danger');
+                        }
+                        if ('body' in obj) {
+                            $('#errbody').text(obj.body);
+                            $('#errbody').prev().addClass('border-danger');
+                        }
+                        if ('gamename' in obj) {
+                            $('#errgamename').text(obj.gamename);
+                            $('#errgamename').prev().addClass('border-danger');
+                        }
+                        if ('type' in obj) {
+                            $('#errtype').text(obj.type);
+                            $('#errtype').prev().addClass('border-danger');
+                        }
+                    } else if ('failure' in data) {
+                        alert("Something went wrong");
+                        window.location.href = "/forum/create";
+                    } else if ('success' in data) {
+                        alert("Your post has been submitted for approval");
+                        window.location.href = "/forum";
+                    }
+                },
+            });
+        });
+    </script>
+</body>
+
+</html>

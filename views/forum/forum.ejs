@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sb-admin-2.min.css">
+
+    <title>Forum</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- nav start-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+            <a class="navbar-brand" href="#">Game Store</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Store</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link dropdown-toggle" href="/forum" data-toggle="dropdown">Forum</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <!-- user -->
+                            <a href="/forum/issues" class="dropdown-item">Issues</a>
+                            <a href="/forum/reviews" class="dropdown-item">Reviews</a>
+                            <a href="/forum/walkthroughs" class="dropdown-item">Walkthroughs</a>
+                            <a href="/forum/gossiproom" class="dropdown-item">Gossip Room</a>
+                            <!-- user -->
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- nav end -->
+
+        <!-- create and search start -->
+        <div class="row mb-5">
+            <div class="col-md-2 mb-2 mb-md-0 ">
+                <% if (role=='moderator') {%>
+                <a href="/forum/moderate" class="btn btn-primary btn-block">Moderate</a>
+                <% } else { %>
+                <a href="/forum/create" class="btn btn-primary btn-block">Create</a>
+                <% }%>
+
+
+            </div>
+            <div class="col-md-10">
+                <form action="/forum/search" method="post">
+                    <div class="input-group">
+                        <input type="text" class="form-control input-group-prepend" name="key"
+                            placeholder="search text...">
+                        <select class="custom-select" name="type">
+                            <option selected value="everything">in Everything</option>
+                            <option value="issue">in Issues</option>
+                            <option value="review">in Reviews</option>
+                            <option value="walkthrough">in Walkthroughs</option>
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- create and search end -->
+
+
+
+        <div class="row">
+            <!-- main sec  -->
+            <div class="col-md-8">
+                <!-- issues section start -->
+                <div class="row mb-5 px-3">
+                    <div class="col-sm-12">
+                        <div
+                            class="row border border-warning rounded-top bg-warning text-white align-items-center flex-nowrap">
+                            <div class="col-sm-10">
+                                <h2>Issues</h2>
+                            </div>
+                            <div class="col-sm-2 d-flex justify-content-end">
+                                <a href="/forum/issues" class="btn bg-transparent text-white btn-lg"><i
+                                        class="fas fa-arrow-alt-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- issue list start -->
+                    <div class="col-sm-12">
+                        <div class="row border border-warning border-top-0 rounded-bottom pt-3 px-2 shadow">
+                            <% for(let i=0; i<issues.length; i++) { %>
+                            <!-- issue start -->
+                            <div class="card border-bottom-warning pt-3 pb-0 col-sm-12  mb-3">
+                                <div class="row">
+                                    <div class="col-sm-12 bg-white text-primary">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <%=issues[i].gamename%>
+                                            </div>
+                                            <div class="col-md-3 text-md-right small">
+                                                <%=issues[i].time%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 py-3">
+                                        <div class="row">
+                                            <div class="col">
+                                                <%=issues[i].title%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 bg-light border-top p-0">
+                                        <div class="row flex-nowrap justify-content-between no-gutters">
+                                            <div class="col-sm-4">
+                                                <button type="button"
+                                                    class="btn btn-light btn-sm btn-block rounded-0 text-success action-up-down"
+                                                    data-url="/forum/issues/<%=issues[i].postid%>"
+                                                    data-postid="<%=issues[i].postid%>"><i
+                                                        class="fas fa-chevron-circle-up"></i>
+                                                    <span><%=issues[i].upvote%></span></button>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button type="button"
+                                                    class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger  action-up-down"
+                                                    data-url="/forum/issues/<%=issues[i].postid%>"
+                                                    data-postid="<%=issues[i].postid%>"><i
+                                                        class="fas fa-chevron-circle-down"></i>
+                                                    <span><%=issues[i].downvote%></span></button>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <a href="/forum/issues/<%=issues[i].postid%>"
+                                                    class="btn btn-light btn-sm btn-block rounded-0 text-primary"
+                                                    data-postid="<%=issues[i].postid%>">read
+                                                    more <i class="fas fa-chevron-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- issue end -->
+                            <% } %>
+                        </div>
+                    </div>
+                    <!-- issue list end -->
+                </div>
+                <!-- issues section end -->
+
+
+                <!-- reviews section start -->
+                <div class="row mb-5 px-3">
+                    <div class="col-sm-12">
+                        <div
+                            class="row border border-info rounded-top bg-info text-white align-items-center flex-nowrap">
+                            <div class="col-sm-10">
+                                <h2>Reviews</h2>
+                            </div>
+                            <div class="col-sm-2 d-flex justify-content-end">
+                                <a href="/forum/reviews" class="btn bg-transparent text-white btn-lg"><i
+                                        class="fas fa-arrow-alt-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- review list start -->
+                    <div class="col-sm-12">
+                        <div class="row border border-info border-top-0 rounded-bottom pt-3 px-2 shadow">
+                            <% for(let i=0; i<reviews.length; i++) { %>
+                            <!-- review start -->
+                            <div class="card border-bottom-info pt-3 pb-0 col-sm-12  mb-3">
+                                <div class="row">
+                                    <div class="col-sm-12  text-primary">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <%=reviews[i].gamename%>
+                                            </div>
+                                            <div class="col-md-3 text-md-right small">
+                                                <%=reviews[i].time%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 py-3">
+                                        <div class="row">
+                                            <div class="col">
+                                                <%=reviews[i].title%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 bg-light border-top p-0">
+                                        <div class="row flex-nowrap justify-content-between no-gutters">
+                                            <div class="col-sm-4">
+                                                <button type="button"
+                                                    class="btn btn-light btn-sm btn-block rounded-0 text-success action-up-down"
+                                                    data-url="/forum/reviews/<%=reviews[i].postid%>"
+                                                    data-postid="<%=reviews[i].postid%>"><i
+                                                        class="fas fa-chevron-circle-up"></i>
+                                                    <span><%=reviews[i].upvote%></span></button>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button type="button"
+                                                    class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger action-up-down"
+                                                    data-url="/forum/reviews/<%=reviews[i].postid%>"
+                                                    data-postid="<%=reviews[i].postid%>"><i
+                                                        class="fas fa-chevron-circle-down"></i>
+                                                    <span><%=reviews[i].downvote%></span></button>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <a href="/forum/reviews/<%=reviews[i].postid%>"
+                                                    class="btn btn-light btn-sm btn-block rounded-0 text-primary"
+                                                    data-postid="<%=reviews[i].postid%>">read
+                                                    more <i class="fas fa-chevron-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- review end -->
+                            <% } %>
+                        </div>
+                    </div>
+                    <!-- review list end -->
+                </div>
+                <!-- reviews section end -->
+
+
+                <!-- walkthroughs section start -->
+                <div class="row mb-5 px-3">
+                    <div class="col-sm-12">
+                        <div
+                            class="row border border-success rounded-top bg-success text-white align-items-center flex-nowrap">
+                            <div class="col-sm-10">
+                                <h2>Walkthroughs</h2>
+                            </div>
+                            <div class="col-sm-2 d-flex justify-content-end">
+                                <a href="forum/walkthroughs" class="btn bg-transparent text-white btn-lg"><i
+                                        class="fas fa-arrow-alt-circle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- walkthrough list start -->
+                    <div class="col-sm-12">
+                        <div class="row border border-success border-top-0 rounded-bottom pt-3 px-2 shadow">
+                            <% for(let i=0; i<walkthroughs.length; i++) { %>
+                            <!-- review start -->
+                            <div class="card border-bottom-success pt-3 pb-0 col-sm-12  mb-3">
+                                <div class="row">
+                                    <div class="col-sm-12  text-primary">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <%=walkthroughs[i].gamename%>
+                                            </div>
+                                            <div class="col-md-3 text-md-right small">
+                                                <%=walkthroughs[i].time%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 py-3">
+                                        <div class="row">
+                                            <div class="col">
+                                                <%=walkthroughs[i].title%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 bg-light border-top p-0">
+                                        <div class="row flex-nowrap justify-content-between no-gutters">
+                                            <div class="col-sm-4">
+                                                <button type="button"
+                                                    class="btn btn-light btn-sm btn-block rounded-0 text-success action-up-down"
+                                                    data-url="/forum/walkthroughs/<%=walkthroughs[i].postid%>"
+                                                    data-postid="<%=walkthroughs[i].postid%>"><i
+                                                        class="fas fa-chevron-circle-up"></i>
+                                                    <span><%=walkthroughs[i].upvote%></span></button>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button type="button"
+                                                    class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger action-up-down"
+                                                    data-url="/forum/walkthroughs/<%=walkthroughs[i].postid%>"
+                                                    data-postid="<%=walkthroughs[i].postid%>"><i
+                                                        class="fas fa-chevron-circle-down"></i>
+                                                    <span><%=walkthroughs[i].downvote%></span></button>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <a href="/forum/walkthroughs/<%=walkthroughs[i].postid%>"
+                                                    class="btn btn-light btn-sm btn-block rounded-0 text-primary"
+                                                    data-postid="<%=walkthroughs[i].postid%>">read
+                                                    more <i class="fas fa-chevron-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- review end -->
+                            <% } %>
+                        </div>
+                    </div>
+                    <!-- walkthrough list end -->
+                </div>
+                <!-- walkthroughs section end -->
+            </div>
+            <!-- main sec end -->
+            <!-- side sec  -->
+            <div class="col-md-4  no-gutters">
+                <!-- game list  -->
+                <div class="col-md-12 mb-3">
+                    <div class="card shadow mb-12">
+                        <div class="card-header py-3 bg-white">
+                            <h6 class="m-0 text-info">Browse By Game</h6>
+                        </div>
+                        <div class="card-body mb-0">
+                            <ul class="list-inline mb-0">
+                                <% for(let i=0;i<gamelist.length;i++){ %>
+                                <li class="list-inline-item">
+                                    <form action="/forum/search" class="form-inline" method="POST">
+                                        <input type="hidden" name="key" value="<%=gamelist[i].gamename%>">
+                                        <input type="hidden" name="type" value="everything">
+                                        <button type="submit"
+                                            class="btn btn-sm btn-<%=colorlist[i]%> mb-1"><%=gamelist[i].gamename%></button>
+                                    </form>
+                                </li>
+                                <%}%>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- game list end  -->
+                <!-- game list  -->
+                
+                <!-- game list end  -->
+            </div>
+            <!-- side sec end -->
+        </div>
+
+
+    </div>
+    <script src="/jquery.min.js"></script>
+    <script src="/popper.min.js"></script>
+    <script src="/bootstrap.min.js"></script>
+
+    <script>
+        $('.action-up-down').click(function () {
+            window.location.href = $(this).data('url');
+        });
+    </script>
+
+</body>
+
+</html>
