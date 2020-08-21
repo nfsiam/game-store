@@ -51,6 +51,10 @@ router.post('/', function(req, res)
 			{
 				res.redirect("/admin/home");
 			}
+			else if(user.role=="moderator")
+			{
+				res.redirect("/forum");
+			}
 		}
 		else
 		{

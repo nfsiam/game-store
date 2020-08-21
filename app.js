@@ -46,7 +46,7 @@ var app = express();
 
 var adminHome = require('./controller/admin/home');
 const server = http.createServer(app);
-
+require('./server')(server);
 const fileUpload = require('express-fileupload');
 
 const cookieParser = require('cookie-parser');
