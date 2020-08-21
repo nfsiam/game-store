@@ -21,7 +21,7 @@ module.exports =
       
     },
 	insert: (user,id,gameprice,gamename, callback)=>{
-        var sql= "insert into gamesalestats values ('"+user+"','"+id+"','"+gamename+"','"+gameprice+"','0')";
+        var sql= "insert into gamesalestats values ('','"+user+"','"+id+"','"+gamename+"','"+gameprice+"','0')";
         console.log(sql);
         db.execute(sql,null,(status)=>{
             if(status)

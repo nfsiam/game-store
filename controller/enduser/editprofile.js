@@ -1,13 +1,13 @@
 var express 	= require('express');
 var enduserModel =  require.main.require("./models/enduser.js");
 var router 		= express.Router();
-const fileUpload = require('express-fileupload');
+//const fileUpload = require('express-fileupload');
 const { v4 : uuidv4 } = require('uuid');
-const e = require('express');
+/* const e = require('express');
 const { reset } = require('nodemon');
-const enduser = require('../../models/enduser');
+const enduser = require('../../models/enduser'); */
 
-router.use(fileUpload());
+//router.use(fileUpload());
 
 
 var err= {
@@ -130,6 +130,7 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
 
+	console.log("Req fiels "+req.files);
 	err.firstname='';
 	err.lastname='';
 	err.email='';
@@ -153,7 +154,7 @@ router.post('/', function(req, res){
 	};
 	//bind current propicture
 	
-	console.log("Propic is "+user.propic);
+	console.log("Propic is ",{user});
 	/* var p;
 	getProPath((path)=>{
 

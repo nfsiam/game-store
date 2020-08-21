@@ -1,6 +1,6 @@
 var express 	= require('express');
 const gamelist = require('../../models/gamelist');
-const fileUpload = require('express-fileupload');
+//const fileUpload = require('express-fileupload');
 var router 		= express(); // not using express.Router() because of file upload module
 var gamelistModule = require.main.require('./models/gamelist.js');
 const { v4 : uuidv4 } = require('uuid');
@@ -23,7 +23,7 @@ function getCurrentDate()
 }
 
 
-router.use(fileUpload());
+//router.use(fileUpload());
 
 router.get('/', function(req, res){
 
