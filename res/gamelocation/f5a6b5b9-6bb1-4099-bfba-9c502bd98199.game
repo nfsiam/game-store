@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+    
+    <table border="1px">
+        <th>বাংলাদেশ</th>
+      
+        
+       <tr>
+           <td>
+               <li>Flowers</li>
+               <li>Hills</li>
+               <li>Rivers</li>
+           </td>
+
+           <td>
+               <img src="bdflag.png" alt="">
+           </td>
+
+
+       </tr>
+     
+
+
+    </table>
+
+</body>
+</html>

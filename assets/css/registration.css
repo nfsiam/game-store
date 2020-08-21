@@ -1,0 +1,24 @@
+body,html
+{
+    height:100%;
+    background-color: whitesmoke;
+}
+#registration-box
+{
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    border: 1px solid transparent;
+    border-radius: 15px;
+}
+#registerBtn
+{
+    background-color: rgb(108, 19, 180);
+}
+a:hover
+{
+    text-decoration: none;
+}
+.form-control
+{
+    padding: 5px;
+}

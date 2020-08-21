@@ -1,32 +1,23 @@
 var db = require('./db');
 
-// module.exports = {
-//     validate: function (user, callback) {
-//         var sql = "select * from user where username=? and password=?";
-//         db.getResults(sql, [user.uname, user.password], function (result) {
-//             if (result.length > 0) {
-//                 callback(true);
-//             } else {
-//                 callback(false);
-//             }
-//         });
-//     },
-// }
+module.exports =
+{
+	validate: (user, callback)=>{
 
-module.exports = {
-    validate: (user, cbLoginController) => {
-        const sql = "select * from alluser where username=? and password=?";
-        const params = [user.username, user.password];
-
-        //passed to db and called 
-        const cbAlluserModel = (result) => {
-            if (result.length > 0) {
-                cbLoginController(result[0].role);
-            } else {
-                cbLoginController(false);
-            }
-        };
-
-        db.getResults(sql, params, cbAlluserModel);
-    }
+		var sql = "select * from alluser where username='"+user.username+"' and password='"+user.password+"'";
+	
+		console.log(sql);
+		db.getResults(sql,null, (result)=>{
+			//console.log(result[0]);
+			if(result.length > 0)
+			{
+				user.role=result[0].role;
+				/* console.log('all',user); */
+				callback(true);
+			}
+			else{
+				callback(false);
+			}
+		});
+	},
 }

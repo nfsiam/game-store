@@ -1,0 +1,40 @@
+.img-circle
+{
+    border: 1px solid rgb(150, 150, 150);
+    border-radius: 100%;
+}
+body,html
+{
+    background-color: whitesmoke;
+    
+}
+
+.notification-menu-wrapper
+{
+    position: absolute;
+    border: 1px solid black; 
+    width: 400px; 
+    height: 400px;
+    z-index: 5;
+    right: 0;
+    margin-right: 80px;
+    margin-top:10px;
+    background-color: white;
+    display: none;
+    overflow-y: scroll;
+}
+.cart-menu-wrapper
+{
+    position: absolute;
+    border: 1px solid black; 
+    width: 400px; 
+    height: 400px;
+    z-index: 6;
+    right: 0;
+    margin-right: 150px;
+    margin-top:10px;
+    background-color: white;
+    display: none;
+    overflow-y: scroll;
+}
+

@@ -1,0 +1,22 @@
+#login_box
+{
+    padding: 50px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid transparent;
+    border-radius: 10px;
+}
+a:hover{
+    text-decoration: none;
+}
+
+
+body,html
+{
+    height:100%;
+    background-color: whitesmoke;
+}
+
+#signinBtn
+{
+    background-color:rgb(50, 168, 82);
+}

@@ -15,20 +15,34 @@ module.exports = {
     },
 
     reportPost: function (report, callback) {
-        const sql = "SELECT COUNT(*) as count FROM reports WHERE reporter = ? and postid = ? and reportof =?";
+        const sql = "SELECT * FROM reports WHERE reporter = ? and postid = ? and reportof =?";
         db.getResults(sql, [report.reporter, report.postid, report.reportof], function (result) {
-            if (result[0].count > 0) {
-                var sql2 = "update reports set reporttime = ?, reporttype = ?, status = ? where postid = ? and reporter = ?";
-                db.execute(sql2, [moment().unix(), report.reporttype, 'pending', report.postid, report.reporter], function (status) {
-                    if (status) {
-                        const sqlog = `INSERT INTO log(datestamp,reportpost,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
-                        db.execute(sqlog, [report.reporter], function (status) {
-                        });
-                        callback(true);
-                    } else {
-                        callback(false);
-                    }
-                });
+            if (result.length > 0) {
+                if (result[0].reporttype == report.reporttype) {
+                    const sql2 = "delete from reports where postid=? and reporter=? and reportof=?";
+                    db.execute(sql2, [report.postid, report.reporter, 'post'], function (status) {
+                        if (status) {
+                            const sqlog = `INSERT INTO log(datestamp,reportpost,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                            db.execute(sqlog, [report.reporter], function (status) {
+                            });
+                            callback({ cancel: true });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                } else {
+                    const sql2 = "update reports set reporttime = ?, reporttype = ?, status = ? where postid = ? and reporter = ?";
+                    db.execute(sql2, [moment().unix(), report.reporttype, 'pending', report.postid, report.reporter], function (status) {
+                        if (status) {
+                            const sqlog = `INSERT INTO log(datestamp,reportpost,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
+                            db.execute(sqlog, [report.reporter], function (status) {
+                            });
+                            callback({ reported: true });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                }
             } else {
                 var sql3 = "insert into reports values(?, ?, ?, ?, ?, ? ,? ,?)";
                 db.execute(sql3, ['', report.reportof, report.postid, null, report.reporter, moment().unix(), report.reporttype, 'pending'], function (status) {
@@ -36,7 +50,7 @@ module.exports = {
                         const sqlog = `INSERT INTO log(datestamp,reportpost,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
                         db.execute(sqlog, [report.reporter], function (status) {
                         });
-                        callback(true);
+                        callback({ reported: true });
                     } else {
                         callback(false);
                     }
