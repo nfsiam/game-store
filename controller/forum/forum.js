@@ -182,10 +182,10 @@ router.post('/report-post', function (req, res) {
             reportof: "post"
         }
         forumModel.reportPost(report, (result) => {
-            if (result) {
-                res.json({ status: true })
+            if (!result) {
+                res.json({ failure: true });
             } else {
-                res.json({ status: false })
+                res.json(result);
             }
         });
     }

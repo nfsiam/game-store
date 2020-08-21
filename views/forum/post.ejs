@@ -430,11 +430,15 @@
                                                                         data: data,
                                                                         success: function (data) {
                                                                             if ('status' in data) {
-                                                                                if (data.status == true) {
-                                                                                    $('.action-report-post span').html('');
-                                                                                    that.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                                if ('failure' in data) {
+                                                                                    //do nothing
                                                                                 } else {
-
+                                                                                    if (data.reported == true) {
+                                                                                        $('.action-report-post span').html('');
+                                                                                        that.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                                    } else if (data.cancel == true) {
+                                                                                        $('.action-report-post span').html('');
+                                                                                    }
                                                                                 }
                                                                             }
                                                                         },
