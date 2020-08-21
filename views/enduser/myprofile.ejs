@@ -20,23 +20,13 @@
 
   <div class="d-flex" id="wrapper">
     
-    <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading"><b>Menu</b></div>
-      <div class="list-group list-group-flush">
-        <a href="/home" class="list-group-item list-group-item-action bg-light">Home</a>
-        <a href="/store" class="list-group-item list-group-item-action bg-light">Store</a>
-        <a href="/library" class="list-group-item list-group-item-action bg-light">Library</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Communnity</a>
-        <a href="/connect" class="list-group-item list-group-item-action bg-light">Find Friends</a>
-        <a href="/myprofile" class="list-group-item list-group-item-action bg-light">My Profile</a>
-        <a href="/plans" class="list-group-item list-group-item-action bg-light">Plans</a>
-        <a href="/logout" class="list-group-item list-group-item-action bg-light">Logout</a>
-      </div>
-    </div>
+    <%- include('partial/sidebarnav.ejs') %>
         <div class="container-fluid">
           <button id="notification-btn" class="btn btn-primary mr-3 mt-3" style="float: right;"> <i class="fa fa-bell"></i> </button>
-          <div class="notification-menu">
-              
+          <div class="notification-menu-wrapper">
+            <div class="notification-menu">
+            
+            </div>
           </div>
           
             <div class="row">
@@ -45,10 +35,10 @@
                         <div class="my-profile-wrap d-flex flex-wrap">
                             <div class="profile-wrapper">
                               <div class="propic-wrapper d-flex flex-wrap mt-4 ml-3">
-                                <img src="/<%= results[0].propic %>" alt="" class="img-circle">
+                                <img src="/<%= dispData.propic %>" alt="" class="img-circle">
                                 <div>
-                                  <h3 class="mt-4 ml-4"><%= results[0].username %></h3>
-                                  <h5 class="mt-4 ml-4 font-weight-light"><%= results[0].bio %></h5>
+                                  <h3 class="mt-4 ml-4"><%= dispData.username %></h3>
+                                  <h5 class="mt-4 ml-4 font-weight-light"><%= dispData.bio %></h5>
                                 </div>
                             </div>
                             <%- include('partial/profilenav.ejs') %>
@@ -59,15 +49,15 @@
                                 
                                 <tr>
                                   <th>Username</th>
-                                  <td><%= results[0].username %></td>
+                                  <td><%= dispData.username %></td>
                                 </tr>
                                 <tr>
                                   <th>Firstname</th>
-                                  <td><%= results[0].firstname %></td>
+                                  <td><%= dispData.firstname %></td>
                                 </tr>
                                 <tr>
                                   <th>Lastname</th>
-                                  <td><%= results[0].lastname %></td>
+                                  <td><%= dispData.lastname %></td>
                                 </tr>
                                 <tr>
                                   <th>Current Badge</th>
@@ -87,7 +77,7 @@
                                 </tr>
                                 <tr>
                                   <th>Balance</th>
-                                  <td>$500</td>
+                                  <td>$<%= dispData.balance %></td>
                               </tr>
 
 

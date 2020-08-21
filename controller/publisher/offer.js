@@ -11,7 +11,7 @@ router.get('/', function(req, res){
 router.get('/:id', function(req, res){
 
 
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
 		res.render('publisher/patch',req.params.id);
 	}

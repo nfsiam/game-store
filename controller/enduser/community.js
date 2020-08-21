@@ -5,9 +5,9 @@ var router 		= express.Router();
 router.get('/', function(req, res){
 
 	
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
-		res.render('enduser/community');
+		res.render('fourm/forum');
 	}
 	else
 	{

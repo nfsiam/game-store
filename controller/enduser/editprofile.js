@@ -1,13 +1,13 @@
 var express 	= require('express');
 var enduserModel =  require.main.require("./models/enduser.js");
 var router 		= express.Router();
-const fileUpload = require('express-fileupload');
+//const fileUpload = require('express-fileupload');
 const { v4 : uuidv4 } = require('uuid');
-const e = require('express');
+/* const e = require('express');
 const { reset } = require('nodemon');
-const enduser = require('../../models/enduser');
+const enduser = require('../../models/enduser'); */
 
-router.use(fileUpload());
+//router.use(fileUpload());
 
 
 var err= {
@@ -105,9 +105,9 @@ router.get('/', function(req, res){
 	err.bio='';
 	err.success=false;
 
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
-		enduserModel.getprofileinfo(req.session.username,(result)=>{
+		enduserModel.getprofileinfo(req.cookies['user'].username,(result)=>{
 			console.log("Result for getProfileInfo"+result.length);
 			if(result.length==1)
 			{
@@ -130,6 +130,7 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
 
+	console.log("Req fiels "+req.files);
 	err.firstname='';
 	err.lastname='';
 	err.email='';
@@ -142,7 +143,7 @@ router.post('/', function(req, res){
 	var copyPicture=false;
 	var validate =true;
 	var user = {
-		username:req.session.username,
+		username:req.cookies['user'].username,
 		firstname:req.body.firstname,
 		lastname:req.body.lastname,
 		email:req.body.email,
@@ -153,7 +154,7 @@ router.post('/', function(req, res){
 	};
 	//bind current propicture
 	
-	console.log("Propic is "+user.propic);
+	console.log("Propic is ",{user});
 	/* var p;
 	getProPath((path)=>{
 
@@ -175,7 +176,7 @@ router.post('/', function(req, res){
 		validate=false;
 		err.email="invalid email format";
 	}
-	if(user.phonenumber=='' || phonenumber(user.phonenumber))
+	if(user.phonenumber=='')
 	{
 		validate=false;
 		err.phonenumber="invalid phonenumber format";

@@ -1,5 +1,6 @@
 var express 	= require('express');
 var enduserModel 	= require.main.require('./models/enduser.js');
+var endWalletModel = require.main.require('./models/wallet.js');
 var router 		= express.Router();
 
 
@@ -131,7 +132,13 @@ router.post('/', function(req, res){
 						{
 							err.allokflag=true;
 							console.log('this branch executed');
-							res.render('registration',err);
+
+							endWalletModel.createWallet(user.username,function(status){
+								res.render('registration',err);
+							});
+
+
+							//res.render('registration',err);
 						}
 						else
 						{

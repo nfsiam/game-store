@@ -8,15 +8,16 @@ var message={
 
 router.get('/', function(req, res){
 
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
-		gamelistModule.geAllGames(req.session.username,(result)=>{
+		gamelistModule.geAllGames(req.cookies['user'].username,(result)=>{
 			if(result.length>0)
 			{
+				var name = {username:req.cookies['user'].username};
 				message.success=null;
-				console.log("I am here 123"+message.success);
+				//console.log("I am here 123"+message.success);
 				
-				res.render('enduser/store',{result,message});
+				res.render('enduser/store',{result,message,name});
 			}
 			else
 			{
@@ -34,14 +35,14 @@ router.get('/', function(req, res){
 
 router.get('/cart/:id',function(req,res)
 {
-	if(req.session.username!=null)
+	if(req.cookies['user'].username!=null)
 	{
-		cartModel.getCartItemById(req.session.username,req.params.id,function(result){
+		cartModel.getCartItemById(req.cookies['user'].username,req.params.id,function(result){
 			
 			if(result.length<1)
 			{
 				
-				gamelistModule.insertToCart(req.params.id,req.session.username, function(result){
+				gamelistModule.insertToCart(req.params.id,req.cookies['user'].username, function(result){
 					var message=true;
 					
 					/* console.log("I am here 123"+message);
@@ -52,7 +53,7 @@ router.get('/cart/:id',function(req,res)
 			}
 			else
 			{
-				gamelistModule.geAllGames(req.session.username,(result)=>{
+				gamelistModule.geAllGames(req.cookies['user'].username,(result)=>{
 					if(result.length>0)
 					{
 						/* message.success=true;

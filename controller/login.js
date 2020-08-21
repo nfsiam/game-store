@@ -27,16 +27,33 @@ router.post('/', function(req, res)
 	allUserModel.validate(user,(status)=>{
 		if(status)
 		{
-			req.session.username=user.username;
-			req.session.role=user.role;
-			
-			if(req.session.role=="enduser")
+			/* req.session.username=user.username;
+			req.session.role=user.role; */
+			res.cookie('user', {
+                username: user.username,
+                role: user.role
+			});
+		/* 	console.log('lol',{
+                username: user.username,
+                role: user.role
+			}); */
+		/* 	console.log(req.cookies['user']); */
+
+			if(user.role=="enduser")
 			{
 				res.redirect("/home");
 			}
-			else if(req.session.role=="publisher")
+			else if(user.role=="publisher")
 			{
 				res.redirect("/publisher/home");
+			}
+			else if(user.role=="admin")
+			{
+				res.redirect("/admin/home");
+			}
+			else if(user.role=="moderator")
+			{
+				res.redirect("/forum");
 			}
 		}
 		else

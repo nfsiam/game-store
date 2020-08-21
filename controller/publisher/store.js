@@ -5,9 +5,9 @@ var gamelistModel = require.main.require('./models/gamelist.js');
 
 router.get('/', function(req, res){
 
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
-		gamelistModel.geAllGames(req.session.username,(results)=>{
+		gamelistModel.geAllGames(req.cookies['user'].username,(results)=>{
 			
 			res.render('publisher/store',{results});
 		});

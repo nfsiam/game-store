@@ -2,7 +2,54 @@ var val=0;
 $(document).ready(function(){
 
     $("#notification-btn").click(function(){
-      $(".notification-menu").toggle();
+      
+      $.ajax({
+        url:"/notification",
+        method: 'GET',
+        success: function(data) {
+           for(var i=0;i<data.length;i++)
+          {
+            $(".notification-menu").append("Balance request of "+data[i].amount+" is "+data[i].status+" by  "+data[i].approvedby+" <br>");
+           
+          } 
+      },
+      });
+      $(".notification-menu-wrapper").toggle();
+
+
+    });
+
+    $("#removeall-btn").click(function()
+    {
+      var btnname = $(this).attr('name');
+      
+        $.ajax({
+          url:"cart/removeitems/",
+          method: 'GET',
+          success:function(data)
+          {
+            $('#removeall-btn').html("<script>alert('all items removed!');</script>");
+            window.location.href = "/store";
+          }
+        });
+    });
+    $("#checkout-btn").click(function()
+    {
+      var btnname = $(this).attr('name');
+      console.log(btnname);
+        $.ajax({
+          url:"cart/checkout/",
+          method: 'GET',
+          success:function(data)
+          {
+             if(data)
+             {
+                $('#checkout-btn').html(data);
+                window.location.href = "/store";
+             }
+          }
+
+        });
     });
 
     $("#cart-btn").click(function(){
@@ -11,15 +58,12 @@ $(document).ready(function(){
         url:"cart/getitems/",
         method: 'GET',
         success: function(data) {
-
-         
+          $(".cart-menu").html('');
            for(var i=0;i<data.length;i++)
           {
             $(".cart-menu").append("Game name "+data[i].gametitle+"<br>");
            
           } 
-          
-          
       },
       });
 

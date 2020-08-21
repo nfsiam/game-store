@@ -1,6 +1,6 @@
 var express 	= require('express');
 const gamelist = require('../../models/gamelist');
-const fileUpload = require('express-fileupload');
+//const fileUpload = require('express-fileupload');
 var router 		= express(); // not using express.Router() because of file upload module
 var gamelistModule = require.main.require('./models/gamelist.js');
 const { v4 : uuidv4 } = require('uuid');
@@ -23,10 +23,11 @@ function getCurrentDate()
 }
 
 
-router.use(fileUpload());
+//router.use(fileUpload());
 
 router.get('/', function(req, res){
 
+	err.success=false;
 	err.gametitle='';
 	err.publisher='';
 	err.publishdate='';
@@ -35,7 +36,7 @@ router.get('/', function(req, res){
 	err.gamepicture='';
 	err.parentgameid='';
 
-	if(req.session.username!=null)
+	if(req.cookies['user']!=null)
 	{
 		res.render('publisher/publish',err);
 	}
@@ -59,7 +60,7 @@ router.post('/',function(req,res){
 
 	 var user= {
 		gametitle:req.body.gametitle,
-		publisher:req.session.username,
+		publisher:req.cookies['user'].username,
 		publishdate:req.body.publishdate,
 		price:req.body.price,
 		gamepicture:req.files,

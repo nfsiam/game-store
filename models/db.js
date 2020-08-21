@@ -1,71 +1,109 @@
 var mysql = require('mysql');
 
-function getConnection(callback){
+function getConnection(callback) {
 
-	var connection = mysql.createConnection({
-	  host     : 'localhost',
-	  user     : 'root',
-	  password : '',
-	  database : 'gamestore'
-	});
-	 
-	connection.connect(function(err) {
-	  if (err) {
-	    console.error('error connecting: ' + err.stack);
-	    return;
-	  }
-	  console.log('connected as id ' + connection.threadId);
-	 
-	});
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'gamestore'
+    });
 
-	callback(connection);
+    connection.connect(function (err) {
+        if (err) {
+            console.error('error connecting: ' + err.stack);
+            return;
+        }
+        callback(connection);
+    });
 }
 
 
 module.exports = {
-	getResults: function (sql, callback){
-		getConnection(function(connection){
-			connection.query(sql, (error, results)=>{
+    getResults: function (sql, params, callback) {
+        getConnection(function (connection) {
 
-				if(error)
-				{
-					console.log("if block executed of getResults !");
-					console.log(error.stack);
-					callback([]);
-				}
-				else{
-					
-					console.log("else block executed of getResults !"+results);
-					callback(results);
-				}
-			});
-			connection.end(function(err){
-				if(err)
-				{
-					console.log("Database Error "+err);
-				}
-				
-			});
-		});
-	},
-	execute: function (sql, callback){
+            if (params != null) {
+                connection.query(sql, params, function (error, results) {
+                    if (error) {
+                        console.log(error.stack);
+                        callback([]);
+                    } else {
+                        callback(results);
+                    }
+                });
 
-		getConnection(function(connection){
-			connection.query(sql, function(error, results){
-				
-				if(error){
-					callback(false);
-				}else{
-					callback(true);
-				}
-			});
+            } else {
 
-			connection.end(function(err){
-				if(err)
-				{
-					console.log("Database Error "+err);
-				}
-			});
-		});
-	}
+                connection.query(sql, function (error, results) {
+                    if (error) {
+                        console.log(error.stack);
+                        callback([]);
+                    } else {
+                        callback(results);
+                    }
+                });
+            }
+
+            connection.end(function (err) {
+                // console.log('connection end...');
+            });
+        });
+    },
+    execute: function (sql, params, callback) {
+
+        getConnection(function (connection) {
+
+            if (params != null) {
+                connection.query(sql, params, function (error, results) {
+                    if (error) {
+                        console.log(error);
+                        callback(false);
+                    } else {
+                        callback(true);
+                    }
+                });
+            } else {
+                connection.query(sql, function (error, results) {
+                    if (error) {
+                        callback(false);
+                    } else {
+                        callback(true);
+                    }
+                });
+            }
+
+            connection.end(function (err) {
+                // console.log('connection end...');
+            });
+        });
+    },
+    operate: function (sql, params, callback) {
+
+        getConnection(function (connection) {
+
+            if (params != null) {
+                connection.query(sql, params, function (error, results) {
+                    if (error) {
+                        console.log(error);
+                        callback(false);
+                    } else {
+                        callback(results);
+                    }
+                });
+            } else {
+                connection.query(sql, function (error, results) {
+                    if (error) {
+                        callback(false);
+                    } else {
+                        callback(results);
+                    }
+                });
+            }
+
+            connection.end(function (err) {
+                // console.log('connection end...');
+            });
+        });
+    }
 }
