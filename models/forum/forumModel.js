@@ -233,4 +233,14 @@ module.exports = {
             });
         });
     },
+    getGameList: (callback) => {
+        const sql = "select DISTINCT gamename from forumpost where status <> 'pending'";
+        db.getResults(sql, null, function (result) {
+            if (result.length > 0) {
+                callback(result);
+            } else {
+                callback([]);
+            }
+        });
+    },
 }

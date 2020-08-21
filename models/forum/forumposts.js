@@ -33,7 +33,14 @@ module.exports = {
                 var sql2 = "delete from commentvotes where commentid=?";
                 db.execute(sql2, [commentid], function (status) {
                     if (status) {
-                        callback(true);
+                        var sql3 = "delete from deletereq where commentid=? and deleteof='comment'";
+                        db.execute(sql3, [commentid], function (status) {
+                            if (status) {
+                                callback(true);
+                            } else {
+                                callback(false);
+                            }
+                        });
                     } else {
                         callback(false);
                     }
@@ -180,7 +187,13 @@ module.exports = {
         });
     },
     getDeletePostReqList: (callback) => {
-        const sql = "select id, time, username, postid from deletereq where status='pending'";
+        const sql = "select id, time, username, postid from deletereq where status='pending' and deleteof='post'";
+        db.getResults(sql, null, function (result) {
+            callback(result || []);
+        });
+    },
+    getDeleteCommentReqList: (callback) => {
+        const sql = "select id, time, username, postid, commentid from deletereq where status='pending' and deleteof='comment'";
         db.getResults(sql, null, function (result) {
             callback(result || []);
         });

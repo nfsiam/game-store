@@ -27,13 +27,28 @@ router.get('/', function (req, res) {
 
             }
         }
-        res.render('forum/forum', {
-            user: req.cookies['user'],
-            role: req.cookies['user'].role,
-            issues: landingPosts[0],
-            reviews: landingPosts[1],
-            walkthroughs: landingPosts[2]
+
+        forumModel.getGameList((gamelist) => {
+            const colors = ["primary", "secondary", "danger", "warning", "success", "info", "light", "dark"]
+            const colorlist = [];
+            for (let i = 0; i < gamelist.length; i++) {
+                const random = Math.floor(Math.random() * colors.length);
+                colorlist.push(colors[random]);
+            }
+
+            // console.log(colorlist);
+            res.render('forum/forum', {
+                user: req.cookies['user'],
+                role: req.cookies['user'].role,
+                issues: landingPosts[0],
+                reviews: landingPosts[1],
+                walkthroughs: landingPosts[2],
+                gamelist,
+                colorlist
+            });
+
         });
+
     });
 });
 

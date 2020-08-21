@@ -64,11 +64,15 @@
                 <% if(post.status == 'pending') { %>
                 <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
                 <li class="breadcrumb-item"><a href="/forum/moderate/pending">pending</a></li>
-                <% }else if(reported_post == 'yes' || locals.delete_requested_post) { %>
+                <% }else if(reported_post == 'yes' || locals.delete_requested_post || locals.delete_requested_comment) { %>
                 <% if(locals.delete_requested_post) {%>
                 <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
                 <li class="breadcrumb-item"><a href="/forum/moderate/delete-post-requests/">delete-post-requests</a>
                 </li>
+                <%} else if(locals.delete_requested_comment) {%>
+                <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
+                <li class="breadcrumb-item"><a
+                        href="/forum/moderate/delete-comment-requests">delete-comment-requests</a></li>
                 <%} else {%>
                 <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
                 <li class="breadcrumb-item"><a href="/forum/moderate/reported-post">reported-post</a></li>
@@ -205,7 +209,7 @@
 
                                                 <% for(let i=0; i<comments.length; i++) { %>
                                                 <!-- comment start -->
-                                                <div class="col-md-12 mb-2 comment">
+                                                <div class="col-md-12 mb-2 comment" id="cid<%=comments[i].commentid%>">
                                                     <div class="card">
                                                         <div
                                                             class="card-header bg-light border border-light border-bottom-0 py-0 px-3">
@@ -871,6 +875,23 @@
                                                                 });
                                                             </script>
                                                             <% } %>
+
+                                                            <% if(locals.highcomment) {%>
+
+                                                            <script>
+                                                                $(document).ready(function () {
+                                                                    $('#<%=highcomment%>').find('.card').addClass('border');
+                                                                    $('#<%=highcomment%>').find('.card').addClass('border-danger');
+                                                                    // $('#<%=highcomment%>').click(function () {
+                                                                    //     alert('lil');
+                                                                    // });
+                                                                    $('html, body').animate({
+                                                                        scrollTop: $("#<%=highcomment%>").offset().top
+                                                                    }, 2000);
+                                                                });
+                                                            </script>
+                                                            <% } %>
+
 
 
 

@@ -55,11 +55,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/forum">forum</a></li>
                 <li class="breadcrumb-item"><a href="/forum/moderate">moderate</a></li>
-                <%if(reportof == 'post') {%>
-                <li class="breadcrumb-item active" aria-current="page">reported-post</li>
-                <%}else{%>
-                <li class="breadcrumb-item active" aria-current="page">reported-comment</li>
-                <%}%>
+                <li class="breadcrumb-item active" aria-current="page">delete-comment-requests</li>
             </ol>
         </nav>
         <!-- breadcumb end -->
@@ -69,46 +65,42 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">id</th>
+                            <th scope="col">request id</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">User</th>
                             <th scope="col">postid</th>
-                            <th scope="col">reporter</th>
-                            <th scope="col">time</th>
-                            <th scope="col">report type</th>
-                            <th scope="col">Respond</th>
-                            <th scope="col">Ignore</th>
+                            <th scope="col">commentid</th>
+                            <th scope="col">Approve</th>
+                            <th scope="col">Decline</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% for(let i=0; i<reportList.length; i++) { %>
-                <tr class="report-row" data-postid="<%=reportList[i].postid%>">
-                    <th scope="row"><%=reportList[i].id%></th>
-                    <!-- <td><%=reportList[i].id%></td> -->
-                    <td><%=reportList[i].postid%></td>
-                    <td><%=reportList[i].reporter%></td>
-                    <td class="dtime"><%=reportList[i].reporttime%></td>
-                    <td><%=reportList[i].reporttype%></td>
-                    <td>
-                        <!-- <button class="btn btn-block  btn-success">Approve</button> -->
-                        <form method="post" action="/forum/moderate/pending/<%=reportList[i].postid%>">
-                            <input type="hidden" name="decision" value="responded">
-                            <button type="submit" class="btn btn-block btn-success">Respond</button>
-                        </form>
-                    </td>
-                    <td>
-                        <!-- <button class="btn btn-block  btn-danger">Decline</button> -->
-                        <form method="post" action="/forum/moderate/pending/<%=reportList[i].postid%>">
-                            <input type="hidden" name="decision" value="ignored">
-                            <button type="submit" class="btn btn-block btn-danger">Ignore</button>
-                        </form>
-                    </td>
-                </tr>
+                        <% for(let i=0; i<deleteCommentReqList.length; i++) { %>
+                        <tr class="post-row" data-postid="<%=deleteCommentReqList[i].postid%>"
+                            data-commentid="<%=deleteCommentReqList[i].commentid%>">
+                            <th scope="row"><%=deleteCommentReqList[i].id%></th>
+                            <td class="dtime"><%=deleteCommentReqList[i].time%></td>
+                            <td><%=deleteCommentReqList[i].username%></td>
+                            <td><%=deleteCommentReqList[i].postid%></td>
+                            <td><%=deleteCommentReqList[i].commentid%></td>
+                            <td>
+                                <button type="submit" class="btn btn-block btn-success"
+                                    data-commentid="<%=deleteCommentReqList[i].commentid%>"
+                                    data-postid="<%=deleteCommentReqList[i].postid%>">Approve</button>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-block btn-danger"
+                                    data-commentid="<%=deleteCommentReqList[i].commentid%>"
+                                    data-postid="<%=deleteCommentReqList[i].postid%>">Decline</button>
+                            </td>
+                        </tr>
 
-                <% } %>
+                        <% } %>
 
-                </tbody>
+                    </tbody>
                 </table>
-    </div>
-    </div>
+            </div>
+        </div>
 
     </div>
 
@@ -126,8 +118,8 @@
         });
     </script>
     <script>
-        $('.report-row').click(function () {
-            window.location.href = '/forum/moderate/reported-post/' + $(this).data('postid');
+        $('.post-row').click(function () {
+            window.location.href = '/forum/moderate/delete-comment-requests/' + $(this).data('postid') + '&' + $(this).data('commentid');
         });
     </script>
 

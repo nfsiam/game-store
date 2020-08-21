@@ -29,6 +29,7 @@ router.get('/', function (req, res) {
             const postReports = result[0].postReports;
             const commentReports = result[0].commentReports;
             const deletePostReqs = result[0].deletePostReqs;
+            const deleteCommentReqs = result[0].deleteCommentReqs;
             const mutedUsers = result[0].mutedUsers;
             const allUsers = result[0].allUsers;
 
@@ -44,11 +45,36 @@ router.get('/', function (req, res) {
                 }
                 const areaChart = { days, postcreate, report, delreq, votes };
                 const dnut = result.counts;
-                res.render('forum/moderate', { pendingCount, postReports, commentReports, deletePostReqs, mutedUsers, allUsers, areaChart, dnut });
+                res.render('forum/moderate', { pendingCount, postReports, commentReports, deletePostReqs, deleteCommentReqs, mutedUsers, allUsers, areaChart, dnut });
             })
 
         } else {
             res.redirect('/forum');
+        }
+    });
+});
+
+//delete comment req list
+router.get('/delete-comment-requests', function (req, res) {
+    forumposts.getDeleteCommentReqList((deleteCommentReqList) => {
+        res.render('forum/delcommentreqs', { deleteCommentReqList });
+    })
+});
+
+//delete comment req post
+router.get('/delete-comment-requests/:postid&:commentid', function (req, res) {
+    const postid = req.params.postid;
+    const commentid = req.params.commentid;
+    // console.log(commentid);
+
+    const user = req.cookies['user'];
+    postFormatter.getPost({ postid, user, type: '' }, (data) => {
+        if (!data) {
+            res.send('something went wrong');
+        } else {
+            data["delete_requested_comment"] = 'yes';
+            data["highcomment"] = 'cid' + commentid;
+            res.render('forum/post', data);
         }
     });
 });
@@ -129,7 +155,8 @@ router.get('/reported-post', function (req, res) {
             res.send('can not get post');
         } else {
             res.render('forum/reports', {
-                reportList: data
+                reportList: data,
+                reportof: 'post'
             });
         }
     });
@@ -158,7 +185,9 @@ router.get('/reported-comment', function (req, res) {
             res.send('can not get post');
         } else {
             res.render('forum/reports', {
-                reportList: data
+                reportList: data,
+                reportof: 'comment'
+
             });
         }
     });

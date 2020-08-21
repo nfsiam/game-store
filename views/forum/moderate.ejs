@@ -112,14 +112,14 @@
                     <!-- reported comment -->
                     <div class="col-md-6 mb-4 ">
                         <div class="card border-left-warning shadow h-100 py-2 action-card"
-                            data-url="/forum/moderate/reported-comment">
+                            data-url="/forum/moderate/delete-comment-requests">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Reported
-                                            comment
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Comment
+                                            Delete Requet
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%=commentReports%></div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%=deleteCommentReqs%></div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-user-shield fa-2x text-gray-300"></i>
@@ -393,7 +393,7 @@
                     data: postcreate,
                 },
                 {
-                    label: "comment activity",
+                    label: "Report Activity",
                     lineTension: 0.3,
                     backgroundColor: "rgba(78, 115, 223, 0.05)",
                     borderColor: "rgba(78, 115, 223, 1)",
@@ -408,7 +408,7 @@
                     data: report,
                 },
                 {
-                    label: "comment activity",
+                    label: "Delete Requests",
                     lineTension: 0.3,
                     backgroundColor: "rgba(78, 115, 223, 0.05)",
                     borderColor: "rgba(78, 115, 223, 1)",
@@ -423,7 +423,7 @@
                     data: delreq,
                 },
                 {
-                    label: "comment activity",
+                    label: "Voting Activity",
                     lineTension: 0.3,
                     backgroundColor: "rgba(78, 115, 223, 0.05)",
                     borderColor: "rgba(78, 115, 223, 1)",

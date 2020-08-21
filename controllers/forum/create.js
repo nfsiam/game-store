@@ -41,12 +41,13 @@ const mapErrors = (a) => {
 router.post('/', [
     check('title').trim()
         .not().isEmpty().withMessage('Title can not be empty')
-        .isLength({ min: 5, max: 31 }).withMessage('The length of your title must be in between 5 to 30 characters')
+        .isLength({ min: 5 }).withMessage('The length of your title must be at least 5 characters')
+        .isLength({ max: 150 }).withMessage('The length of your title must not cross 150 characters')
         .escape(),
 
     check('body').trim()
-        .not().isEmpty().withMessage('Description can not be empty'),
-    // .isLength({ max: 300 }).withMessage('The length of your description must be in between 10 to 300 characters'),
+        .not().isEmpty().withMessage('Description can not be empty')
+        .isLength({ min: 10, max: 1000 }).withMessage('The length of your description must be in between 10 to 1000 characters').escape(),
 
     check('gamename').not().isEmpty().withMessage('Please select a game'),
     check('type').not().isEmpty().withMessage('Please select a type')
