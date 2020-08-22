@@ -94,6 +94,16 @@
                                     <% if(allUserList[i].muted == 1){ %> disabled <% }  %>
                                     data-username="<%=allUserList[i].username%>">Mute</button>
                             </td>
+                            <td>
+                                <button type="button" class="btn btn-block btn-sm btn-secondary unmark"
+                                    <% if(allUserList[i].marked == 0){ %> disabled <% }  %>
+                                    data-username="<%=allUserList[i].username%>">Unmark</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-block btn-sm btn-warning mark"
+                                    <% if(allUserList[i].marked == 1){ %> disabled <% }  %>
+                                    data-username="<%=allUserList[i].username%>">Mark</button>
+                            </td>
                         </tr>
 
                         <% } %>
@@ -147,6 +157,52 @@
                             if (data.muted == false) {
                                 that.attr('disabled', true);
                                 that.closest('tr').find('.mute').attr('disabled', false);
+                            }
+                        }
+                    },
+                });
+            } else {
+
+            }
+        });
+        $('.mark').click(function () {
+            const that = $(this);
+            if (confirm('Are you sure to change mark status for this user?')) {
+                $.ajax({
+                    url: '/forum/moderate/mark-user',
+                    method: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        commenter: $(this).data('username'),
+                    },
+                    success: function (data) {
+                        if ('marked' in data) {
+                            if (data.marked == true) {
+                                that.attr('disabled', true);
+                                that.closest('tr').find('.unmark').attr('disabled', false);
+                            }
+                        }
+                    },
+                });
+            } else {
+
+            }
+        });
+        $('.unmark').click(function () {
+            const that = $(this);
+            if (confirm('Are you sure to change mark status for this user?')) {
+                $.ajax({
+                    url: '/forum/moderate/mark-user',
+                    method: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        commenter: $(this).data('username'),
+                    },
+                    success: function (data) {
+                        if ('marked' in data) {
+                            if (data.marked == false) {
+                                that.attr('disabled', true);
+                                that.closest('tr').find('.mark').attr('disabled', false);
                             }
                         }
                     },

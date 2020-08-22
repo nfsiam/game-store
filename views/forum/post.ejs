@@ -291,6 +291,10 @@
                                                                     type="button"
                                                                     data-commenter="<%=comments[i].username%>">Mute
                                                                     User<span></span></button>
+                                                                <button class="dropdown-item action-mark-user"
+                                                                    type="button"
+                                                                    data-commenter="<%=comments[i].username%>">Mark
+                                                                    User<span></span></button>
                                                                 <!-- moderator / admin end -->
                                                                 <% } %>
                                                                 <% if(user.username == comments[i].username){ %>
@@ -659,6 +663,53 @@
                                                             },
                                                         });
 
+                                                        //mark user
+                                                        $(".action-mark-user").click(function () {
+                                                            const that = $(this);
+
+                                                            if (confirm('Are you sure to change mark status for this user?')) {
+                                                                $.ajax({
+                                                                    url: '/forum/moderate/mark-user',
+                                                                    method: 'POST',
+                                                                    dataType: 'JSON',
+                                                                    data: {
+                                                                        commenter: $(this).data('commenter'),
+                                                                    },
+                                                                    success: function (data) {
+                                                                        if ('marked' in data) {
+                                                                            if (data.marked == true) {
+                                                                                that.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                            } else {
+                                                                                that.find('span').html("");
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                });
+                                                            } else {
+
+                                                            }
+                                                        });
+                                                        //auto check marked state
+                                                        $('.action-mark-user').each(function () {
+                                                            const mku = $(this);
+                                                            $.ajax({
+                                                                url: '/forum/moderate/check-marked-user',
+                                                                method: 'POST',
+                                                                dataType: 'JSON',
+                                                                data: {
+                                                                    commenter: mku.data('commenter'),
+                                                                },
+                                                                success: function (data) {
+                                                                    if ('marked' in data) {
+                                                                        if (data.marked == true) {
+                                                                            mku.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                        } else {
+                                                                            mku.find('span').html("");
+                                                                        }
+                                                                    }
+                                                                },
+                                                            });
+                                                        });
                                                         //mute user
                                                         $(".action-mute-user").click(function () {
                                                             const that = $(this);
