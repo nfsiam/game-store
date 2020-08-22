@@ -273,11 +273,30 @@ router.post('/check-turnoff-post', function (req, res) {
 
 });
 
+//mark-solution
+router.post('/mark-solution', function (req, res) {
+
+    if (req.body.commentid != '') {
+        const commentid = parseInt(req.body.commentid);
+        const postid = parseInt(req.body.postid);
+        forumModel.markSolution(postid, commentid, (result) => {
+            // console.log('mute-user', result);
+            if (!result) {
+                res.json({ failure: true });
+            } else {
+                res.json(result);
+            }
+        });
+    }
+});
+
 //mute user
 router.post('/mute-user', function (req, res) {
+    // console.log(req.body);
     if (req.body.commenter != '') {
         const userToBeMuted = req.body.commenter;
         forumModel.muteUser(userToBeMuted, (result) => {
+            // console.log('mute-user', result);
             if (!result) {
                 res.json({ failure: true });
             } else {
