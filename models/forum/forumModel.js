@@ -90,6 +90,60 @@ module.exports = {
         });
     },
 
+    markSolution: (postid, commentid, callback) => {
+        const sql = "SELECT * FROM postcomments WHERE postid = ? and markedsolution = ?";
+        db.getResults(sql, [postid, 'yes'], function (result) {
+            if (result.length > 0) {
+                //change prev solved to new 
+                if (result[0].commentid == commentid) {
+                    const sql2 = "update postcomments set markedsolution=? where postid = ? and commentid = ?";
+                    db.execute(sql2, ['no', postid, commentid], function (status) {
+                        if (status) {
+                            callback({ marked: false });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                } else {
+                    const sql2 = "UPDATE postcomments set markedsolution = 'no' where postid = ? and commentid = ?";
+                    db.execute(sql2, [postid, result[0].commentid], function (status) {
+                        if (status) {
+                            const sql3 = "UPDATE postcomments set markedsolution = 'yes' where postid = ? and commentid = ?";
+                            db.execute(sql3, [postid, commentid], function (status) {
+                                if (status) {
+                                    callback({ marked: true });
+                                } else {
+                                    callback(false);
+                                }
+                            });
+                        } else {
+                            callback(false);
+                        }
+                    });
+                }
+            } else {
+                const sql3 = "UPDATE postcomments set markedsolution = 'yes' where postid = ? and commentid = ?";
+                db.execute(sql3, [postid, commentid], function (status) {
+                    if (status) {
+                        callback({ marked: true });
+                    } else {
+                        callback(false);
+                    }
+                });
+            }
+        });
+    },
+    checkReqDeleteComment: (postid, commentid, username, callback) => {
+        const sql = "SELECT * FROM deletereq WHERE postid = ? and commentid=? and deleteof=? and username = ? and status = ?";
+        db.getResults(sql, [postid, commentid, 'comment', username, 'pending'], function (result) {
+            if (result.length > 0) {
+                callback({ requested: true });
+            } else {
+                callback({ requested: false });
+            }
+        });
+    },
+
     reqDeleteComment: (postid, commentid, username, callback) => {
         const sql = "SELECT * FROM deletereq WHERE postid = ? and commentid=? and deleteof=? and username = ? and status = ?";
         db.getResults(sql, [postid, commentid, 'comment', username, 'pending'], function (result) {

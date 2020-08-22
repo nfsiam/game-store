@@ -208,92 +208,100 @@
                                             <div class="row comments-row">
 
                                                 <% for(let i=0; i<comments.length; i++) { %>
+
+
+
                                                 <!-- comment start -->
                                                 <div class="col-md-12 mb-2 comment" id="cid<%=comments[i].commentid%>">
                                                     <div class="card">
-                                                        <div
-                                                            class="card-header bg-light border border-light border-bottom-0 py-0 px-3">
-                                                            <div class="row">
-                                                                <div class="col-md-9">
-                                                                    <%=comments[i].username%>
-                                                                </div>
-                                                                <div class="col-md-3 text-md-right dtime">
-                                                                    <%=comments[i].time%>
-                                                                </div>
-                                                            </div>
+                                                        <div <% if(comments[i].markedsolution == 'yes'){%> class="card-header border border-light bg-success text-white
+                                                        border-bottom-0 py-0 px-3">
+                                                            <%}else{%>
+                                                            class="card-header border border-light border-bottom-0 py-0
+                                                            px-3">
+                                                            <%}%>
+                                                        <div class="row">
+                                                            <div class="col-md-9">
+                                                                <%=comments[i].username%> <span class="marked"></span>
                                                         </div>
-                                                        <div class="card-body">
-                                                            <p class="card-text"><%=comments[i].comment%></p>
+                                                        <div class="col-md-3 text-md-right dtime">
+                                                            <%=comments[i].time%>
                                                         </div>
-                                                        <div class="card-footer p-0">
-                                                            <div
-                                                                class="row flex-nowrap justify-content-between no-gutters">
-                                                                <div class="col-sm-4">
-                                                                    <button type="button"
-                                                                        class="btn btn-light btn-sm btn-block rounded-0 text-success action-upvote-comment"
-                                                                        data-commentid="<%=comments[i].commentid%>"
-                                                                        data-commenter="<%=comments[i].username%>"><i
-                                                                            class="fas fa-chevron-circle-up"></i>
-                                                                        <span><%=comments[i].upvote%></span></button>
-                                                                </div>
-                                                                <div class="col-sm-4">
-                                                                    <button type="button"
-                                                                        class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger action-downvote-comment"
-                                                                        data-commentid="<%=comments[i].commentid%>"
-                                                                        data-commenter="<%=comments[i].username%>"><i
-                                                                            class="fas fa-chevron-circle-down"></i>
-                                                                        <span><%=comments[i].downvote%></span></button>
-                                                                </div>
-                                                                <div class="col-sm-4">
-                                                                    <button type="button"
-                                                                        class="btn btn-light btn-sm btn-block rounded-0 text-primary"
-                                                                        data-toggle="dropdown"><i
-                                                                            class="fas fa-ellipsis-h"></i></button>
-                                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                                        <% if((user.role=='enduser' || user.role == 'publisher') && user.username != comments[i].username ){ %>
-                                                                        <!-- user -->
-                                                                        <button
-                                                                            class="dropdown-item action-report-comment"
-                                                                            type="button" data-reporttype="spam"
-                                                                            data-commentid="">
-                                                                            Report as Spam
-                                                                            <span><i class=""></i></span>
-                                                                        </button>
-                                                                        <button
-                                                                            class="dropdown-item action-report-comment"
-                                                                            type="button" data-reporttype="duplicate"
-                                                                            data-commentid="">
-                                                                            Report as Duplicate
-                                                                            <span><i class=""></i></span>
-                                                                        </button>
-                                                                        <button
-                                                                            class="dropdown-item action-report-comment"
-                                                                            type="button" data-reporttype="other"
-                                                                            data-commentid="">
-                                                                            Report as Other
-                                                                            <span><i class=""></i></span>
-                                                                        </button>
-                                                                        <!-- user end -->
-                                                                        <% }  else if(user.role == 'moderator' || user.role == 'admin') { %>
-                                                                        <!-- moderator / admin -->
-                                                                        <button class="dropdown-item delete-comment"
-                                                                            data-commentid="<%=comments[i].commentid%>"
-                                                                            type="button">Delete</button>
-                                                                        <button class="dropdown-item action-mute-user"
-                                                                            type="button"
-                                                                            data-commenter="<%=comments[i].username%>">Mute
-                                                                            User<span></span></button>
-                                                                        <!-- moderator / admin end -->
-                                                                        <% } %>
-                                                                        <% if(user.username == comments[i].username){ %>
-                                                                        <!-- postmaker -->
-                                                                        <button class="dropdown-item req-delete-comment"
-                                                                            type="button" data-postid="<%=post.postid%>"
-                                                                            data-commentid="<%=comments[i].commentid%>">Request
-                                                                            to
-                                                                            Delete <span></span> </button>
-                                                                        <!-- postmaker end -->
-                                                                        <%}%>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p class="card-text"><%=comments[i].comment%></p>
+                                                </div>
+                                                <div class="card-footer p-0">
+                                                    <div class="row flex-nowrap justify-content-between no-gutters">
+                                                        <div class="col-sm-4">
+                                                            <button type="button"
+                                                                class="btn btn-light btn-sm btn-block rounded-0 text-success action-upvote-comment"
+                                                                data-commentid="<%=comments[i].commentid%>"
+                                                                data-commenter="<%=comments[i].username%>"><i
+                                                                    class="fas fa-chevron-circle-up"></i>
+                                                                <span><%=comments[i].upvote%></span></button>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <button type="button"
+                                                                class="btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger action-downvote-comment"
+                                                                data-commentid="<%=comments[i].commentid%>"
+                                                                data-commenter="<%=comments[i].username%>"><i
+                                                                    class="fas fa-chevron-circle-down"></i>
+                                                                <span><%=comments[i].downvote%></span></button>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <button type="button"
+                                                                class="btn btn-light btn-sm btn-block rounded-0 text-primary"
+                                                                data-toggle="dropdown"><i
+                                                                    class="fas fa-ellipsis-h"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <% if((user.role=='enduser' || user.role == 'publisher') && user.username != comments[i].username ){ %>
+                                                                <!-- user -->
+                                                                <button class="dropdown-item action-report-comment"
+                                                                    type="button" data-reporttype="spam"
+                                                                    data-commentid="">
+                                                                    Report as Spam
+                                                                    <span><i class=""></i></span>
+                                                                </button>
+                                                                <button class="dropdown-item action-report-comment"
+                                                                    type="button" data-reporttype="duplicate"
+                                                                    data-commentid="">
+                                                                    Report as Duplicate
+                                                                    <span><i class=""></i></span>
+                                                                </button>
+                                                                <button class="dropdown-item action-report-comment"
+                                                                    type="button" data-reporttype="other"
+                                                                    data-commentid="">
+                                                                    Report as Other
+                                                                    <span><i class=""></i></span>
+                                                                </button>
+                                                                <!-- user end -->
+                                                                <% }  else if(user.role == 'moderator' || user.role == 'admin') { %>
+                                                                <!-- moderator / admin -->
+                                                                <% if(post.posttype == 'issue'){%>
+                                                                <button class="dropdown-item mark-solution"
+                                                                    data-commentid="<%=comments[i].commentid%>"
+                                                                    type="button">Mark as Solution</button>
+                                                                <%}%>
+                                                                <button class="dropdown-item delete-comment"
+                                                                    data-commentid="<%=comments[i].commentid%>"
+                                                                type="button">Delete</button>
+                                                                <button class="dropdown-item action-mute-user"
+                                                                    type="button"
+                                                                    data-commenter="<%=comments[i].username%>">Mute
+                                                                    User<span></span></button>
+                                                                <!-- moderator / admin end -->
+                                                                <% } %>
+                                                                <% if(user.username == comments[i].username){ %>
+                                                                <!-- postmaker -->
+                                                                <button class="dropdown-item req-delete-comment"
+                                                                    type="button" data-postid="<%=post.postid%>"
+                                                                    data-commentid="<%=comments[i].commentid%>">Request
+                                                                    to
+                                                                    Delete <span></span> </button>
+                                                                <!-- postmaker end -->
+                                                                <%}%>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -302,232 +310,229 @@
                                                 </div>
                                                 <!-- comment end -->
                                                 <% } %>
-                                                                        <!-- comment row end -->
-                                                                    </div>
-
-                                                                    <!-- comment box start -->
-                                                                    <% if(post.status != 'offcomment' && muted == false){ %>
-                                                                    <div class="col-sm-12">
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <form action="post" id="commentForm">
-                                                                                    <div class="row mb-5">
-                                                                                        <div class="col-sm-12">
-
-                                                                                            <div class="form-group">
-                                                                                                <label
-                                                                                                    for="commentBox">Comment</label>
-                                                                                                <textarea
-                                                                                                    class="form-control"
-                                                                                                    id="commentBox"
-                                                                                                    rows="4"
-                                                                                                    placeholder="type your comment..."></textarea>
-                                                                                                <small
-                                                                                                    id="errcomment"></small>
-                                                                                            </div>
-
-                                                                                            <div
-                                                                                                class="form-group d-flex justify-content-end">
-                                                                                                <button type="reset"
-                                                                                                    class="btn btn-secondary mr-2">Clear</button>
-                                                                                                <button type="submit"
-                                                                                                    class="btn btn-primary">Submit</button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </form>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <% } %>
-                                                                    <!-- comment box end -->
-                                                                </div>
-
-                                                                <% } %>
-
+                                                                <!-- comment row end -->
                                                             </div>
 
-                                                            <script src="/jquery.min.js"></script>
-                                                            <script src="/popper.min.js"></script>
-                                                            <script src="/bootstrap.min.js"></script>
-                                                            <script src="/moment.min.js"></script>
+                                                            <!-- comment box start -->
+                                                            <% if(post.status != 'offcomment' && muted == false){ %>
+                                                            <div class="col-sm-12">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <form action="post" id="commentForm">
+                                                                            <div class="row mb-5">
+                                                                                <div class="col-sm-12">
 
-                                                            <script>
-                                                                $('.dtime').each(function () {
-                                                                    const utime = parseInt($(this).html());
-                                                                    const formattedTime = moment.unix(utime).format("MM/DD/YYYY hh:mm:ss a");
-                                                                    $(this).html(formattedTime);
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            for="commentBox">Comment</label>
+                                                                                        <textarea class="form-control"
+                                                                                            id="commentBox" rows="4"
+                                                                                            placeholder="type your comment..."></textarea>
+                                                                                        <small id="errcomment"></small>
+                                                                                    </div>
 
-                                                                });
-                                                            </script>
+                                                                                    <div
+                                                                                        class="form-group d-flex justify-content-end">
+                                                                                        <button type="reset"
+                                                                                            class="btn btn-secondary mr-2">Clear</button>
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-primary">Submit</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <% } %>
+                                                            <!-- comment box end -->
+                                                        </div>
 
-                                                            <script>
-                                                                $('#commentBox').click(function () {
-                                                                    $(this).removeClass('border-danger');
-                                                                })
+                                                        <% } %>
 
-                                                                //req to delete comment
-                                                                $(document).on('click', '.req-delete-comment', function () {
-                                                                    const that = $(this);
-                                                                    // console.log(that[0]);
-                                                                    $.ajax({
-                                                                        url: '/forum/req-delete-comment',
-                                                                        method: 'POST',
-                                                                        dataType: 'JSON',
-                                                                        data: {
-                                                                            postid: that.data('postid'),
-                                                                            commentid: that.data('commentid'),
-                                                                        },
-                                                                        success: function (data) {
-                                                                            if ('requested' in data) {
-                                                                                that.find('span').html("<i class='fas fa-check-circle'></i>");
-                                                                            } else if ('cancel' in data) {
-                                                                                that.find('span').html("");
-                                                                            }
-                                                                        },
-                                                                    });
-                                                                });
+                                                    </div>
 
-                                                                //load req status
-                                                                $('.req-delete-comment').each(function () {
-                                                                    const rdc = $(this);
-                                                                    $.ajax({
-                                                                        url: '/forum/check-req-delete-comment',
-                                                                        method: 'POST',
-                                                                        dataType: 'JSON',
-                                                                        data: {
-                                                                            postid: rdc.data('postid'),
-                                                                            commentid: rdc.data('commentid'),
-                                                                        },
-                                                                        success: function (data) {
-                                                                            if ('requested' in data) {
-                                                                                if (data.requested == true) {
-                                                                                    rdc.find('span').html("<i class='fas fa-check-circle'></i>");
-                                                                                }
-                                                                            } else if ('cancel' in data) {
-                                                                                rdc.find('span').html("");
-                                                                            }
-                                                                        },
-                                                                    });
-                                                                });
+                                                    <script src="/jquery.min.js"></script>
+                                                    <script src="/popper.min.js"></script>
+                                                    <script src="/bootstrap.min.js"></script>
+                                                    <script src="/moment.min.js"></script>
 
-                                                            </script>
+                                                    <script>
+                                                        $('.dtime').each(function () {
+                                                            const utime = parseInt($(this).html());
+                                                            const formattedTime = moment.unix(utime).format("MM/DD/YYYY hh:mm:ss a");
+                                                            $(this).html(formattedTime);
 
-                                                            <% if((user.role=='enduser' || user.role == 'publisher') && user.username != post.username ){ %>
-                                                            <!-- user -->
-                                                            <script>
-                                                                $('.action-report-post').click(function () {
-                                                                    const that = $(this);
-                                                                    data = {
-                                                                        reporttype: $(this).data('reporttype'),
-                                                                        postid: "<%=post.postid%>"
+                                                        });
+                                                    </script>
+
+                                                    <script>
+                                                        $('#commentBox').click(function () {
+                                                            $(this).removeClass('border-danger');
+                                                        })
+
+                                                        //req to delete comment
+                                                        $(document).on('click', '.req-delete-comment', function () {
+                                                            const that = $(this);
+                                                            // console.log(that[0]);
+                                                            $.ajax({
+                                                                url: '/forum/req-delete-comment',
+                                                                method: 'POST',
+                                                                dataType: 'JSON',
+                                                                data: {
+                                                                    postid: that.data('postid'),
+                                                                    commentid: that.data('commentid'),
+                                                                },
+                                                                success: function (data) {
+                                                                    if ('requested' in data) {
+                                                                        that.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                    } else if ('cancel' in data) {
+                                                                        that.find('span').html("");
                                                                     }
+                                                                },
+                                                            });
+                                                        });
 
-                                                                    $.ajax({
-                                                                        url: '/forum/report-post',
-                                                                        method: 'POST',
-                                                                        dataType: 'JSON',
-                                                                        data: data,
-                                                                        success: function (data) {
-                                                                            if ('failure' in data) {
-                                                                                //do nothing
-                                                                            } else {
-                                                                                if (data.reported == true) {
-                                                                                    $('.action-report-post span').html('');
-                                                                                    that.find('span').html("<i class='fas fa-check-circle'></i>");
-                                                                                } else if (data.cancel == true) {
-                                                                                    $('.action-report-post span').html('');
-                                                                                }
-                                                                            }
-                                                                        },
-                                                                    });
-                                                                });
-
-                                                                $('.action-upvote').click(function () {
-                                                                    const muted = "<%=muted%>";
-                                                                    if (muted == 'true') {
-                                                                        alert('You can not do this remaining muted!');
-                                                                        return;
+                                                        //load req status
+                                                        $('.req-delete-comment').each(function () {
+                                                            const rdc = $(this);
+                                                            $.ajax({
+                                                                url: '/forum/check-req-delete-comment',
+                                                                method: 'POST',
+                                                                dataType: 'JSON',
+                                                                data: {
+                                                                    postid: rdc.data('postid'),
+                                                                    commentid: rdc.data('commentid'),
+                                                                },
+                                                                success: function (data) {
+                                                                    if ('requested' in data) {
+                                                                        if (data.requested == true) {
+                                                                            rdc.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                        }
+                                                                    } else if ('cancel' in data) {
+                                                                        rdc.find('span').html("");
                                                                     }
-                                                                    const that = $(this);
-                                                                    data = {
-                                                                        postid: "<%=post.postid%>"
+                                                                },
+                                                            });
+                                                        });
+
+                                                    </script>
+
+                                                    <% if((user.role=='enduser' || user.role == 'publisher') && user.username != post.username ){ %>
+                                                    <!-- user -->
+                                                    <script>
+                                                        $('.action-report-post').click(function () {
+                                                            const that = $(this);
+                                                            data = {
+                                                                reporttype: $(this).data('reporttype'),
+                                                                postid: "<%=post.postid%>"
+                                                            }
+
+                                                            $.ajax({
+                                                                url: '/forum/report-post',
+                                                                method: 'POST',
+                                                                dataType: 'JSON',
+                                                                data: data,
+                                                                success: function (data) {
+                                                                    if ('failure' in data) {
+                                                                        //do nothing
+                                                                    } else {
+                                                                        if (data.reported == true) {
+                                                                            $('.action-report-post span').html('');
+                                                                            that.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                        } else if (data.cancel == true) {
+                                                                            $('.action-report-post span').html('');
+                                                                        }
                                                                     }
-                                                                    // console.log(data);
+                                                                },
+                                                            });
+                                                        });
 
-                                                                    $.ajax({
-                                                                        url: '/forum/upvote-post',
-                                                                        method: 'POST',
-                                                                        dataType: 'JSON',
-                                                                        data: data,
-                                                                        success: function (data) {
-                                                                            if ('failure' in data) {
-                                                                                alert('Something went wrong');
-                                                                            } else {
-                                                                                if (data.up == 'plus') {
-                                                                                    //up the digit
-                                                                                    let c = parseInt(that.find('span').html());
-                                                                                    c += 1;
-                                                                                    that.find('span').html(c);
-                                                                                } else if (data.up == 'minus') {
-                                                                                    //decrease the digit
-                                                                                    let c = parseInt(that.find('span').html());
-                                                                                    c -= 1;
-                                                                                    that.find('span').html(c);
-                                                                                }
-                                                                                if (data.down == 'minus') {
-                                                                                    let c = parseInt($('.action-downvote').find('span').html());
-                                                                                    c -= 1;
-                                                                                    $('.action-downvote').find('span').html(c);
-                                                                                }
+                                                        $('.action-upvote').click(function () {
+                                                            const muted = "<%=muted%>";
+                                                            if (muted == 'true') {
+                                                                alert('You can not do this remaining muted!');
+                                                                return;
+                                                            }
+                                                            const that = $(this);
+                                                            data = {
+                                                                postid: "<%=post.postid%>"
+                                                            }
+                                                            // console.log(data);
 
-                                                                            }
-                                                                        },
-                                                                    });
-                                                                });
-                                                                $('.action-downvote').click(function () {
-                                                                    const muted = "<%=muted%>";
-                                                                    // console.log(muted);
-                                                                    if (muted == 'true') {
-                                                                        alert('You can not do this remaining muted!');
-                                                                        return;
+                                                            $.ajax({
+                                                                url: '/forum/upvote-post',
+                                                                method: 'POST',
+                                                                dataType: 'JSON',
+                                                                data: data,
+                                                                success: function (data) {
+                                                                    if ('failure' in data) {
+                                                                        alert('Something went wrong');
+                                                                    } else {
+                                                                        if (data.up == 'plus') {
+                                                                            //up the digit
+                                                                            let c = parseInt(that.find('span').html());
+                                                                            c += 1;
+                                                                            that.find('span').html(c);
+                                                                        } else if (data.up == 'minus') {
+                                                                            //decrease the digit
+                                                                            let c = parseInt(that.find('span').html());
+                                                                            c -= 1;
+                                                                            that.find('span').html(c);
+                                                                        }
+                                                                        if (data.down == 'minus') {
+                                                                            let c = parseInt($('.action-downvote').find('span').html());
+                                                                            c -= 1;
+                                                                            $('.action-downvote').find('span').html(c);
+                                                                        }
+
                                                                     }
-                                                                    const that = $(this);
-                                                                    data = {
-                                                                        postid: "<%=post.postid%>"
+                                                                },
+                                                            });
+                                                        });
+                                                        $('.action-downvote').click(function () {
+                                                            const muted = "<%=muted%>";
+                                                            // console.log(muted);
+                                                            if (muted == 'true') {
+                                                                alert('You can not do this remaining muted!');
+                                                                return;
+                                                            }
+                                                            const that = $(this);
+                                                            data = {
+                                                                postid: "<%=post.postid%>"
+                                                            }
+                                                            // console.log(data);
+
+                                                            $.ajax({
+                                                                url: '/forum/downvote-post',
+                                                                method: 'POST',
+                                                                dataType: 'JSON',
+                                                                data: data,
+                                                                success: function (data) {
+                                                                    if ('failure' in data) {
+                                                                        alert('Something went wrong');
+                                                                    } else {
+                                                                        if (data.down == 'plus') {
+                                                                            //up the digit
+                                                                            let c = parseInt(that.find('span').html());
+                                                                            c += 1;
+                                                                            that.find('span').html(c);
+                                                                        } else if (data.down == 'minus') {
+                                                                            //decrease the digit
+                                                                            let c = parseInt(that.find('span').html());
+                                                                            c -= 1;
+                                                                            that.find('span').html(c);
+                                                                        }
+                                                                        if (data.up == 'minus') {
+                                                                            let c = parseInt($('.action-upvote').find('span').html());
+                                                                            c -= 1;
+                                                                            $('.action-upvote').find('span').html(c);
+                                                                        }
+
                                                                     }
-                                                                    // console.log(data);
-
-                                                                    $.ajax({
-                                                                        url: '/forum/downvote-post',
-                                                                        method: 'POST',
-                                                                        dataType: 'JSON',
-                                                                        data: data,
-                                                                        success: function (data) {
-                                                                            if ('failure' in data) {
-                                                                                alert('Something went wrong');
-                                                                            } else {
-                                                                                if (data.down == 'plus') {
-                                                                                    //up the digit
-                                                                                    let c = parseInt(that.find('span').html());
-                                                                                    c += 1;
-                                                                                    that.find('span').html(c);
-                                                                                } else if (data.down == 'minus') {
-                                                                                    //decrease the digit
-                                                                                    let c = parseInt(that.find('span').html());
-                                                                                    c -= 1;
-                                                                                    that.find('span').html(c);
-                                                                                }
-                                                                                if (data.up == 'minus') {
-                                                                                    let c = parseInt($('.action-upvote').find('span').html());
-                                                                                    c -= 1;
-                                                                                    $('.action-upvote').find('span').html(c);
-                                                                                }
-
-                                                                            }
-                                                                        },
-                                                                    });
-                                                                });
+                                                                },
+                                                            });
+                                                        });
 
                                                             // $('.action-report-comment').click(function () {
                                                             //     const that = $(this);
@@ -557,342 +562,385 @@
                                                             //         },
                                                             //     });
                                                             // });
-                                                            </script>
-                                                            <!-- user end -->
-                                                            <% }  else if(user.role == 'moderator' || user.role == 'admin') { %>
-                                                            <!-- moderator / admin -->
-                                                            <script>
-                                                                $("#delete").click(function () {
-                                                                    if (confirm('Are you sure to delete this post?')) {
-                                                                        $.ajax({
-                                                                            url: '/forum/moderate/delete-post',
-                                                                            method: 'POST',
-                                                                            dataType: 'JSON',
-                                                                            data: {
-                                                                                postid: $(this).data('postid'),
-                                                                            },
-                                                                            success: function (data) {
-                                                                                if ('status' in data) {
-
-                                                                                    if (data.status == true) {
-                                                                                        window.location.href = "/forum";
-                                                                                    } else {
-
-                                                                                    }
-                                                                                }
-                                                                            },
-                                                                        });
-                                                                    } else {
-
-                                                                    }
-
-                                                                });
-                                                                $(".delete-comment").click(function () {
-                                                                    const that = $(this);
-
-                                                                    if (confirm('Are you sure to delete this comment?')) {
-                                                                        $.ajax({
-                                                                            url: '/forum/moderate/delete-comment',
-                                                                            method: 'POST',
-                                                                            dataType: 'JSON',
-                                                                            data: {
-                                                                                commentid: $(this).data('commentid'),
-                                                                            },
-                                                                            success: function (data) {
-                                                                                if ('status' in data) {
-                                                                                    if (data.status == true) {
-                                                                                        that.closest('.comment').fadeOut();
-                                                                                    } else {
-
-                                                                                    }
-                                                                                }
-                                                                            },
-                                                                        });
-                                                                    } else {
-
-                                                                    }
-
-                                                                });
-
-
-                                                                $("#turnoff").click(function () {
-                                                                    if (confirm('Are you sure to change status for this post?')) {
-                                                                        $.ajax({
-                                                                            url: '/forum/moderate/turnoff-post',
-                                                                            method: 'POST',
-                                                                            dataType: 'JSON',
-                                                                            data: {
-                                                                                postid: $(this).data('postid'),
-                                                                            },
-                                                                            success: function (data) {
-                                                                                if ('turnedoff' in data) {
-                                                                                    window.location.href = window.location.href;
-                                                                                }
-                                                                            },
-                                                                        });
-                                                                    } else {
-
-                                                                    }
-                                                                });
-
-                                                                //auto check turn off state
-                                                                const tfc = $('#turnoff');
+                                                    </script>
+                                                    <!-- user end -->
+                                                    <% }  else if(user.role == 'moderator' || user.role == 'admin') { %>
+                                                    <!-- moderator / admin -->
+                                                    <script>
+                                                        $("#delete").click(function () {
+                                                            if (confirm('Are you sure to delete this post?')) {
                                                                 $.ajax({
-                                                                    url: '/forum/moderate/check-turnoff-post',
+                                                                    url: '/forum/moderate/delete-post',
                                                                     method: 'POST',
                                                                     dataType: 'JSON',
                                                                     data: {
-                                                                        postid: tfc.data('postid'),
+                                                                        postid: $(this).data('postid'),
                                                                     },
                                                                     success: function (data) {
-                                                                        // console.log(data);
+                                                                        if ('status' in data) {
+
+                                                                            if (data.status == true) {
+                                                                                window.location.href = "/forum";
+                                                                            } else {
+
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                });
+                                                            } else {
+
+                                                            }
+
+                                                        });
+                                                        $(".delete-comment").click(function () {
+                                                            const that = $(this);
+
+                                                            if (confirm('Are you sure to delete this comment?')) {
+                                                                $.ajax({
+                                                                    url: '/forum/moderate/delete-comment',
+                                                                    method: 'POST',
+                                                                    dataType: 'JSON',
+                                                                    data: {
+                                                                        commentid: $(this).data('commentid'),
+                                                                    },
+                                                                    success: function (data) {
                                                                         if ('status' in data) {
                                                                             if (data.status == true) {
-                                                                                tfc.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                                that.closest('.comment').fadeOut();
+                                                                            } else {
+
                                                                             }
                                                                         }
                                                                     },
                                                                 });
+                                                            } else {
 
-                                                                //mute user
-                                                                $(".action-mute-user").click(function () {
-                                                                    const that = $(this);
+                                                            }
 
-                                                                    if (confirm('Are you sure to change mute status for this user?')) {
-                                                                        $.ajax({
-                                                                            url: '/forum/moderate/mute-user',
-                                                                            method: 'POST',
-                                                                            dataType: 'JSON',
-                                                                            data: {
-                                                                                commenter: $(this).data('commenter'),
-                                                                            },
-                                                                            success: function (data) {
-                                                                                if ('muted' in data) {
-                                                                                    if (data.muted == 'true') {
-                                                                                        that.find('span').html("<i class='fas fa-check-circle'></i>");
-                                                                                    } else {
-                                                                                        that.find('span').html("");
-                                                                                    }
-                                                                                }
-                                                                            },
-                                                                        });
-                                                                    } else {
+                                                        });
 
-                                                                    }
 
-                                                                });
-                                                                //auto check muted state
-                                                                $('.action-mute-user').each(function () {
-                                                                    const mtu = $(this);
-                                                                    $.ajax({
-                                                                        url: '/forum/moderate/check-muted-user',
-                                                                        method: 'POST',
-                                                                        dataType: 'JSON',
-                                                                        data: {
-                                                                            commenter: mtu.data('commenter'),
-                                                                        },
-                                                                        success: function (data) {
-                                                                            if ('muted' in data) {
-                                                                                if (data.muted == 'true') {
-                                                                                    mtu.find('span').html("<i class='fas fa-check-circle'></i>");
-                                                                                } else {
-                                                                                    mtu.find('span').html("");
-                                                                                }
-                                                                            }
-                                                                        },
-                                                                    });
-                                                                });
-                                                            </script>
-                                                            <!-- moderator / admin end -->
-                                                            <% } else { %>
-                                                            <!-- postmaker -->
-                                                            <script>
-
-                                                            </script>
-                                                            <!-- postmaker end -->
-                                                            <%}%>
-                                                        <% if(user.role=='enduser' || user.role == 'publisher'){ %>
-                                                            <script>
-                                                                //comment o the post
-                                                                $('#commentForm').submit(function (e) {
-                                                                    const pidc = "<%=post.postid%>";
-                                                                    e.preventDefault();
-                                                                    $.ajax({
-                                                                        url: '/forum/comment',
-                                                                        method: 'POST',
-                                                                        dataType: 'JSON',
-                                                                        data: {
-                                                                            comment: $('#commentBox').val(),
-                                                                            postid: "<%=post.postid%>",
-                                                                        },
-                                                                        success: function (data) {
-                                                                            if ('errors' in data) {
-                                                                                $('#errcomment').text(data.errors.comment);
-                                                                                $('#errcomment').prev().addClass('border-danger');
-                                                                            }
-                                                                            else if ('commentid' in data && 'username' in data && 'comment' in data && 'time' in data) {
-                                                                                let comment = "<div class='col-md-12 mb-2'> <div class='card'> <div class='card-header bg-light border border-light border-bottom-0 py-0 px-3'> <div class='row'> <div class='col-md-9'>" + data.username + "</div><div class='col-md-3 text-md-right'>" + data.time + "</div></div></div><div class='card-body'> <p class='card-text'>" + data.comment + "</p></div><div class='card-footer p-0'> <div class='row flex-nowrap justify-content-between no-gutters'> <div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 text-success'> <i class='fas fa-chevron-circle-up'></i> <span>0</span> </button> </div><div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger'> <i class='fas fa-chevron-circle-down'></i> <span>0</span> </button> </div><div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 text-primary' data-toggle='dropdown'> <i class='fas fa-ellipsis-h'></i> </button> <div class='dropdown-menu dropdown-menu-right'> <button class='dropdown-item req-delete-comment' type='button' data-postid='" + pidc + "'data-commentid='" + data.commentid + "'>Request to Delete <span></span> </button> </div></div></div></div></div></div>";
-                                                                                $('.comments-row').append(comment);
-                                                                                $('#commentBox').val('');
-                                                                                $('#errcomment').html('');
-
-                                                                            }
-
-                                                                        },
-                                                                    });
-                                                                });
-
-                                                                //vote comment
-
-                                                                $('.action-upvote-comment').click(function () {
-                                                                    const muted = "<%=muted%>";
-                                                                    if (muted == 'true') {
-                                                                        alert('You can not do this remaining muted!');
-                                                                        return;
-                                                                    }
-                                                                    const that = $(this);
-                                                                    if (that.data('commenter') == "<%=user.username%>") {
-                                                                        return;
-                                                                    }
-                                                                    $.ajax({
-                                                                        url: '/forum/upvote-comment',
-                                                                        method: 'POST',
-                                                                        dataType: 'JSON',
-                                                                        data: {
-                                                                            commentid: that.data('commentid'),
-                                                                        },
-                                                                        success: function (data) {
-                                                                            if ('failure' in data) {
-                                                                                alert('Something went wrong');
-                                                                            } else {
-                                                                                if (data.up == 'plus') {
-                                                                                    //up the digit
-                                                                                    let c = parseInt(that.find('span').html());
-                                                                                    c += 1;
-                                                                                    that.find('span').html(c);
-                                                                                } else if (data.up == 'minus') {
-                                                                                    //decrease the digit
-                                                                                    let c = parseInt(that.find('span').html());
-                                                                                    c -= 1;
-                                                                                    that.find('span').html(c);
-                                                                                }
-                                                                                if (data.down == 'minus') {
-                                                                                    let c = parseInt($(`.action-downvote-comment[data-commentid="${that.data('commentid')}"]`).find('span').html());
-                                                                                    c -= 1;
-                                                                                    $(`.action-downvote-comment[data-commentid="${that.data('commentid')}"]`).find('span').html(c);
-                                                                                }
-
-                                                                            }
-                                                                        },
-                                                                    });
-                                                                });
-                                                                $('.action-downvote-comment').click(function () {
-                                                                    const muted = "<%=muted%>";
-                                                                    if (muted == 'true') {
-                                                                        alert('You can not do this remaining muted!');
-                                                                        return;
-                                                                    }
-                                                                    const that = $(this);
-                                                                    if (that.data('commenter') == "<%=user.username%>") {
-                                                                        return;
-                                                                    }
-                                                                    $.ajax({
-                                                                        url: '/forum/downvote-comment',
-                                                                        method: 'POST',
-                                                                        dataType: 'JSON',
-                                                                        data: {
-                                                                            commentid: that.data('commentid'),
-                                                                        },
-                                                                        success: function (data) {
-                                                                            if ('failure' in data) {
-                                                                                alert('Something went wrong');
-                                                                            } else {
-                                                                                if (data.down == 'plus') {
-                                                                                    //up the digit
-                                                                                    let c = parseInt(that.find('span').html());
-                                                                                    c += 1;
-                                                                                    that.find('span').html(c);
-                                                                                } else if (data.down == 'minus') {
-                                                                                    //decrease the digit
-                                                                                    let c = parseInt(that.find('span').html());
-                                                                                    c -= 1;
-                                                                                    that.find('span').html(c);
-                                                                                }
-                                                                                if (data.up == 'minus') {
-                                                                                    let c = parseInt($(`.action-upvote-comment[data-commentid="${that.data('commentid')}"]`).find('span').html());
-                                                                                    c -= 1;
-                                                                                    $(`.action-upvote-comment[data-commentid="${that.data('commentid')}"]`).find('span').html(c);
-                                                                                }
-
-                                                                            }
-                                                                        },
-                                                                    });
-                                                                });
-                                                            </script>
-                                                            <%}%>
-                                                            <% if(user.username == post.username) {%>
-                                                            <script>
-                                                                //req to delete post
-                                                                $('#reqDeletePost').click(function () {
-                                                                    const that = $(this);
-                                                                    // console.log(that.data('postid'));
-                                                                    $.ajax({
-                                                                        url: '/forum/req-delete-post',
-                                                                        method: 'POST',
-                                                                        dataType: 'JSON',
-                                                                        data: {
-                                                                            postid: that.data('postid'),
-                                                                        },
-                                                                        success: function (data) {
-                                                                            if ('requested' in data) {
-                                                                                that.find('span').html("<i class='fas fa-check-circle'></i>");
-                                                                            } else if ('cancel' in data) {
-                                                                                that.find('span').html("");
-                                                                            }
-                                                                        },
-                                                                    });
-                                                                });
-
-                                                                //load req status
-                                                                $('#reqDeletePost').click(function () {
-
-                                                                });
-                                                                const rdb = $('#reqDeletePost');
+                                                        $("#turnoff").click(function () {
+                                                            if (confirm('Are you sure to change status for this post?')) {
                                                                 $.ajax({
-                                                                    url: '/forum/check-req-delete-post',
+                                                                    url: '/forum/moderate/turnoff-post',
                                                                     method: 'POST',
                                                                     dataType: 'JSON',
                                                                     data: {
-                                                                        postid: rdb.data('postid'),
+                                                                        postid: $(this).data('postid'),
                                                                     },
                                                                     success: function (data) {
-                                                                        if ('requested' in data) {
-                                                                            if (data.requested == true) {
-                                                                                rdb.find('span').html("<i class='fas fa-check-circle'></i>");
-                                                                            }
-                                                                        } else if ('cancel' in data) {
-                                                                            rdb.find('span').html("");
+                                                                        if ('turnedoff' in data) {
+                                                                            window.location.href = window.location.href;
                                                                         }
                                                                     },
                                                                 });
-                                                            </script>
-                                                            <% } %>
+                                                            } else {
 
-                                                            <% if(locals.highcomment) {%>
+                                                            }
+                                                        });
 
-                                                            <script>
-                                                                $(document).ready(function () {
-                                                                    $('#<%=highcomment%>').find('.card').addClass('border');
-                                                                    $('#<%=highcomment%>').find('.card').addClass('border-danger');
-                                                                    // $('#<%=highcomment%>').click(function () {
-                                                                    //     alert('lil');
-                                                                    // });
-                                                                    $('html, body').animate({
-                                                                        scrollTop: $("#<%=highcomment%>").offset().top
-                                                                    }, 2000);
+                                                        //auto check turn off state
+                                                        const tfc = $('#turnoff');
+                                                        $.ajax({
+                                                            url: '/forum/moderate/check-turnoff-post',
+                                                            method: 'POST',
+                                                            dataType: 'JSON',
+                                                            data: {
+                                                                postid: tfc.data('postid'),
+                                                            },
+                                                            success: function (data) {
+                                                                // console.log(data);
+                                                                if ('status' in data) {
+                                                                    if (data.status == true) {
+                                                                        tfc.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                    }
+                                                                }
+                                                            },
+                                                        });
+
+                                                        //mute user
+                                                        $(".action-mute-user").click(function () {
+                                                            const that = $(this);
+
+                                                            if (confirm('Are you sure to change mute status for this user?')) {
+                                                                $.ajax({
+                                                                    url: '/forum/moderate/mute-user',
+                                                                    method: 'POST',
+                                                                    dataType: 'JSON',
+                                                                    data: {
+                                                                        commenter: $(this).data('commenter'),
+                                                                    },
+                                                                    success: function (data) {
+                                                                        if ('muted' in data) {
+                                                                            if (data.muted == true) {
+                                                                                that.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                            } else {
+                                                                                that.find('span').html("");
+                                                                            }
+                                                                        }
+                                                                    },
                                                                 });
-                                                            </script>
-                                                            <% } %>
+                                                            } else {
+
+                                                            }
+
+                                                        });
+                                                        //auto check muted state
+                                                        $('.action-mute-user').each(function () {
+                                                            const mtu = $(this);
+                                                            $.ajax({
+                                                                url: '/forum/moderate/check-muted-user',
+                                                                method: 'POST',
+                                                                dataType: 'JSON',
+                                                                data: {
+                                                                    commenter: mtu.data('commenter'),
+                                                                },
+                                                                success: function (data) {
+                                                                    if ('muted' in data) {
+                                                                        if (data.muted == true) {
+                                                                            mtu.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                        } else {
+                                                                            mtu.find('span').html("");
+                                                                        }
+                                                                    }
+                                                                },
+                                                            });
+                                                        });
+                                                        $(".mark-solution").click(function () {
+                                                            const that = $(this);
+
+                                                            if (confirm('Are you sure to mark this comment as solution?')) {
+                                                                $.ajax({
+                                                                    url: '/forum/moderate/mark-solution',
+                                                                    method: 'POST',
+                                                                    dataType: 'JSON',
+                                                                    data: {
+                                                                        commentid: $(this).data('commentid'),
+                                                                        postid: "<%=post.postid%>"
+                                                                    },
+                                                                    success: function (data) {
+                                                                        console.log(data);
+                                                                        if ('marked' in data) {
+                                                                            if (data.marked == true) {
+                                                                                $('.mark-solution').each(function () {
+                                                                                    $(this).closest('.card').find('.card-header').removeClass('bg-success');
+                                                                                    $(this).closest('.card').find('.card-header').addClass('bg-light');
+                                                                                    $(this).closest('.card').find('.card-header').removeClass('text-white');
+
+                                                                                }).promise().done(function () {
+                                                                                    that.closest('.card').find('.card-header').addClass('text-white');
+                                                                                    $(this).closest('.card').find('.card-header').removeClass('bg-light');
+                                                                                    that.closest('.card').find('.card-header').addClass('bg-success');
+                                                                                });
+                                                                            } else {
+                                                                                $('.mark-solution').each(function () {
+                                                                                    $(this).closest('.card').find('.card-header').removeClass('bg-success');
+                                                                                    $(this).closest('.card').find('.card-header').addClass('bg-light');
+                                                                                    $(this).closest('.card').find('.card-header').removeClass('text-white');
+                                                                                });
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                });
+                                                            } else {
+
+                                                            }
+
+                                                        });
+
+
+                                                    </script>
+                                                    <!-- moderator / admin end -->
+                                                    <% } else { %>
+                                                    <!-- postmaker -->
+                                                    <script>
+
+                                                    </script>
+                                                    <!-- postmaker end -->
+                                                    <%}%>
+                                                        <% if(user.role=='enduser' || user.role == 'publisher'){ %>
+                                                    <script>
+                                                        //comment o the post
+                                                        $('#commentForm').submit(function (e) {
+                                                            const pidc = "<%=post.postid%>";
+                                                            e.preventDefault();
+                                                            $.ajax({
+                                                                url: '/forum/comment',
+                                                                method: 'POST',
+                                                                dataType: 'JSON',
+                                                                data: {
+                                                                    comment: $('#commentBox').val(),
+                                                                    postid: "<%=post.postid%>",
+                                                                },
+                                                                success: function (data) {
+                                                                    if ('errors' in data) {
+                                                                        $('#errcomment').text(data.errors.comment);
+                                                                        $('#errcomment').prev().addClass('border-danger');
+                                                                    }
+                                                                    else if ('commentid' in data && 'username' in data && 'comment' in data && 'time' in data) {
+                                                                        let comment = "<div class='col-md-12 mb-2'> <div class='card'> <div class='card-header bg-light border border-light border-bottom-0 py-0 px-3'> <div class='row'> <div class='col-md-9'>" + data.username + "</div><div class='col-md-3 text-md-right'>" + data.time + "</div></div></div><div class='card-body'> <p class='card-text'>" + data.comment + "</p></div><div class='card-footer p-0'> <div class='row flex-nowrap justify-content-between no-gutters'> <div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 text-success'> <i class='fas fa-chevron-circle-up'></i> <span>0</span> </button> </div><div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 border-left border-right text-danger'> <i class='fas fa-chevron-circle-down'></i> <span>0</span> </button> </div><div class='col-sm-4'> <button type='button' class='btn btn-light btn-sm btn-block rounded-0 text-primary' data-toggle='dropdown'> <i class='fas fa-ellipsis-h'></i> </button> <div class='dropdown-menu dropdown-menu-right'> <button class='dropdown-item req-delete-comment' type='button' data-postid='" + pidc + "'data-commentid='" + data.commentid + "'>Request to Delete <span></span> </button> </div></div></div></div></div></div>";
+                                                                        $('.comments-row').append(comment);
+                                                                        $('#commentBox').val('');
+                                                                        $('#errcomment').html('');
+
+                                                                    }
+
+                                                                },
+                                                            });
+                                                        });
+
+                                                        //vote comment
+
+                                                        $('.action-upvote-comment').click(function () {
+                                                            const muted = "<%=muted%>";
+                                                            if (muted == 'true') {
+                                                                alert('You can not do this remaining muted!');
+                                                                return;
+                                                            }
+                                                            const that = $(this);
+                                                            if (that.data('commenter') == "<%=user.username%>") {
+                                                                return;
+                                                            }
+                                                            $.ajax({
+                                                                url: '/forum/upvote-comment',
+                                                                method: 'POST',
+                                                                dataType: 'JSON',
+                                                                data: {
+                                                                    commentid: that.data('commentid'),
+                                                                },
+                                                                success: function (data) {
+                                                                    if ('failure' in data) {
+                                                                        alert('Something went wrong');
+                                                                    } else {
+                                                                        if (data.up == 'plus') {
+                                                                            //up the digit
+                                                                            let c = parseInt(that.find('span').html());
+                                                                            c += 1;
+                                                                            that.find('span').html(c);
+                                                                        } else if (data.up == 'minus') {
+                                                                            //decrease the digit
+                                                                            let c = parseInt(that.find('span').html());
+                                                                            c -= 1;
+                                                                            that.find('span').html(c);
+                                                                        }
+                                                                        if (data.down == 'minus') {
+                                                                            let c = parseInt($(`.action-downvote-comment[data-commentid="${that.data('commentid')}"]`).find('span').html());
+                                                                            c -= 1;
+                                                                            $(`.action-downvote-comment[data-commentid="${that.data('commentid')}"]`).find('span').html(c);
+                                                                        }
+
+                                                                    }
+                                                                },
+                                                            });
+                                                        });
+                                                        $('.action-downvote-comment').click(function () {
+                                                            const muted = "<%=muted%>";
+                                                            if (muted == 'true') {
+                                                                alert('You can not do this remaining muted!');
+                                                                return;
+                                                            }
+                                                            const that = $(this);
+                                                            if (that.data('commenter') == "<%=user.username%>") {
+                                                                return;
+                                                            }
+                                                            $.ajax({
+                                                                url: '/forum/downvote-comment',
+                                                                method: 'POST',
+                                                                dataType: 'JSON',
+                                                                data: {
+                                                                    commentid: that.data('commentid'),
+                                                                },
+                                                                success: function (data) {
+                                                                    if ('failure' in data) {
+                                                                        alert('Something went wrong');
+                                                                    } else {
+                                                                        if (data.down == 'plus') {
+                                                                            //up the digit
+                                                                            let c = parseInt(that.find('span').html());
+                                                                            c += 1;
+                                                                            that.find('span').html(c);
+                                                                        } else if (data.down == 'minus') {
+                                                                            //decrease the digit
+                                                                            let c = parseInt(that.find('span').html());
+                                                                            c -= 1;
+                                                                            that.find('span').html(c);
+                                                                        }
+                                                                        if (data.up == 'minus') {
+                                                                            let c = parseInt($(`.action-upvote-comment[data-commentid="${that.data('commentid')}"]`).find('span').html());
+                                                                            c -= 1;
+                                                                            $(`.action-upvote-comment[data-commentid="${that.data('commentid')}"]`).find('span').html(c);
+                                                                        }
+
+                                                                    }
+                                                                },
+                                                            });
+                                                        });
+                                                    </script>
+                                                    <%}%>
+                                                            <% if(user.username == post.username) {%>
+                                                    <script>
+                                                        //req to delete post
+                                                        $('#reqDeletePost').click(function () {
+                                                            const that = $(this);
+                                                            // console.log(that.data('postid'));
+                                                            $.ajax({
+                                                                url: '/forum/req-delete-post',
+                                                                method: 'POST',
+                                                                dataType: 'JSON',
+                                                                data: {
+                                                                    postid: that.data('postid'),
+                                                                },
+                                                                success: function (data) {
+                                                                    if ('requested' in data) {
+                                                                        that.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                    } else if ('cancel' in data) {
+                                                                        that.find('span').html("");
+                                                                    }
+                                                                },
+                                                            });
+                                                        });
+
+                                                        //load req status
+                                                        $('#reqDeletePost').click(function () {
+
+                                                        });
+                                                        const rdb = $('#reqDeletePost');
+                                                        $.ajax({
+                                                            url: '/forum/check-req-delete-post',
+                                                            method: 'POST',
+                                                            dataType: 'JSON',
+                                                            data: {
+                                                                postid: rdb.data('postid'),
+                                                            },
+                                                            success: function (data) {
+                                                                if ('requested' in data) {
+                                                                    if (data.requested == true) {
+                                                                        rdb.find('span').html("<i class='fas fa-check-circle'></i>");
+                                                                    }
+                                                                } else if ('cancel' in data) {
+                                                                    rdb.find('span').html("");
+                                                                }
+                                                            },
+                                                        });
+                                                    </script>
+                                                    <% } %>
+
+                                                    <% if(locals.highcomment) {%>
+
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            $('#<%=highcomment%>').find('.card').addClass('border');
+                                                            $('#<%=highcomment%>').find('.card').addClass('border-danger');
+                                                            // $('#<%=highcomment%>').click(function () {
+                                                            //     alert('lil');
+                                                            // });
+                                                            $('html, body').animate({
+                                                                scrollTop: $("#<%=highcomment%>").offset().top
+                                                            }, 2000);
+                                                        });
+                                                    </script>
+                                                    <% } %>
 
 
 

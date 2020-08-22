@@ -131,7 +131,7 @@ module.exports = {
                     postAndComments.post = result[0];
 
 
-                    const sql2 = "select postcomments.commentid, postcomments.postid, postcomments.username, postcomments.comment, postcomments.time, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'up') upvote, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'down') downvote from postcomments where postid = ?";
+                    const sql2 = "select postcomments.commentid, postcomments.postid, postcomments.username, postcomments.comment, postcomments.time, postcomments.markedsolution, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'up') upvote, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'down') downvote from postcomments where postid = ?";
 
                     db.getResults(sql2, [postid], function (result) {
                         if (result.length > 0) {
@@ -149,7 +149,7 @@ module.exports = {
                 if (result.length > 0) {
                     postAndComments.post = result[0];
 
-                    const sql2 = "select postcomments.commentid, postcomments.postid, postcomments.username, postcomments.comment, postcomments.time, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'up') upvote, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'down') downvote from postcomments where postid = ?;";
+                    const sql2 = "select postcomments.commentid, postcomments.postid, postcomments.username, postcomments.comment, postcomments.time,  postcomments.markedsolution, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'up') upvote, (select count(*) from commentvotes cv where cv.commentid = postcomments.commentid AND cv.vote = 'down') downvote from postcomments where postid = ?;";
                     db.getResults(sql2, [postid], function (result) {
                         if (result.length > 0) {
                             postAndComments.comments = result;
