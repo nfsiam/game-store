@@ -245,14 +245,15 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 mb-4">
-                                <div class="card bg-warning text-white shadow">
+                                <div class="card bg-warning text-white shadow action-card"
+                                    data-url="/forum/moderate/marked-users">
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="mb-1">
                                                     Go to Marked User List
                                                 </div>
-                                                <div class="h5 mb-0 font-weight-bold">17</div>
+                                                <div class="h5 mb-0 font-weight-bold"><%=markedUsers%></div>
                                             </div>
                                             <div class="col-auto">
                                                 <a href="" class="btn btn-transparent text-white">
@@ -403,14 +404,14 @@
                 {
                     label: "Report Activity",
                     lineTension: 0.3,
-                    backgroundColor: "rgba(78, 115, 223, 0.05)",
-                    borderColor: "rgba(78, 115, 223, 1)",
+                    backgroundColor: "rgba(207, 36, 0, 0.05)",
+                    borderColor: "rgba(207, 36, 0, 1)",
                     pointRadius: 3,
-                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                    pointBorderColor: "rgba(78, 115, 223, 1)",
+                    pointBackgroundColor: "rgba(207, 36, 0, 1)",
+                    pointBorderColor: "rgba(207, 36, 0, 1)",
                     pointHoverRadius: 3,
-                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHoverBackgroundColor: "rgba(207, 36, 0, 1)",
+                    pointHoverBorderColor: "rgba(207, 36, 0, 1)",
                     pointHitRadius: 10,
                     pointBorderWidth: 2,
                     data: report,
@@ -418,14 +419,14 @@
                 {
                     label: "Delete Requests",
                     lineTension: 0.3,
-                    backgroundColor: "rgba(78, 115, 223, 0.05)",
-                    borderColor: "rgba(78, 115, 223, 1)",
+                    backgroundColor: "rgba(255, 195, 0 , 0.05)",
+                    borderColor: "rgba(255, 195, 0 , 1)",
                     pointRadius: 3,
-                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                    pointBorderColor: "rgba(78, 115, 223, 1)",
+                    pointBackgroundColor: "rgba(255, 195, 0 , 1)",
+                    pointBorderColor: "rgba(255, 195, 0 , 1)",
                     pointHoverRadius: 3,
-                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHoverBackgroundColor: "rgba(255, 195, 0 , 1)",
+                    pointHoverBorderColor: "rgba(255, 195, 0 , 1)",
                     pointHitRadius: 10,
                     pointBorderWidth: 2,
                     data: delreq,
@@ -433,14 +434,14 @@
                 {
                     label: "Voting Activity",
                     lineTension: 0.3,
-                    backgroundColor: "rgba(78, 115, 223, 0.05)",
-                    borderColor: "rgba(78, 115, 223, 1)",
+                    backgroundColor: "rgba(0, 198, 93, 0.05)",
+                    borderColor: "rgba(0, 198, 93, 1)",
                     pointRadius: 3,
-                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                    pointBorderColor: "rgba(78, 115, 223, 1)",
+                    pointBackgroundColor: "rgba(0, 198, 93, 1)",
+                    pointBorderColor: "rgba(0, 198, 93, 1)",
                     pointHoverRadius: 3,
-                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHoverBackgroundColor: "rgba(0, 198, 93, 1)",
+                    pointHoverBorderColor: "rgba(0, 198, 93, 1)",
                     pointHitRadius: 10,
                     pointBorderWidth: 2,
                     data: votes,
@@ -485,7 +486,8 @@
                     }],
                 },
                 legend: {
-                    display: false
+                    display: true,
+                    position: 'bottom'
                 },
                 tooltips: {
                     backgroundColor: "rgb(255,255,255)",

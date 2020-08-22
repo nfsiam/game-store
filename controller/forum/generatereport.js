@@ -34,13 +34,14 @@ router.get("/", (req, res) => {
             const deletePostReqs = result[0].deletePostReqs;
             const deleteCommentReqs = result[0].deleteCommentReqs;
             const mutedUsers = result[0].mutedUsers;
+            const markedUsers = result[0].markedUsers;
             const allUsers = result[0].allUsers;
 
             const user = req.cookies['user'].username;
             const dtime = moment().format('MM/DD/YYYY hh:mm:ss a');
 
 
-            dres = { pendingCount, postReports, commentReports, deletePostReqs, deleteCommentReqs, mutedUsers, allUsers, user, dtime };
+            dres = { pendingCount, postReports, commentReports, deletePostReqs, deleteCommentReqs, mutedUsers, markedUsers, allUsers, user, dtime };
 
             ejs.renderFile(path.join(path.dirname(require.main.filename), '/views/forum/', "report-template.ejs"), dres, (err, data) => {
                 if (err) {

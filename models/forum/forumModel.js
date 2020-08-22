@@ -274,8 +274,18 @@ module.exports = {
             }
         });
     },
+    getMarkedUserList: (callback) => {
+        const sql = "SELECT markedusers.username, (SELECT count(*) from forumpost where username = markedusers.username) postcount, (SELECT count(*) from postcomments where username=markedusers.username) commentcount, (SELECT count(*) from postvotes where username=markedusers.username and vote='up') upvcount,(SELECT count(*) from postvotes where username=markedusers.username and vote='down') dpvcount, (SELECT count(*) from commentvotes where username=markedusers.username and vote='up') ucvcount,(SELECT count(*) from commentvotes where username=markedusers.username and vote='down') dcvcount, (SELECT count(*) from reports where reporter=markedusers.username) reports from markedusers ORDER by username";
+        db.getResults(sql, null, function (result) {
+            if (result.length > 0) {
+                callback(result);
+            } else {
+                callback([]);
+            }
+        });
+    },
     getAllUserList: (callback) => {
-        const sql = "select alluser.username, alluser.role, (SELECT COUNT(*) from mutedusers where username =alluser.username) muted, (SELECT count(*) from forumpost where username = alluser.username) postcount, (SELECT count(*) from postcomments where username=alluser.username) commentcount, (SELECT count(*) from postvotes where username=alluser.username) pvcount, (SELECT count(*) from commentvotes where username=alluser.username) cvcount from alluser ORDER by username";
+        const sql = "select alluser.username, alluser.role, (SELECT COUNT(*) from mutedusers where username =alluser.username) muted,(SELECT COUNT(*) from markedusers where username =alluser.username) marked, (SELECT count(*) from forumpost where username = alluser.username) postcount, (SELECT count(*) from postcomments where username=alluser.username) commentcount, (SELECT count(*) from postvotes where username=alluser.username) pvcount, (SELECT count(*) from commentvotes where username=alluser.username) cvcount from alluser ORDER by username";
         db.getResults(sql, null, function (result) {
             if (result.length > 0) {
                 callback(result);
@@ -312,9 +322,43 @@ module.exports = {
         });
     },
     getReport: (callback) => {
-        const sql = "SELECT  (SELECT COUNT(*) FROM   forumpost where status=?) AS pendingCount, (SELECT COUNT(*) FROM  reports where status=? and reportof = ?) AS postReports, (SELECT COUNT(*) FROM  reports where status=? and reportof = ?) AS commentReports, (SELECT COUNT(*) FROM  deletereq where status=? and deleteof = ?) AS deletePostReqs ,(SELECT COUNT(*) FROM  deletereq where status='pending' and deleteof = 'comment') AS deleteCommentReqs , (SELECT COUNT(*) FROM  mutedusers) AS mutedUsers, (SELECT COUNT(*) FROM  alluser where role='enduser' or role='publisher') as allUsers FROM dual";
+        const sql = "SELECT  (SELECT COUNT(*) FROM   forumpost where status=?) AS pendingCount, (SELECT COUNT(*) FROM  reports where status=? and reportof = ?) AS postReports, (SELECT COUNT(*) FROM  reports where status=? and reportof = ?) AS commentReports, (SELECT COUNT(*) FROM  deletereq where status=? and deleteof = ?) AS deletePostReqs ,(SELECT COUNT(*) FROM  deletereq where status='pending' and deleteof = 'comment') AS deleteCommentReqs , (SELECT COUNT(*) FROM  mutedusers) AS mutedUsers, (SELECT COUNT(*) FROM  markedusers) AS markedUsers, (SELECT COUNT(*) FROM  alluser where role='enduser' or role='publisher') as allUsers FROM dual";
         db.getResults(sql, ['pending', 'pending', 'post', 'pending', 'comment', 'pending', 'post'], function (result) {
             callback(result || []);
         });
-    }
+    },
+    markUser: (username, callback) => {
+        const sql = "SELECT * FROM markedusers WHERE username = ?";
+        db.getResults(sql, [username], function (result) {
+            if (result.length > 0) {
+                const sql2 = "delete from markedusers where username = ?";
+                db.execute(sql2, [username], function (status) {
+                    if (status) {
+                        callback({ marked: false });
+                    } else {
+                        callback(false);
+                    }
+                });
+            } else {
+                const sql3 = "insert into markedusers values(?,?, UNIX_TIMESTAMP())";
+                db.execute(sql3, ['', username], function (status) {
+                    if (status) {
+                        callback({ marked: true });
+                    } else {
+                        callback(false);
+                    }
+                });
+            }
+        });
+    },
+    checkMarkedUser: (username, callback) => {
+        const sql = "SELECT * FROM markedusers WHERE username = ?";
+        db.getResults(sql, [username], function (result) {
+            if (result.length > 0) {
+                callback({ marked: true });
+            } else {
+                callback({ marked: false });
+            }
+        });
+    },
 }

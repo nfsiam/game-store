@@ -30,6 +30,7 @@ router.get('/', function (req, res) {
             const commentReports = result[0].commentReports;
             const deletePostReqs = result[0].deletePostReqs;
             const deleteCommentReqs = result[0].deleteCommentReqs;
+            const markedUsers = result[0].markedUsers;
             const mutedUsers = result[0].mutedUsers;
             const allUsers = result[0].allUsers;
 
@@ -45,7 +46,7 @@ router.get('/', function (req, res) {
                 }
                 const areaChart = { days, postcreate, report, delreq, votes };
                 const dnut = result.counts;
-                res.render('forum/moderate', { pendingCount, postReports, commentReports, deletePostReqs, deleteCommentReqs, mutedUsers, allUsers, areaChart, dnut });
+                res.render('forum/moderate', { pendingCount, postReports, commentReports, deletePostReqs, deleteCommentReqs, markedUsers, mutedUsers, allUsers, areaChart, dnut });
             })
 
         } else {
@@ -112,6 +113,12 @@ router.get('/all-users', function (req, res) {
 router.get('/muted-users', function (req, res) {
     forumModel.getMutedUserList((mutedUserList) => {
         res.render('forum/mutedusers', { mutedUserList });
+    })
+});
+///marked users
+router.get('/marked-users', function (req, res) {
+    forumModel.getMarkedUserList((markedUserList) => {
+        res.render('forum/markedusers', { markedUserList });
     })
 });
 //pending post page
@@ -305,6 +312,21 @@ router.post('/mute-user', function (req, res) {
         });
     }
 });
+//mark user
+router.post('/mark-user', function (req, res) {
+    // console.log(req.body);
+    if (req.body.commenter != '') {
+        const userToBeMarked = req.body.commenter;
+        forumModel.markUser(userToBeMarked, (result) => {
+            // console.log('mute-user', result);
+            if (!result) {
+                res.json({ failure: true });
+            } else {
+                res.json(result);
+            }
+        });
+    }
+});
 
 
 //check muted user
@@ -312,6 +334,21 @@ router.post('/check-muted-user', function (req, res) {
     if (req.body.commenter != '') {
         const username = req.body.commenter;
         forumModel.checkMutedUser(username, (result) => {
+            if (!result) {
+                res.json({ failure: true });
+            } else {
+                res.json(result);
+            }
+        });
+    }
+});
+
+
+//check marked user
+router.post('/check-marked-user', function (req, res) {
+    if (req.body.commenter != '') {
+        const username = req.body.commenter;
+        forumModel.checkMarkedUser(username, (result) => {
             if (!result) {
                 res.json({ failure: true });
             } else {
