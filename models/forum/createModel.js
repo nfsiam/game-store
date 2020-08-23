@@ -11,10 +11,13 @@ module.exports = {
 
     createPost: (post, callback) => {
         const sql = "Insert into forumpost(posttype,gamename,time,username) values(?,?,UNIX_TIMESTAMP(),?)";
-        db.execute(sql, [post.type, post.gamename, post.username], function (status) {
-            if (status) {
-                const sql2 = "INSERT INTO postcontent(title,body,codes,fname) VALUES (?,?,?,?);";
-                db.execute(sql2, [post.title, post.body, post.codes, post.fname], function (status) {
+        db.operate(sql, [post.type, post.gamename, post.username], function (status) {
+            if (!status) {
+                callback(false);
+            } else {
+                const postid = status.insertId;
+                const sql2 = "INSERT INTO postcontent(postid,title,body,codes,fname) VALUES (?,?,?,?,?);";
+                db.execute(sql2, [postid, post.title, post.body, post.codes, post.fname], function (status) {
                     if (status) {
                         const sqlog = `INSERT INTO log(datestamp,${post.type}create,username) VALUES (UNIX_TIMESTAMP(),1,?);`;
                         db.execute(sqlog, [post.username], function (status) {
@@ -24,8 +27,6 @@ module.exports = {
                         callback(false);
                     }
                 });
-            } else {
-                callback(false);
             }
         });
     },
